@@ -1,13 +1,33 @@
+// Import the contents of our .env file in the script file.
+require('dotenv').config();
+
 // 使用 require()將一些有用的 node 庫導入到文件中，其中包括我們先前使用 NPM 為應用程序下載的 express，serve-favicon，morgan，cookie-parser 和 body-parser；和 path 庫，它是解析文件和目錄路徑的核心 node 庫。
 var createError = require('http-errors');
 var express = require('express');
+const mongoose = require('mongoose');
+const mongoString = process.env.DATABASE_URL;
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// Connect the database to our server using Mongoose.
+mongoose.connect(mongoString);
+const database = mongoose.connection
+
+// Throw a success or an error message depending on whether our database connection is successful or fails.
+// 'database.on' means it will connect to the database, and throws any error if the connection fails.
+database.on('error', (error) => {
+  console.log(error)
+})
+
+// 'database.once' means it will run only one time. If it is successful, it will show a message that says Database Connected.
+database.once('connected', () => {
+  console.log('Database Connected');
+})
+
 // 用 require()導入來自我們的路由目錄的模塊。這些模塊/文件包含用於處理特定的相關“路由”集合（URL 路徑）的代碼。當我們擴展骨架應用程序，我們將添加一個新文件，來處理與書籍相關的路由。
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const routes = require('./routes/routes');
 
 // 創建一個 express 應用程序對象（按傳統命名為 app），使用各種設置和中間件，以設置應用程序，然後從模塊導出應用程序。
 var app = express();
@@ -26,7 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // 將（先前導入的）路由處理代碼，添加到請求處理鏈中。導入的代碼，將為網站的不同部分定義特定路由
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
