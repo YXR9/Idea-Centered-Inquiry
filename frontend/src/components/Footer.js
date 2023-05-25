@@ -1,6 +1,5 @@
 import React from 'react'
 import Logo from "../assets/idea centered inquiry_logo.png";
-import { BsTwitter } from "react-icons/bs";
 import { SiLinkedin } from "react-icons/si";
 import { BsYoutube } from "react-icons/bs";
 import { FaFacebookF } from "react-icons/fa";

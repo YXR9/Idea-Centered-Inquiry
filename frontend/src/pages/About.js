@@ -1,6 +1,5 @@
 import React from 'react';
-import AboutBackgroundImage from "../assets/about-background-image.png";
-// import { BsFillPlayCircleFill } from "react-icons/bs";
+import AboutBackgroundImage from "../assets/undraw_moonlight_-5-ksn.svg";
 
 export default function About() {
   return (

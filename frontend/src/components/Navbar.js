@@ -3,18 +3,14 @@ import Logo from "../assets/idea centered inquiry_logo.png";
 import { HiOutlineBars3 } from 'react-icons/hi2';
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import { Drawer } from '@mui/material';
+import { List, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText, Drawer } from "@mui/material"
 import { Box } from '@mui/system';
-import About from '../pages/About';
+import { Register } from '../components/Register';
+import { Login } from '../components/Login'
 
 export default function Navbar() {
     const [openMenu, setOpenMenu] = useState(false)
+
     const menuOptions = [
         {
             text: "首頁",
@@ -28,16 +24,16 @@ export default function Navbar() {
   return (
     <nav>
       <div className='nav-logo-container'>
-          <img src={Logo} width={250} height={250} />
+          <img alt='' src={Logo} width={250} height={250} />
       </div>
       <div className="navbar-links-container">
           <a href=''>首頁</a>
           <a href=''>關於</a>
           <button className='login-button'>
-              登入
+              <Login />
           </button>
           <button className='register-button'>
-              註冊
+              <Register />
           </button>
       </div>
       <div className='navbar-menu-container'>
