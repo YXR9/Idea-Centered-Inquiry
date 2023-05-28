@@ -8,45 +8,52 @@ import { Register } from './Register';
 export const Login = () => {
     const [open, setOpen] = useState(false);
     const [data, setData] = useState({
-      email: "",
-      password: ""
+        email: "",
+        password: ""
     });
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
-    // const [login, setLogin] = useState([]);
 
     const handleClickOpen = () => {
-      setOpen(true);
+        setOpen(true);
     };
 
     const handleClose = () => {
-      setOpen(false);
+        setOpen(false);
     };
 
-    // const login = () => {
-    //   setEmail(email);
-    //   setPassword(password);
-    //   setOpen(false);
-    //   console.log("The email sent is " + email + ", and password sent is " + password);
-    // }
-
     const handleChange = (e) => {
-      const value = e.target.value;
-      setData({
-        ...data,
-        [e.target.name]: value
-      });
+        const value = e.target.value;
+        setData({
+            ...data,
+            [e.target.name]: value
+        });
     };
 
     const handleSubmit = (e) => {
-      e.preventDefault();
-      const userData = {
-        email: data.email,
-        password: data.password
-      };
-      axios.post(config.loginUrl, userData).then((response) => {
-        console.log(response.status, response.data.token);
-      });
+        e.preventDefault();
+        const userData = {
+            email: data.email,
+            password: data.password
+        };
+        axios
+            .post(config[1].loginUrl, userData)
+            .then((response) => {
+                setOpen(false);
+                setData({
+                  email: "",
+                  password: ""
+              })
+                console.log(response.status, response.data.token);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response);
+                    console.log("server responded");
+                } else if (error.request) {
+                    console.log("network error");
+                } else {
+                    console.log(error);
+                }
+            });
     };
   
     return (
