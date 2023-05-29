@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/HomePage_Navbar";
 import BannerImage from "../assets/home-banner-image.png";
 import { FiArrowRight } from "react-icons/fi";
 import { Register } from "../components/Register";
