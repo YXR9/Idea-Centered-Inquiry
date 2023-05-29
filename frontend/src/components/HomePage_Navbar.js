@@ -5,8 +5,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import { List, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText, Drawer } from "@mui/material"
 import { Box } from '@mui/system';
-import { Register } from '../components/Register';
-import { Login } from '../components/Login'
+import { Register } from './Register';
+import { Login } from './Login'
 
 export default function Navbar() {
     const [openMenu, setOpenMenu] = useState(false)
