@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Import model.js.
-const Model = require('../models/user');
+const Model = require('../models/userModel');
 
 //Post Method
 router.post('/post', async (req, res) => {

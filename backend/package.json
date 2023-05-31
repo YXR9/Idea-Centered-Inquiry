@@ -18,9 +18,11 @@
     "http-errors": "~1.6.3",
     "mongoose": "^7.2.0",
     "morgan": "~1.9.1",
+    "nanoid": "^3.3.6",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "pug": "2.0.0-beta11"
+    "pug": "2.0.0-beta11",
+    "seedrandom": "^3.0.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

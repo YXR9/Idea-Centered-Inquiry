@@ -1,4 +1,4 @@
-var User = require('../models/user');
+var User = require('../models/userModel');
 // Import module into the application
 const crypto = require('crypto')
 const mongoose = require('mongoose');
