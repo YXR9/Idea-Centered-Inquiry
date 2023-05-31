@@ -1,7 +1,7 @@
 // 載入相關模組
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
-const user = require('../models/user')
+const user = require('../models/userModel')
 module.exports = app => {
 
   // 初始化 Passport 模組

@@ -51,6 +51,7 @@ app.use(session({
 // 掛載 middleware
 const { authenticator } = require('./middleware/auth');
 require("./routes/usersRouter")(app, authenticator);
+require("./routes/activityRouter")(app);
 
 // 呼叫 Passport 函式並傳入 app
 usePassport(app);
