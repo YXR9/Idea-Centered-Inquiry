@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { customAlphabet } = require('nanoid')
 
-
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 5)
 
 const activitySchema = new mongoose.Schema({
