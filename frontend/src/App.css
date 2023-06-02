@@ -99,6 +99,12 @@
     overflow: hidden;
     cursor: pointer;
   }
+  .activity-status{
+    margin: 0px 0px 30px 120px;
+  }
+  h2{
+    padding: 20px 120px;
+  }
   h3{
     width: 100%;
     text-align: center;

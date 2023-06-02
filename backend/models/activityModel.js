@@ -38,9 +38,18 @@ const activitySchema = new mongoose.Schema({
         groupName: String,
         members: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'user'
+            ref: 'user',
+            role: {
+                type: String,
+                default: 'member'
+            }
         }],
     }],
+    status: {
+        type: String,
+        enum: ["未開始", "進行中", "已完成"],
+        default: "進行中"
+    },
     date: {
         type: String,
         default: new Date()
