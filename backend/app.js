@@ -1,43 +1,33 @@
-// Import the contents of our .env file in the script file.
-require('dotenv').config();
-
-// 使用 require()將一些有用的 node 庫導入到文件中，其中包括我們先前使用 NPM 為應用程序下載的 express，serve-favicon，morgan，cookie-parser 和 body-parser；和 path 庫，它是解析文件和目錄路徑的核心 node 庫。
-var createError = require('http-errors');
-var express = require('express');
-const session = require('express-session');
-const mongoose = require('mongoose');
-const mongoString = process.env.DATABASE_URL;
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+// importing modules
+const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const session = require('express-session');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const createError = require('http-errors');
+const usePassport = require('./config/passport');
+const db = require("./models");
+require('dotenv').config();
 
-// 載入設定檔，引用 passport 模組
-const usePassport = require('./config/passport')
+// assigning the variable app to express
+const app = express();
 
-// Connect the database to our server using Mongoose.
-mongoose.connect(mongoString);
-const database = mongoose.connection
-
-// Throw a success or an error message depending on whether our database connection is successful or fails.
-// 'database.on' means it will connect to the database, and throws any error if the connection fails.
-database.on('error', (error) => {
-  console.log(error)
-})
-
-// 'database.once' means it will run only one time. If it is successful, it will show a message that says Database Connected.
-database.once('connected', () => {
-  console.log('Database Connected');
-})
-
-// 創建一個 express 應用程序對象（按傳統命名為 app），使用各種設置和中間件，以設置應用程序，然後從模塊導出應用程序。
-var app = express();
-
-var corseOptions = {
+const corseOptions = {
   origin: "*",
   credentials: true,
 };
+
+db.sequelize
+  .sync()
+  .then(() => {
+    console.log("Synced db.");
+  })
+  .catch((err) => {
+    console.log("Failed to sync db: " + err.message);
+  });
+
 app.use(cors(corseOptions));
 
 // session middleware
@@ -49,9 +39,12 @@ app.use(session({
 
 // 用 require()導入來自我們的路由目錄的模塊。這些模塊/文件包含用於處理特定的相關“路由”集合（URL 路徑）的代碼。當我們擴展骨架應用程序，我們將添加一個新文件，來處理與書籍相關的路由。
 // 掛載 middleware
-const { authenticator } = require('./middleware/auth');
-require("./routes/usersRouter")(app, authenticator);
-require("./routes/activityRouter")(app);
+require("./routes/user.routes")(app);
+
+// simple route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to bezkoder application." });
+});
 
 // 呼叫 Passport 函式並傳入 app
 usePassport(app);
@@ -73,7 +66,7 @@ app.use(bodyParser.json({limit: "50mb"}));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// app.use()，將中間件的庫，添加到請求處理鏈中。除了我們之前導入的第三方庫之外，我們還使用 express.static 中間件，來使 Express 提供在項目根目錄下，/public 目錄中的所有靜態文件。
+// middleware
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
