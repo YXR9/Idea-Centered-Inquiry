@@ -1,3 +1,4 @@
+const db = require('../models');
 var Activity = require('../models/activityModel');
 const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');

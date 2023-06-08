@@ -1,8 +1,8 @@
 [
     {
-        "registerUrl": "http://localhost:8000/register"
+        "registerUrl": "http://localhost:8000/api/users/signup"
     },
     {
-        "loginUrl": "http://localhost:8000/login"
+        "loginUrl": "http://localhost:8000/api/users/login"
     }
 ]

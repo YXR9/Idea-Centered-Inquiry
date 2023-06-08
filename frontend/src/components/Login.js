@@ -46,10 +46,12 @@ export const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Hi")
         const userData = {
             email: data.email,
             password: data.password
         };
+        console.log("userData: ", userData)
         await axios
             .post(config[1].loginUrl, userData)
             .then((response) => {
