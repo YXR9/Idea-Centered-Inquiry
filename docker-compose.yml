@@ -1,0 +1,29 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: backend
+    environment:
+      DB_TABLENAME: <DB_TABLENAME>
+      DB_USERNAME: <USERNAME>
+      DB_USERPSW: <USERPSW>
+      DB_HOST: db
+    restart: always
+    # volumes:
+    #   - "./backend/views:/app/views"
+    depends_on:
+        - db
+
+  db:
+    image: postgres:13.2-alpine
+    restart: always
+    environment:
+        POSTGRES_DB: <DB_TABLENAME> 
+        POSTGRES_USER: <USERNAME> 
+        POSTGRES_PASSWORD: <USERPSW> 
+        PGDATA: /var/lib/postgresql/data
+
+    volumes:
+      - "./db_data:/var/lib/postgresql/data"
+    ports:
+        - "5432:5432"

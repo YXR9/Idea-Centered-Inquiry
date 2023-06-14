@@ -5,10 +5,10 @@
     // idle: maximum time, in milliseconds, that a connection can be idle before being released
     // acquire: maximum time, in milliseconds, that pool will try to get connection before throwing error
 module.exports = {
-    HOST: "localhost",
-    USER: "postgres",
-    PASSWORD: "ytwu35415",
-    DB: "IdeaCenteredInquiry",
+    HOST: process.env.DB_HOST, //"db",
+    USER: process.env.DB_USERNAME,//"postgres",
+    PASSWORD: process.env.DB_USERPSW,//"ytwu35415",
+    DB: process.env.DB_TABLENAME,//"IdeaCenteredInquiry",
     dialect: "postgres",
     pool: {
       max: 5,
