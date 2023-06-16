@@ -8,6 +8,7 @@ module.exports = {
     HOST: process.env.DB_HOST, //"db",
     USER: process.env.DB_USERNAME,//"postgres",
     PASSWORD: process.env.DB_USERPSW,//"ytwu35415",
+    USER_EMAIL: process.env.USER_EMAIL,
     DB: process.env.DB_TABLENAME,//"IdeaCenteredInquiry",
     dialect: "postgres",
     pool: {
