@@ -18,12 +18,43 @@ services:
     image: postgres:13.2-alpine
     restart: always
     environment:
-        POSTGRES_DB: <DB_TABLENAME> 
-        POSTGRES_USER: <USERNAME> 
-        POSTGRES_PASSWORD: <USERPSW> 
-        PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: <DB_TABLENAME> 
+      POSTGRES_USER: <USERNAME> 
+      POSTGRES_PASSWORD: <USERPSW> 
+      PGDATA: /var/lib/postgresql/data
 
     volumes:
       - "./db_data:/var/lib/postgresql/data"
     ports:
         - "5432:5432"
+
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    restart: "always"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: xryang18@gmail.com #xxx@gmail
+      PGADMIN_DEFAULT_PASSWORD: admin #abcd
+      PGADMIN_LISTEN_PORT: 80
+      PGADMIN_CONFIG_SESSION_EXPIRATION_TIME: 365
+      PGADMIN_CONFIG_MAX_SESSION_IDLE_TIME: 60
+    ports:
+        - "8080:80"
+    volumes:
+        - "./pgadmin_data:/var/lib/pgadmin"
+    links:
+        - "db:pgsql-server"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    build: 
+      context: frontend
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    restart: always
+
+volumes:
+    db_data:
+    pgadmin_data:
