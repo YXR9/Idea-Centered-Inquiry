@@ -5,16 +5,15 @@
     // idle: maximum time, in milliseconds, that a connection can be idle before being released
     // acquire: maximum time, in milliseconds, that pool will try to get connection before throwing error
 module.exports = {
-    HOST: process.env.DB_HOST, //"db",
-    USER: process.env.DB_USERNAME,//"postgres",
-    PASSWORD: process.env.DB_USERPSW,//"ytwu35415",
-    USER_EMAIL: process.env.USER_EMAIL,
-    DB: process.env.DB_TABLENAME,//"IdeaCenteredInquiry",
-    dialect: "postgres",
+    HOST: process.env.DB_HOST, // Host Name: "db",
+    USER: process.env.DB_USERNAME, // User Name: "postgres",
+    PASSWORD: process.env.DB_USERPSW, // Password: "ytwu35415",
+    DB: process.env.DB_TABLENAME, // Database Name: "IdeaCenteredInquiry",
+    dialect: "postgres", // 資料庫類別
     pool: {
-      max: 5,
+      max: 5, // 連結池中最大的 connection 數
       min: 0,
-      acquire: 30000,
-      idle: 10000
+      acquire: 30000, //　連結 Timeout 時間(毫秒)
+      idle: 10000 //　連結被釋放的 idle 時間(毫秒)
     }
   };
