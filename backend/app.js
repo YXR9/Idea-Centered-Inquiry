@@ -19,13 +19,15 @@ const corseOptions = {
   credentials: true,
 };
 
+// 呼叫 sync function 將會依 model 定義內容産生資料表，force 參數值為 true 將會重建已存在的資料表
 db.sequelize
-  .sync()
+  .sync({ force: true })
   .then(() => {
-    console.log("Synced db.");
+    console.log('Drop and Resync Database with { force: true }');
+    initial();  // 産生資料表後，呼叫 initial function 為 roles table 新增三筆初始資料
   })
   .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
+    console.log('Failed to sync db: ' + err.message);
   });
 
 app.use(cors(corseOptions));
@@ -36,15 +38,6 @@ app.use(session({
   saveUninitialized: false,    // 設定為false可以避免存放太多空的session進入session store, session在還沒被修改前也不會被存入cookie
   resave: false,    // 因為每個session store會有不一樣的配置，有些會定期去清理session，如果不想要session被清理掉的話，就要把這個設定為true
 }))
-
-// 用 require()導入來自我們的路由目錄的模塊。這些模塊/文件包含用於處理特定的相關“路由”集合（URL 路徑）的代碼。當我們擴展骨架應用程序，我們將添加一個新文件，來處理與書籍相關的路由。
-// 掛載 middleware
-require("./routes/user.routes")(app);
-
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
-});
 
 // 呼叫 Passport 函式並傳入 app
 usePassport(app);
@@ -72,6 +65,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// 用 require()導入來自我們的路由目錄的模塊。這些模塊/文件包含用於處理特定的相關“路由”集合（URL 路徑）的代碼。當我們擴展骨架應用程序，我們將添加一個新文件，來處理與書籍相關的路由。
+// 掛載 middleware
+require("./routes/user.routes")(app);
+
+// simple route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to bezkoder application." });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
