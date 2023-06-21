@@ -1,13 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define("user", {
+    const Activity = sequelize.define("activity", {
       owner: {
         type: DataTypes.STRING,
         allowNull: false
       },
       activityTitle: {
         type: DataTypes.STRING,
-        unique: true,
-        isEmail: true, //checks for email format
         allowNull: false
       },
       activityInfo: {
@@ -18,19 +16,25 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      activityParts: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      groups: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       status: {
         type: DataTypes.STRING,
         allowNull: false
       }
     }, {timestamps: true}, );
-  
-    return User;
+
+    Activity.associate = (models) => {
+      Activity.hasMany(models.Level, {
+        foreignKey: 'activityId',
+        as: 'levels',
+      });
+    };
+
+    Activity.associate = (models) => {
+      Activity.hasMany(models.Group, {
+        foreignKey: 'activityId',
+        as: 'groups',
+      });
+    };
+
+    return Activity;
 };
