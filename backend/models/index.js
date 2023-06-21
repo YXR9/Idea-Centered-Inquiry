@@ -1,7 +1,7 @@
-const dbConfig = require("../config/db.config.js");
+const dbConfig = require("../config/db.config.js"); // 引入資料庫連結設定檔
 
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, { // 由資料庫連結設定檔的設定值來備置 Sequelize
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   operatorsAliases: 0,

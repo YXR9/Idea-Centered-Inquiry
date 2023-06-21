@@ -9,14 +9,14 @@ const db = require("../models");
  const saveUser = async (req, res, next) => {
  //search the database to see if user exist
  try {
-   const username = await User.findOne({
+   const email = await User.findOne({
      where: {
-       username: req.body.username,
+      email: req.body.email,
      },
    });
    //if username exist in the database respond with a status of 409
-   if (username) {
-     return res.json(409).send("username already taken");
+   if (email) {
+     return res.json(409).send("Email already taken");
    }
 
    //checking if email already exist

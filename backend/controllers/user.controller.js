@@ -79,7 +79,7 @@ exports.login = async (req, res) => {
     console.log("user", JSON.stringify(user, null, 2));
     console.log(token);
     //send user data
-    return res.status(201).send(user);
+    return res.status(200).send(user);
 
   } catch (error) {
     console.log(error);
