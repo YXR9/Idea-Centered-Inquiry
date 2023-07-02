@@ -10,7 +10,7 @@ module.exports = app => {
     router.post('/login', bodyParser.json(), users.login )
   
     // Retrieve all Tutorials
-    // router.get("/", users.findAll);
+    router.get("/", users.findAll);
   
     // Retrieve all published Tutorials
     // router.get("/published", users.findAllPublished);

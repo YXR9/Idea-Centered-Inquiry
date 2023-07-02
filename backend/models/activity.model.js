@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes, literal) => {
     const Activity = sequelize.define("activity", {
       owner: {
         type: DataTypes.STRING,
@@ -15,12 +15,14 @@ module.exports = (sequelize, DataTypes) => {
       activityKey: {
         type: DataTypes.STRING,
         allowNull: false
-      },
-      status: {
-        type: DataTypes.STRING,
-        allowNull: false
       }
     }, {timestamps: true}, );
+    Activity.associate = (models) => {
+      Activity.hasOne(models.User, {
+        foreignKey: 'activityId',
+        as: 'user',
+      });
+    };
 
     Activity.associate = (models) => {
       Activity.hasMany(models.Level, {
