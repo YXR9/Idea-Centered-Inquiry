@@ -87,21 +87,21 @@ exports.login = async (req, res) => {
 }
 
 // Retrieve all Users from the database.
-// exports.findAll = (req, res) => {
-//     const activity = req.query.activity;
-//     var condition = activity ? { activity: { [Op.iLike]: `%${activity}%` } } : null;
+exports.findAll = (req, res) => {
+    // const activity = req.query.activity;
+    // var condition = activity ? { activity: { [Op.iLike]: `%${activity}%` } } : null;
   
-//     User.findAll({ where: condition })
-//       .then(data => {
-//         res.send(data);
-//       })
-//       .catch(err => {
-//         res.status(500).send({
-//           message:
-//             err.message || "Some error occurred while retrieving users."
-//         });
-//       });
-// };
+    User.findAll()
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving users."
+        });
+      });
+};
 
 // Find a single User with an id
 exports.findOne = (req, res) => {
