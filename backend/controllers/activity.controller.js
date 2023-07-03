@@ -5,6 +5,7 @@ const { customAlphabet } = require('nanoid')
 const Activity = db.activities;
 const Op = db.Sequelize.Op;
 
+// 創建活動
 exports.create = async (req, res) => {
     console.log("owner: ", req.body);
 

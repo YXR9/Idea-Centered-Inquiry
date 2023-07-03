@@ -31,4 +31,10 @@ db.activities = require("./activity.model.js")(sequelize, DataTypes);
 db.groups = require("./group.model.js")(sequelize, DataTypes);
 db.levels = require("./level.model.js")(sequelize, DataTypes);
 
+// db.users.hasMany(db.activities, { as: "activities" });
+// db.activities.belongsTo(db.users, {
+//   foreignKey: "owner",
+//   as: "user",
+// });
+
 module.exports = db;
