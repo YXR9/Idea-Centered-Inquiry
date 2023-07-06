@@ -17,24 +17,27 @@ module.exports = (sequelize, DataTypes, literal) => {
         allowNull: false
       }
     }, {timestamps: true}, );
+
     Activity.associate = (models) => {
-      Activity.hasOne(models.User, {
-        foreignKey: 'activityId',
-        as: 'user',
+      Activity.belongsTo(models.User, {
+        foreignKey:'userId',
+        as: 'user'
       });
     };
 
     Activity.associate = (models) => {
       Activity.hasMany(models.Level, {
-        foreignKey: 'activityId',
+        through: 'activityLevel',
         as: 'levels',
+        foreignKey: 'activityId'
       });
     };
 
     Activity.associate = (models) => {
       Activity.hasMany(models.Group, {
-        foreignKey: 'activityId',
+        through: 'activityGroup',
         as: 'groups',
+        foreignKey: 'activityId'
       });
     };
 

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Level = sequelize.define('Level', {
+    const Level = sequelize.define('level', {
       content: {
         type: DataTypes.STRING,
         allowNull: false,

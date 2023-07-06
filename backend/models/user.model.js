@@ -33,6 +33,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     }, {timestamps: true}, );
+    
+    User.associate = (models) => {
+      User.hasMany(models.Activity, {
+        foreignKey: 'userId',
+        as: 'activities',
+      });
+    };
   
     return User;
 };
