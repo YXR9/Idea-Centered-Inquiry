@@ -3,6 +3,7 @@ const { customAlphabet } = require('nanoid')
 
 // Assigning activities to the variable Activity
 const Activity = db.activities;
+const User = db.users;
 const Op = db.Sequelize.Op;
 
 // 創建活動
@@ -32,48 +33,3 @@ exports.create = async (req, res) => {
             });
         });
 }
-
-// 我的活動
-exports.findMyActivity = async (req, res) => {
-    const userId = new ObjectId(req.params.userId)
-	Activity
-        .aggregate([
-            // ↓ 顯示該用戶的探究活動 ↓ //
-            {   
-                $match: {
-                    $or: [
-                        {"owner": { "$in": [userId] }},
-                        {"groups.members": { "$in": [userId] }}
-                    ]
-                } 
-            },
-            {
-                $lookup: {
-                    from: "users",
-                    localField:"owner",
-                    foreignField:"_id",
-                    as: "owner"
-                }
-            },
-            {
-                $project: {
-                    _id: 0,
-                    activityTitle: 1,
-                    activityInfo: 1,
-                    activityKey: 1,
-                    owner: {
-                        username: 1
-                    }
-                }
-            },
-        ])
-        .then((data) => {
-            console.log('data: ', data)
-            res.send(data);
-        }).catch((err) => {
-            res.status(500).send({
-                activity:
-                    err.message || "Some error occurred while finding the activity.",
-            });
-        });
-};

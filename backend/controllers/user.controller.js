@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 // Assigning users to the variable User
 const User = db.users;
+const Activity = db.activities;
 const Op = db.Sequelize.Op;
 
 // signing a user up
@@ -191,16 +192,27 @@ exports.deleteAll = (req, res) => {
         });
 };
 
-// Find all published Users
-// exports.findAllPublished = (req, res) => {
-//     User.findAll({ where: { published: true } })
-//     .then(data => {
-//       res.send(data);
-//     })
-//     .catch(err => {
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while retrieving users."
-//       });
-//     });
-// };
+// 我的活動
+exports.findMyActivity = async (req, res) => {
+  const userId = req.params.userId
+  User
+      .findByPk(userId, {
+          include: [{
+              model: Activity,
+              as: 'activities'
+          }],
+          order: [
+            ['createdAt', 'DESC'],
+            [{ model: Activity, as: 'activities' }, 'createdAt', 'ASC'],
+          ]
+      })
+      .then((data) => {
+          console.log('data: ', data)
+          res.status(200).send(data);
+      }).catch((err) => {
+          res.status(400).send({
+              activity:
+                  err.message || "Some error occurred while finding the activity.",
+          });
+      });
+};

@@ -26,6 +26,9 @@ module.exports = app => {
   
     // Create a new Tutorial
     router.delete("/", users.deleteAll);
+    
+    // Get user's all activity.
+    router.get('/activities/:userId', users.findMyActivity);
   
     app.use('/api/users', router);
   };
