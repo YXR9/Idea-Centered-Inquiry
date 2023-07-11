@@ -5,6 +5,9 @@ module.exports = app => {
     var router = require("express").Router();
 
     router.post('/create', bodyParser.json(), activities.create);
+    
+    // Get user's all activity.
+    router.get('/:userId', activities.findMyActivity);
 
     app.use('/api/activities', router);
 }

@@ -33,3 +33,23 @@ exports.create = async (req, res) => {
             });
         });
 }
+
+// 我的活動
+exports.findMyActivity = async (req, res) => {
+    const userId = req.params.userId
+    Activity
+        .findAll({
+              where: {
+              owner: userId
+          }
+        })
+        .then((data) => {
+            console.log('data: ', data)
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(400).send({
+            activity:
+                err.message || "Some error occurred while finding the activity.",
+        });
+    });
+};
