@@ -14,6 +14,9 @@ const Item = styled(Card)(({ theme }) => ({
 
 export default function Index() {
     const [all, setAll] = useState('');
+    const [activity, setActivity] = useState(null);
+
+    
 
     const handleChange = (event) => {
       setAll(event.target.value);
