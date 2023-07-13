@@ -4,5 +4,11 @@
     },
     {
         "loginUrl": "http://localhost:8000/api/users/login"
+    },
+    {
+        "createActivity": "http://localhost:8000/api/activities/create"
+    },
+    {
+        "activityList": "http://localhost:8000/api/activities/:userId"
     }
 ]
