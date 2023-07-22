@@ -14,13 +14,28 @@ const Item = styled(Card)(({ theme }) => ({
 
 export default function Index() {
     const [all, setAll] = useState('');
-    const [activity, setActivity] = useState(null);
-
-    
+    const [activities, setActivities] = useState([]);
 
     const handleChange = (event) => {
       setAll(event.target.value);
     };
+
+    const getActivities = async() => {
+      try{
+        const fetchData = await axios.get(config.getActivities)
+        setActivities(fetchData.data)
+      }
+      catch (err){
+        console.log(err)
+      }
+    }
+
+    useEffect(() => {
+      window.addEventListener('load', getActivities)
+      return () => {
+        window.removeEventListener('load', getActivities)
+      }
+    }, [activities])
 
     return (
       <div className="home-container">
@@ -53,35 +68,28 @@ export default function Index() {
             >
               <Grid item xs={10}>
                 <Grid container justifyContent="center" spacing={4}>
-                  <Grid item xs={6}>
-                      <Item>
-                          <CardHeader
-                            action={
-                              <IconButton aria-label="settings">
-                                <MoreVertIcon />
-                              </IconButton>
-                            }
-                            title="主題："
-                            subheader="活動代碼："
-                          />
-                          <CardContent>
-                            <Typography variant="body2" color="text.secondary">
-                              This impressive paella is a perfect party dish and a fun meal to cook
-                              together with your guests. Add 1 cup of frozen peas along with the mussels,
-                              if you like.
-                            </Typography>
-                          </CardContent>
-                      </Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>2</Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>3</Item>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Item>4</Item>
-                  </Grid>
+                  {activities.map((activity) => (
+                    <Grid item xs={6}>
+                        <Item>
+                            <CardHeader
+                              action={
+                                <IconButton aria-label="settings">
+                                  <MoreVertIcon />
+                                </IconButton>
+                              }
+                              title="主題："
+                              subheader="活動代碼："
+                            />
+                            <CardContent>
+                              <Typography variant="body2" color="text.secondary">
+                                This impressive paella is a perfect party dish and a fun meal to cook
+                                together with your guests. Add 1 cup of frozen peas along with the mussels,
+                                if you like.
+                              </Typography>
+                            </CardContent>
+                        </Item>
+                    </Grid>
+                  ))}
                 </Grid>
               </Grid>
             </Grid>
