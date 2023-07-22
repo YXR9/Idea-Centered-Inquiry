@@ -76,6 +76,7 @@ export default function IndexPage_Navbar() {
     const logout = () => {
       singOut();
       navigate("/");
+      localStorage.removeItem('userId');
       localStorage.removeItem('username');
       localStorage.removeItem('email');
     };

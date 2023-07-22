@@ -13,17 +13,27 @@ const Item = styled(Card)(({ theme }) => ({
 }));
 
 export default function Index() {
+
+    const userId = localStorage.getItem('userId'); 
+
     const [all, setAll] = useState('');
     const [activities, setActivities] = useState([]);
 
     const handleChange = (event) => {
       setAll(event.target.value);
     };
+    console.log(`${config[3].activityList}${userId}`)
 
     const getActivities = async() => {
+      console.log("我在這裡!!!看我!!!")
       try{
-        const fetchData = await axios.get(config.getActivities)
+        const fetchData = await axios.get(`${config[3].activityList}${userId}`, {
+          headers: {
+            authorization: 'Bearer JWT Token',
+          },
+        })
         setActivities(fetchData.data)
+        console.log(fetchData);
       }
       catch (err){
         console.log(err)
@@ -77,8 +87,8 @@ export default function Index() {
                                   <MoreVertIcon />
                                 </IconButton>
                               }
-                              title="主題："
-                              subheader="活動代碼："
+                              title={activity.activityTitle}
+                              subheader={activity.activityKey}
                             />
                             <CardContent>
                               <Typography variant="body2" color="text.secondary">
