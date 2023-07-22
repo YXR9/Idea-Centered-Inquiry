@@ -9,38 +9,38 @@ import { Register } from './Register';
 import { Login } from './Login'
 
 export default function Navbar() {
-    const [openMenu, setOpenMenu] = useState(false)
+  const [openMenu, setOpenMenu] = useState(false)
 
-    const menuOptions = [
-        {
-            text: "首頁",
-            icon: <HomeIcon />,
-        },
-        {
-            text: "關於",
-            icon: <InfoIcon />,
-        }
-    ];
+  const menuOptions = [
+    {
+      text: "首頁",
+      icon: <HomeIcon />,
+    },
+    {
+      text: "關於",
+      icon: <InfoIcon />,
+    }
+  ];
   return (
     <nav>
       <div className='nav-logo-container'>
-          <img alt='' src={Logo} width={250} height={250} />
+        <img alt='' src={Logo} width={250} height={250} />
       </div>
       <div className="navbar-links-container">
-          <a href=''>首頁</a>
-          <a href=''>關於</a>
-          <button className='login-button'>
-              <Login />
-          </button>
-          <button className='register-button'>
-              <Register />
-          </button>
+        <a href=''>首頁</a>
+        <a href=''>關於</a>
+        <button className='login-button'>
+          <Login />
+        </button>
+        <button className='register-button'>
+          <Register />
+        </button>
       </div>
       <div className='navbar-menu-container'>
-          <HiOutlineBars3 onClick={() => setOpenMenu(true)} />
+        <HiOutlineBars3 onClick={() => setOpenMenu(true)} />
       </div>
       <Drawer open={openMenu} onClose={() => setOpenMenu(false)} anchor='right'>
-      <Box
+        <Box
           sx={{ width: 250 }}
           role="presentation"
           onClick={() => setOpenMenu(false)}
