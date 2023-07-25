@@ -86,6 +86,10 @@ export default function IndexPage_Navbar() {
             <div className='nav-logo-container'>
                 <img alt='' src={Logo} width={85} height={85} />
             </div>
+            <div className="navbar-links-container">
+                <button className='register-button'>建立活動</button>
+                <button className='login-button'>加入活動</button>
+            </div>
             <div className="menu-trigger" onClick={()=>{setOpen(!open)}}>
                 <Avatar {...stringAvatar(username)} />
             </div>
