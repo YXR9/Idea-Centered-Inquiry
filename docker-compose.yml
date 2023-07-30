@@ -40,7 +40,7 @@ services:
       PGADMIN_LISTEN_PORT: 5050
       PGADMIN_CONFIG_WTF_CSRF_CHECK_DEFAULT: "False"
     volumes:
-      - "./pgadmin-data:/var/lib/pgadmin"
+      - "./pgadmin_data:/var/lib/pgadmin"
 
   frontend:
     build: 
