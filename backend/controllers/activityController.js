@@ -12,10 +12,7 @@ exports.createActivity = async (req, res) => {
     const activity = new Activity({
         owner: req.body.owner,
         activityTitle: req.body.activityTitle,
-        activityInfo: req.body.activityInfo,
-        activityKey: nanoid(),
-        activityParts: req.body.activityParts,
-        groups: req.body.groups
+        activityKey: nanoid()
     });
             
     activity

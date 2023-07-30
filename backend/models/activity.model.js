@@ -8,10 +8,6 @@ module.exports = (sequelize, DataTypes, literal) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      activityInfo: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       activityKey: {
         type: DataTypes.STRING,
         allowNull: false
