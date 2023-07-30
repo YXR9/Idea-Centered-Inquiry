@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import user from '../assets/user.png';
 import edit from '../assets/edit.png';
+import Stack from '@mui/material/Stack';
 
 function stringToColor(string) {
     let hash = 0;
@@ -86,12 +87,12 @@ export default function IndexPage_Navbar() {
             <div className='nav-logo-container'>
                 <img alt='' src={Logo} width={85} height={85} />
             </div>
-            <div className="navbar-links-container">
+            <div className='nav-buttons'>
                 <button className='register-button'>建立活動</button>
                 <button className='login-button'>加入活動</button>
-            </div>
-            <div className="menu-trigger" onClick={()=>{setOpen(!open)}}>
-                <Avatar {...stringAvatar(username)} />
+                <button className="menu-trigger" onClick={() => { setOpen(!open) }}>
+                    <Avatar {...stringAvatar(username)} />
+                </button>
             </div>
             <div className={`dropdown-menu ${open? 'active' : 'inactive'}`} >
                 <h3>{username}<br/><span>{email}</span></h3>
@@ -101,7 +102,6 @@ export default function IndexPage_Navbar() {
                 </ul>
                 <h3><button className='register-button' onClick={logout}>Logout</button></h3>
             </div>
-            {/* <button onClick={logout}>Logout</button> */}
       </nav>
     )
 }

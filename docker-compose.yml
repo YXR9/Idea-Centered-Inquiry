@@ -49,8 +49,8 @@ services:
       - '3000:3000'
     stdin_open: true
     restart: always
-    # volumes:
-    #   - "./frontend:/app"
+    volumes:
+      - "./frontend/src:/app/src"
     depends_on:
       - backend
 

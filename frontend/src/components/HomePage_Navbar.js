@@ -19,6 +19,14 @@ export default function Navbar() {
     {
       text: "關於",
       icon: <InfoIcon />,
+    },
+    {
+      text: "登入",
+      icon: <Login/>,
+    },
+    {
+      text: "註冊",
+      icon: <Register/>,
     }
   ];
   return (
