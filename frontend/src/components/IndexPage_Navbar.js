@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import user from '../assets/user.png';
 import edit from '../assets/edit.png';
-import Stack from '@mui/material/Stack';
+import { CreateActivityForm } from './CreateActivityForm';
 
 function stringToColor(string) {
     let hash = 0;
@@ -88,7 +88,9 @@ export default function IndexPage_Navbar() {
                 <img alt='' src={Logo} width={85} height={85} />
             </div>
             <div className='nav-buttons'>
-                <button className='create-activity-button'>建立活動</button>
+                <button className='create-activity-button'>
+                  <CreateActivityForm/>
+                </button>
                 <button className='join-activity-button'>加入活動</button>
                 <div className="menu-trigger" onClick={() => { setOpen(!open) }}>
                     <Avatar {...stringAvatar(username)} />
