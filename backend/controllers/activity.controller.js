@@ -3,7 +3,7 @@ const { customAlphabet } = require('nanoid')
 
 // Assigning activities to the variable Activity
 const Activity = db.activities;
-const User = db.users;
+const Student = db.users;
 const Op = db.Sequelize.Op;
 
 // 創建活動
@@ -53,3 +53,27 @@ exports.findMyActivity = async (req, res) => {
         });
     });
 };
+
+// 加入活動
+// Create a new student and associate it with the activity:
+exports.joinActivity = async (req, res) => {
+    const { activityKey, studentId, studentName } = req.body;
+
+    try {
+        // Find the activity with the given activityKey
+        const activity = await Activity.findOne({ where: { activityKey } });
+    
+        if (!activity) {
+          return res.status(404).json({ message: 'Activity not found with the given activityKey' });
+        }
+    
+        // Create a new student and associate it with the found activity
+        const newStudent = await Student.create({ id: studentId, username: studentName, activityId: activity.id });
+    
+        return res.status(201).json({ message: 'Student successfully joined the activity', student: newStudent });
+    }
+    catch (error) {
+        console.error('Error joining activity:', error);
+        return res.status(500).json({ message: 'Error joining activity' });
+    }
+  }

@@ -15,9 +15,10 @@ module.exports = (sequelize, DataTypes, literal) => {
     }, {timestamps: true}, );
 
     Activity.associate = (models) => {
-      Activity.belongsTo(models.User, {
-        foreignKey:'userId',
-        as: 'user'
+      Activity.hasMany(models.User, {
+        foreignKey:'activityId',
+        as: 'activity',
+        onDelete: 'CASCADE'
       });
     };
 
@@ -25,7 +26,8 @@ module.exports = (sequelize, DataTypes, literal) => {
       Activity.hasMany(models.Level, {
         through: 'activityLevel',
         as: 'levels',
-        foreignKey: 'activityId'
+        foreignKey: 'activityId',
+        onDelete: 'CASCADE'
       });
     };
 
@@ -33,7 +35,8 @@ module.exports = (sequelize, DataTypes, literal) => {
       Activity.hasMany(models.Group, {
         through: 'activityGroup',
         as: 'groups',
-        foreignKey: 'activityId'
+        foreignKey: 'activityId',
+        onDelete: 'CASCADE'
       });
     };
 

@@ -9,5 +9,7 @@ module.exports = app => {
     // Get user's all activity.
     router.get('/:userId', activities.findMyActivity);
 
+    router.post('/join', activities.joinActivity);
+
     app.use('/api/activities', router);
 }
