@@ -35,11 +35,11 @@ module.exports = (sequelize, DataTypes) => {
     }, {timestamps: true}, );
     
     User.associate = (models) => {
-      User.hasMany(models.Activity, {
-        foreignKey: 'userId',
-        as: 'activities',
+      User.belongsToMany(models.Activity, {
+        through: 'ActivityUser', // Name of the intermediary table
+        foreignKey: 'userId'
       });
-    };
-  
+    }
+
     return User;
 };

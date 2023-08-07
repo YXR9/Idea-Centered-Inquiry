@@ -28,6 +28,7 @@ db.sequelize = sequelize;
 
 db.users = require("./user.model.js")(sequelize, DataTypes);
 db.activities = require("./activity.model.js")(sequelize, DataTypes);
+db.ActivityUser = require("./ActivityUser.js")(sequelize, DataTypes);
 db.groups = require("./group.model.js")(sequelize, DataTypes);
 db.levels = require("./level.model.js")(sequelize, DataTypes);
 

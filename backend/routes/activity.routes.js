@@ -4,12 +4,15 @@ module.exports = app => {
     
     var router = require("express").Router();
 
+    // Create an activity.
     router.post('/create', bodyParser.json(), activities.create);
     
     // Get user's all activity.
     router.get('/:userId', activities.findMyActivity);
 
-    router.post('/join', activities.joinActivity);
+    // Join an activity.
+    router.post('/join', bodyParser.json(), activities.joinActivity);
+    router.post('/join', bodyParser.json(), activities.joinActivity);
 
     app.use('/api/activities', router);
 }
