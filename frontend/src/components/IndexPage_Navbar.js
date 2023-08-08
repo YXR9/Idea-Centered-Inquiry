@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import user from '../assets/user.png';
 import edit from '../assets/edit.png';
 import { CreateActivityForm } from './CreateActivityForm';
+import { JoinActivityForm } from './JoinActivityForm';
 
 function stringToColor(string) {
     let hash = 0;
@@ -91,7 +92,9 @@ export default function IndexPage_Navbar() {
                 <button className='create-activity-button'>
                   <CreateActivityForm/>
                 </button>
-                <button className='join-activity-button'>加入活動</button>
+                <button className='join-activity-button'>
+                  <JoinActivityForm/>
+                </button>
                 <div className="menu-trigger" onClick={() => { setOpen(!open) }}>
                     <Avatar {...stringAvatar(username)} />
                 </div>

@@ -10,5 +10,8 @@
     },
     {
         "activityList": "http://localhost:8000/api/activities/"
+    },
+    {
+        "joinActivity": "http://localhost:8000/api/activities/join"
     }
 ]
