@@ -34,13 +34,13 @@ module.exports = (sequelize, DataTypes) => {
       }
     }, {timestamps: true}, );
     
-    User.associate = (models) => {
-      console.log("User.associate✨")
-      User.belongsTo(models.Activity, {
-        through: models.ActivityUser,
-        foreignKey: 'userId'
-      });
-    }
+    // User.associate = (models) => {
+    //   console.log("User.associate✨")
+    //   User.belongsTo(models.Activity, {
+    //     through: models.ActivityUser,
+    //     foreignKey: 'userId'
+    //   });
+    // }
 
     return User;
 };
