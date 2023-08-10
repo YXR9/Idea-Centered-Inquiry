@@ -31,7 +31,11 @@ module.exports = (sequelize, DataTypes) => {
       city: {
         type: DataTypes.STRING,
         allowNull: false
-      }
+      },
+      activityId: {
+        allowNull: true,
+        type: DataTypes.BIGINT
+      },
     }, {timestamps: true}, );
     
     // User.associate = (models) => {
