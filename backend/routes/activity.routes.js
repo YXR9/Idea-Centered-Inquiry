@@ -14,7 +14,7 @@ module.exports = app => {
     router.post('/join', bodyParser.json(), activities.joinActivity);
 
     // Find all user in activity.
-    router.get('/users/:activityId', activities.getUsersByActivityId);
+    router.get('/activity/:activityId', activities.getUsersByActivityId);
 
     app.use('/api/activities', router);
 }

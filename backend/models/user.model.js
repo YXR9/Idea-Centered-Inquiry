@@ -35,8 +35,9 @@ module.exports = (sequelize, DataTypes) => {
     }, {timestamps: true}, );
     
     User.associate = (models) => {
-      User.belongsToMany(models.Activity, {
-        through: 'ActivityUser', // Name of the intermediary table
+      console.log("User.associate✨")
+      User.belongsTo(models.Activity, {
+        through: models.ActivityUser,
         foreignKey: 'userId'
       });
     }

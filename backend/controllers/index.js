@@ -6,6 +6,7 @@ const levels = require('./level.controller');
 module.exports = {
   users,
   activities,
+  activity_users,
   groups,
   levels
 };

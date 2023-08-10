@@ -32,10 +32,21 @@ db.ActivityUser = require("./ActivityUser.js")(sequelize, DataTypes);
 db.groups = require("./group.model.js")(sequelize, DataTypes);
 db.levels = require("./level.model.js")(sequelize, DataTypes);
 
-// db.users.hasMany(db.activities, { as: "activities" });
-// db.activities.belongsTo(db.users, {
-//   foreignKey: "owner",
-//   as: "user",
-// });
+// Define associations
+// db.users.associate = (models) => {
+//   db.users.belongsToMany(models.activities, {
+//     through: db.ActivityUsers,
+//     foreignKey: 'userId'
+//   });
+// };
+
+// db.activities.associate = (models) => {
+//   db.activities.belongsToMany(models.users, {
+//     through: db.ActivityUsers,
+//     foreignKey: 'activityId'
+//   });
+// };
+// db.users.hasMany(db.activities);
+// db.activities.belongsToMany(db.users);
 
 module.exports = db;

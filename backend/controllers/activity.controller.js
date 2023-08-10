@@ -4,6 +4,7 @@ const { customAlphabet } = require('nanoid')
 // Assigning activities to the variable Activity
 const Activity = db.activities;
 const User = db.users;
+const ActivityUser = db.ActivityUsers;
 const Op = db.Sequelize.Op;
 
 // 創建活動
@@ -88,21 +89,71 @@ exports.joinActivity = async (req, res) => {
 // 列出某活動的所有參加者
 exports.getUsersByActivityId = async (req, res) => {
     const { activityId } = req.params;
-
-    try {
-      // 查找具有指定 ID 的活动，并包含关联的已加入用户
-      const activity = await Activity.findByPk(activityId, {
-        include: [{ model: User, through: 'ActivityUser' }]
-      });
-    
-      if (!activity) {
-        return res.status(404).json({ message: '活动未找到' });
-      }
-    
-      return res.status(200).json({ activity });
-    } catch (error) {
-      console.error('获取活动及已加入用户出错：', error);
-      return res.status(500).json({ message: '获取活动及已加入用户出错' });
+    console.log("activityId: ", activityId);
+    Activity.hasMany(User);
+    const activity = await Activity.findByPk(activityId, 
+        {
+        include: User
     }
+    );
+    console.log("activity: ", activity.toJSON());
+    if (!activity) {
+        console.log('Activity not found.');
+        return;
+    }
+
+    console.log('Activity:', activity.activityTitle);
+    res.status(200).send(
+        activity.toJSON()
+    );
+    
+    // console.log('Users:', activity.User.map(user => user));
+
+    // Activity.findOne({
+    //     where: {
+    //         id: activityId
+    //     },
+    //     include: {
+    //         model: User,
+    //         attributes: ['username']
+    //     }
+    // }).then(activity => {
+    //     if (!activity) {
+    //         return res.status(404).send({ message: "Activity not found." });
+    //     }
+
+    //     var members = activity.Users.map(user => user.username);
+
+    //     res.status(200).send({
+    //         id: activity.id,
+    //         owner: activity.owner,
+    //         activityTitle: activity.activityTitle,
+    //         activityKey: activity.activityKey,
+    //         members: members
+    //     });
+    // }).catch(err => {
+    //     res.status(500).send({ message: err.message });
+    // })
+
+    // try {
+    //     // Find the activity based on activityId
+    //     const activity = await ActivityUser.findOne({
+    //       where: { activityId },
+    //       include: {
+    //         model: User,
+    //         attributes: ['id', 'username', 'createdAt', 'updatedAt'],
+    //         through: { attributes: ['createdAt', 'updatedAt', 'activityId', 'userId'] }
+    //       }
+    //     });
+    
+    //     if (!activity) {
+    //       return { success: false, message: 'Activity not found' };
+    //     }
+    
+    //     return { success: true, activity };
+    //   } catch (error) {
+    //     console.error('Error fetching activity:', error);
+    //     return { success: false, message: 'Error fetching activity' };
+    //   }
 };
   
