@@ -14,12 +14,12 @@ module.exports = (sequelize, DataTypes, literal) => {
       allowNull: false
     }
   }, { timestamps: true });
-  // Activity.hasMany(User);
-  Activity.hasMany(User, {
-    as: 'member',
-    through: models.ActivityUser,
-    foreignKey: 'activityId'
-  });
+  Activity.hasMany(User);
+  // Activity.hasMany(User, {
+  //   as: 'member',
+  //   through: models.ActivityUser,
+  //   foreignKey: 'activityId'
+  // });
   // Activity.associate = (models) => {
   //   // Associate with User
   //   Activity.hasMany(models.User, }{
