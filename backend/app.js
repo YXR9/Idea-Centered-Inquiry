@@ -24,7 +24,8 @@ db.sequelize
   .sync()
   .then(() => {
     console.log('Initialing...');
-    initial();  // 産生資料表後，呼叫 initial function 為 roles table 新增三筆初始資料
+    //initial();  // 産生資料表後，呼叫 initial function 為 roles table 新增三筆初始資料
+    console.log('Initialing... done');
   })
   .catch((err) => {
     console.log('Failed to sync db: ' + err.message);

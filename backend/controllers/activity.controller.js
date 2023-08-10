@@ -90,11 +90,10 @@ exports.joinActivity = async (req, res) => {
 exports.getUsersByActivityId = async (req, res) => {
     const { activityId } = req.params;
     console.log("activityId: ", activityId);
-    Activity.hasMany(User);
     const activity = await Activity.findByPk(activityId, 
         {
         include: User
-    }
+        }
     );
     console.log("activity: ", activity.toJSON());
     if (!activity) {

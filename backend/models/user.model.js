@@ -31,16 +31,20 @@ module.exports = (sequelize, DataTypes) => {
       city: {
         type: DataTypes.STRING,
         allowNull: false
-      }
+      },
+      activityId: {
+        allowNull: true,
+        type: DataTypes.BIGINT
+      },
     }, {timestamps: true}, );
     
-    User.associate = (models) => {
-      console.log("User.associate✨")
-      User.belongsTo(models.Activity, {
-        through: models.ActivityUser,
-        foreignKey: 'userId'
-      });
-    }
+    // User.associate = (models) => {
+    //   console.log("User.associate✨")
+    //   User.belongsTo(models.Activity, {
+    //     through: models.ActivityUser,
+    //     foreignKey: 'userId'
+    //   });
+    // }
 
     return User;
 };
