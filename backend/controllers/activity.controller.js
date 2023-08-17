@@ -42,6 +42,12 @@ exports.findMyActivity = async (req, res) => {
         .findAll({
             where: {
                 owner: userId
+            },
+            include: {
+                User,
+                where: {
+                    id: { [Op.ne]: userId }
+                }
             }
         })
         .then((data) => {
@@ -90,11 +96,9 @@ exports.joinActivity = async (req, res) => {
 exports.getUsersByActivityId = async (req, res) => {
     const { activityId } = req.params;
     console.log("activityId: ", activityId);
-    const activity = await Activity.findByPk(activityId, 
-        {
+    const activity = await Activity.findByPk(activityId, {
         include: User
-        }
-    );
+    });
     console.log("activity: ", activity.toJSON());
     if (!activity) {
         console.log('Activity not found.');
