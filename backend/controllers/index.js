@@ -1,12 +1,15 @@
-const users = require('./user.controller');
-const activities = require('./activity.controller');
+const User = require('./user.controller');
+const Activity = require('./activity.controller');
 const groups = require('./group.controller');
-const levels = require('./level.controller');
+const Part = require('./part.controller');
+const SubPart = require('./subPart.controller');
+const Node = require('./node.controller');
 
 module.exports = {
-  users,
-  activities,
-  activity_users,
+  User,
+  Activity,
   groups,
-  levels
+  Part,
+  SubPart,
+  Node
 };

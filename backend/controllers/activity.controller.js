@@ -2,9 +2,8 @@ const db = require('../models');
 const { customAlphabet } = require('nanoid')
 
 // Assigning activities to the variable Activity
-const Activity = db.activities;
-const User = db.users;
-const ActivityUser = db.ActivityUsers;
+const Activity = db.Activity;
+const User = db.User;
 const Op = db.Sequelize.Op;
 
 // 創建活動

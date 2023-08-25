@@ -1,20 +1,42 @@
 module.exports = (sequelize, DataTypes, literal) => {
   const User = require("./user.model.js")(sequelize, DataTypes);
-  const Activity = sequelize.define("activity", {
-    owner: {
+  const Activity = sequelize.define("Activity", {
+    // owner: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false
+    // },
+    title: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    activityTitle: {
-      type: DataTypes.STRING,
+    member: {
+      type: DataTypes.JSON,
+      allowNull: true
+    },
+    startDate: {
+      type: DataTypes.DATE,
       allowNull: false
     },
-    activityKey: {
-      type: DataTypes.STRING,
+    endDate: {
+      type: DataTypes.DATE,
       allowNull: false
     }
+    // activityKey: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false
+    // }
   }, { timestamps: true });
-  Activity.hasMany(User);
+  Activity.associate = (models) => {
+    Activity.hasMany(models.Part, {
+      foreignKey: 'activityId'
+    });
+    Activity.belongsTo(models.User, {
+      foreignKey: 'owner'
+    });
+  };
+  
+  // Activity.hasMany(User);
+
   // Activity.hasMany(User, {
   //   as: 'member',
   //   through: models.ActivityUser,

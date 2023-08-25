@@ -53,7 +53,7 @@ export default function IndexPage_Navbar() {
     const singOut = useSignOut();
     const navigate = useNavigate();
 
-    const username = localStorage.getItem('username');
+    const name = localStorage.getItem('name');
     const email = localStorage.getItem('email')
     
     let menuRef = useRef();
@@ -79,7 +79,7 @@ export default function IndexPage_Navbar() {
       singOut();
       navigate("/");
       localStorage.removeItem('userId');
-      localStorage.removeItem('username');
+      localStorage.removeItem('name');
       localStorage.removeItem('email');
     };
 
@@ -96,11 +96,11 @@ export default function IndexPage_Navbar() {
                   <JoinActivityForm/>
                 </button>
                 <div className="menu-trigger" onClick={() => { setOpen(!open) }}>
-                    <Avatar {...stringAvatar(username)} />
+                    <Avatar {...stringAvatar(name)} />
                 </div>
             </div>
             <div className={`dropdown-menu ${open? 'active' : 'inactive'}`} >
-                <h3>{username}<br/><span>{email}</span></h3>
+                <h3>{name}<br/><span>{email}</span></h3>
                 <ul>
                     <DropdownItem img = {user} text = {"My Profile"}/>
                     <DropdownItem img = {edit} text = {"Edit Profile"}/>

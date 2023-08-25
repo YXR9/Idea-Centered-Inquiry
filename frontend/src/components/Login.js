@@ -70,7 +70,7 @@ export const Login = () => {
                 });
 
                 localStorage.setItem('userId', response.data.id);
-                localStorage.setItem('username', response.data.username);
+                localStorage.setItem('name', response.data.name);
                 localStorage.setItem('email', response.data.email);
 
                 console.log("res: ", response.data)

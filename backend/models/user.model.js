@@ -1,12 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define("user", {
+    const User = sequelize.define("User", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.BIGINT
       },
-      username: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      passwordConf: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
+      // passwordConf: {
+      //   type: DataTypes.STRING,
+      //   // allowNull: false
+      // },
       school: {
         type: DataTypes.STRING,
         allowNull: false
@@ -32,10 +32,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      activityId: {
-        allowNull: true,
-        type: DataTypes.BIGINT
-      },
+      // activityId: {
+      //   allowNull: true,
+      //   type: DataTypes.BIGINT
+      // },
     }, {timestamps: true}, );
     
     // User.associate = (models) => {
@@ -45,6 +45,14 @@ module.exports = (sequelize, DataTypes) => {
     //     foreignKey: 'userId'
     //   });
     // }
+    User.associate = (models) => {
+      User.hasMany(models.Activity, {
+        foreignKey: 'owner'
+      });
+      User.hasMany(models.Node, {
+        foreignKey: 'userId'
+      });
+    };
 
     return User;
 };

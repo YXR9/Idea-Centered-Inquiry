@@ -8,7 +8,7 @@ import { Login } from './Login';
 export const Register = () => {
     const [open, setOpen] = React.useState(false);
     const [data, setData] = useState({
-        username: "",
+        name: "",
         email: "",
         password: "",
         passwordConf: "",
@@ -35,7 +35,7 @@ export const Register = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
-            username: data.username,
+            name: data.name,
             email: data.email,
             password: data.password,
             passwordConf: data.passwordConf,
@@ -47,7 +47,7 @@ export const Register = () => {
             .then((response) => {
                 setOpen(false);
                 setData({
-                    username: "",
+                    name: "",
                     email: "",
                     password: "",
                     passwordConf: "",
@@ -85,10 +85,10 @@ export const Register = () => {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label={"username"}
+                    label={"name"}
                     type="text"
-                    name='username'
-                    value={data.username}
+                    name='name'
+                    value={data.name}
                     fullWidth
                     variant="standard"
                     onChange={handleChange}

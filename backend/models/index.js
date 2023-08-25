@@ -26,11 +26,11 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.users = require("./user.model.js")(sequelize, DataTypes);
-db.activities = require("./activity.model.js")(sequelize, DataTypes);
-db.ActivityUser = require("./ActivityUser.js")(sequelize, DataTypes);
-db.groups = require("./group.model.js")(sequelize, DataTypes);
-db.levels = require("./level.model.js")(sequelize, DataTypes);
+db.User = require("./user.model.js")(sequelize, DataTypes);
+db.Activity = require("./activity.model.js")(sequelize, DataTypes);
+db.Part = require("./part.model.js")(sequelize, DataTypes);
+db.SubPart = require("./subPart.model.js")(sequelize, DataTypes);
+db.Node = require("./node.model.js")(sequelize, DataTypes);
 
 // Define associations
 // db.users.associate = (models) => {

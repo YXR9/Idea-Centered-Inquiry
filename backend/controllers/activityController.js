@@ -58,7 +58,7 @@ exports.findMyActivity = async (req, res) => {
                     activityInfo: 1,
                     activityKey: 1,
                     owner: {
-                        username: 1
+                        name: 1
                     }
                 }
             },
