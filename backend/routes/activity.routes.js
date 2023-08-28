@@ -12,6 +12,9 @@ module.exports = app => {
 
     // Join an activity.
     router.post('/join', bodyParser.json(), activities.joinActivity);
+    
+    // Delete all activities.
+    router.delete("/", activities.deleteAll);
 
     // Find all user in activity.
     router.get('/activity/:activityId', activities.getUsersByActivityId);

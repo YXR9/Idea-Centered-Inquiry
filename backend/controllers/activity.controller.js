@@ -8,16 +8,18 @@ const Op = db.Sequelize.Op;
 
 // 創建活動
 exports.create = async (req, res) => {
-    console.log("owner: ", req.body);
-
+    console.log(req.body);
     const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 5)
 
     const activity = new Activity({
-        owner: req.body.owner,
-        activityTitle: req.body.activityTitle,
-        activityInfo: req.body.activityInfo,
-        activityKey: nanoid(),
-    });
+        title: req.body.title,
+        groups: [{
+            joinCode: nanoid(),
+            member: [req.body.groups[0].member],
+        }],
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+    });    
             
     activity
         .save()
@@ -63,18 +65,18 @@ exports.findMyActivity = async (req, res) => {
 // 加入活動
 // Create a new student and associate it with the activity.
 exports.joinActivity = async (req, res) => {
-    const { activityKey, id } = req.body;
+    const { joinCode, userId } = req.body;
     console.log('I want to join this activity!')
     try {
-      // Find the activity based on activityKey
-      const activity = await Activity.findOne({ where: { activityKey } });
+      // Find the activity based on joinCode.
+      const activity = await Activity.findOne({ where: { joinCode } });
 
       if (!activity) {
         return res.status(404).json({ message: 'Activity not found' });
       }
 
       // Find the existing user by userId
-      const existingUser = await User.findOne({ where: { id } });
+      const existingUser = await User.findOne({ where: { userId } });
 
       if (!existingUser) {
         return res.status(404).json({ message: 'User not found' });
@@ -158,4 +160,20 @@ exports.getUsersByActivityId = async (req, res) => {
     //     return { success: false, message: 'Error fetching activity' };
     //   }
 };
-  
+
+// Delete all activities from the database.
+exports.deleteAll = (req, res) => {
+    Activity.destroy({
+        where: {},
+        truncate: false
+      })
+        .then(nums => {
+          res.send({ message: `${nums} activities were deleted successfully!` });
+        })
+        .catch(err => {
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while removing all activities."
+          });
+        });
+};
