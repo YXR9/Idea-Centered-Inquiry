@@ -4,20 +4,30 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.STRING,
           allowNull: false,
       },
-  });
+      activityId: DataTypes.INTEGER,
+      userId: DataTypes.BIGINT
+  }, {});
+    
+  // Group.associate = (models) => {
+  //   console.log("Group.associate✨")
+  //   Group.belongsTo(models.User, {
+  //     through: models.UserGroup,
+  //     foreignKey: 'groupId'
+  //   });
+  // }
 
-  Group.associate = (models) => {
-      Group.belongsToMany(models.User, {
-          through: 'GroupMember', // Assuming you have an association table for group members
-          foreignKey: 'GroupId',
-          as: 'members',
-      });
+  // Group.associate = (models) => {
+  //     Group.belongsTo(models.User, {
+  //       foreignKey: 'userId',
+  //       as: 'member'
+  //     });
 
-      Group.belongsTo(models.Activity, {
-          foreignKey: 'ActivityId',
-          onDelete: 'CASCADE',
-      });
-  };
+  //     Group.belongsTo(models.Activity, {
+  //         foreignKey: 'activityId',
+  //         as: 'activity',
+  //         onDelete: 'CASCADE',
+  //     });
+  // };
 
   return Group;
 };

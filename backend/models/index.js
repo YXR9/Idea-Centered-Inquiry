@@ -33,26 +33,10 @@ db.Part = require("./part.model.js")(sequelize, DataTypes);
 db.SubPart = require("./subPart.model.js")(sequelize, DataTypes);
 db.Node = require("./node.model.js")(sequelize, DataTypes);
 
-// Define associations
-db.Activity.hasMany(db.Group, { as: "groups" });
-db.Group.belongsTo(db.Activity, {
-  foreignKey: "activityId",
-  as: "activity",
-});
-// db.users.associate = (models) => {
-//   db.users.belongsToMany(models.activities, {
-//     through: db.ActivityUsers,
-//     foreignKey: 'userId'
-//   });
-// };
-
-// db.activities.associate = (models) => {
-//   db.activities.belongsToMany(models.users, {
-//     through: db.ActivityUsers,
-//     foreignKey: 'activityId'
-//   });
-// };
-// db.users.hasMany(db.activities);
-// db.activities.belongsToMany(db.users);
+// Object.keys(db).forEach(modelName => {
+//   if(db[modelName].associate) {
+//     db[modelName].associate(db);
+//   }
+// });
 
 module.exports = db;

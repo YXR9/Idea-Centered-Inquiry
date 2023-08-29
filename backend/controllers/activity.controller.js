@@ -4,16 +4,19 @@ const { customAlphabet } = require('nanoid')
 // Assigning activities to the variable Activity
 const Activity = db.Activity;
 const User = db.User;
+const Group = db.Group;
 const Op = db.Sequelize.Op;
 
 // Create and Save new Activity.
 exports.create = async (req, res) => {
-    // const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 5)
+    console.log("✨✨✨✨✨");
+    console.log("✨✨✨✨✨", req.body);
 
     const activity = await Activity.create({
-            title: req.body.title,
-            startDate: req.body.startDate,
-            endDate: req.body.endDate,
+        title: req.body.title,
+        userId: req.body.userId,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
     });    
             
     activity
@@ -29,6 +32,37 @@ exports.create = async (req, res) => {
                     err.message || "Some error occurred while creating the activity.",
             });
         });
+}
+
+// Create and Save new Groups
+exports.createGroupsForActivity = async (req, res) => {
+    const { activityId, numGroups } = req.body;
+
+    try {
+        const createdGroups = [];
+
+        for (let i = 0; i < numGroups; i++) {
+            const joinCode = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 5)();
+            const group = await Group.create({
+                joinCode: joinCode,
+                activityId: activityId,
+            });
+
+            createdGroups.push(group);
+        }
+
+        console.log('Created groups:', createdGroups);
+        res.status(200).send({
+            message: 'Groups created successfully',
+            groups: createdGroups
+        });
+    } catch (err) {
+        console.log('Error while creating groups:', err);
+        res.status(500).send({
+            message: 'Error while creating groups',
+            error: err.message
+        });
+    }
 }
 
 // 我的活動

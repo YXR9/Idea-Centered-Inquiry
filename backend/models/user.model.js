@@ -1,4 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
+    const Activity = require("./activity.model.js")(sequelize, DataTypes);
     const User = sequelize.define("User", {
       id: {
         allowNull: false,
@@ -20,10 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      // passwordConf: {
-      //   type: DataTypes.STRING,
-      //   // allowNull: false
-      // },
       school: {
         type: DataTypes.STRING,
         allowNull: false
@@ -45,16 +42,21 @@ module.exports = (sequelize, DataTypes) => {
     //     foreignKey: 'userId'
     //   });
     // }
-    User.associate = (models) => {
-      User.hasMany(models.Activity, { onDelete: 'CASCADE' }
-      //   , {
-      //   foreignKey: 'owner'
-      // }
-      );
-      User.hasMany(models.Node, {
-        foreignKey: 'userId'
-      });
-    };
+
+    // User.associate = (models) => {
+    //   User.hasMany(models.Activity, {
+    //     foreignKey: 'userId',
+    //     as: 'activities',
+    //     onDelete: 'CASCADE',
+    //   });
+    //   User.hasMany(models.Node, {
+    //     foreignKey: 'userId',
+    //     as: 'nodes',
+    //     onDelete: 'CASCADE',
+    //   });
+    // };
+
+    User.hasMany(Activity);
 
     return User;
 };
