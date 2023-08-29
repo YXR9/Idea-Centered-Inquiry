@@ -6,19 +6,14 @@ const Activity = db.Activity;
 const User = db.User;
 const Op = db.Sequelize.Op;
 
-// 創建活動
+// Create and Save new Activity.
 exports.create = async (req, res) => {
-    console.log(req.body);
-    const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 5)
+    // const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 5)
 
-    const activity = new Activity({
-        title: req.body.title,
-        groups: [{
-            joinCode: nanoid(),
-            member: [req.body.groups[0].member],
-        }],
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
+    const activity = await Activity.create({
+            title: req.body.title,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate,
     });    
             
     activity
@@ -69,24 +64,20 @@ exports.joinActivity = async (req, res) => {
     console.log('I want to join this activity!')
     try {
       // Find the activity based on joinCode.
-      const activity = await Activity.findOne({ where: { joinCode } });
+      const activity = await Activity.findOne({ where: { 'groups.member.joinCode': joinCode } });
 
       if (!activity) {
         return res.status(404).json({ message: 'Activity not found' });
       }
 
-      // Find the existing user by userId
-      const existingUser = await User.findOne({ where: { userId } });
-
-      if (!existingUser) {
-        return res.status(404).json({ message: 'User not found' });
+      // Spread and add the new member
+      const member = {
+        ...member,
+        userId: userId,
+        role: 'member'
       }
 
-      // Associate the existing user with the activity
-      existingUser.activityId = activity.id;
-      await existingUser.save();
-
-      return res.status(200).json({ message: 'User successfully joined the activity', user: existingUser });
+      return res.status(200).json({ message: 'User successfully joined the activity', activity: activity });
     } catch (error) {
       console.error('Error joining activity:', error);
       return res.status(500).json({ message: 'Error joining activity' });

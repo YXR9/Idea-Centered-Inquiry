@@ -9,10 +9,10 @@ module.exports = (sequelize, DataTypes, literal) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    groups: {
-      type: DataTypes.JSONB,
-      allowNull: true
-    },
+    // groups: {
+    //   type: DataTypes.JSONB,
+    //   allowNull: true
+    // },
     startDate: {
       type: DataTypes.DATE,
       allowNull: false
@@ -28,9 +28,11 @@ module.exports = (sequelize, DataTypes, literal) => {
   }, { timestamps: true });
   
   Activity.associate = (models) => {
-    Activity.belongsTo(models.User, {
-      foreignKey: 'owner'
-    });
+    Activity.belongsTo(models.User
+    //   , {
+    //   foreignKey: 'owner'
+    // }
+    );
     Activity.hasMany(models.Part, {
       foreignKey: 'activityId'
     });

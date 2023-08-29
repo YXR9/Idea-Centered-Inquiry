@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       // activityId: {
-      //   allowNull: true,
+      //   allowNull: true,   
       //   type: DataTypes.BIGINT
       // },
     }, {timestamps: true}, );
@@ -46,9 +46,11 @@ module.exports = (sequelize, DataTypes) => {
     //   });
     // }
     User.associate = (models) => {
-      User.hasMany(models.Activity, {
-        foreignKey: 'owner'
-      });
+      User.hasMany(models.Activity, { onDelete: 'CASCADE' }
+      //   , {
+      //   foreignKey: 'owner'
+      // }
+      );
       User.hasMany(models.Node, {
         foreignKey: 'userId'
       });
