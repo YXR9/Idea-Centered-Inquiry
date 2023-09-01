@@ -71,6 +71,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 掛載 middleware
 require("./routes/user.routes")(app);
 require("./routes/activity.routes")(app);
+require("./routes/group.routes")(app);
 
 // simple route
 app.get("/", (req, res) => {

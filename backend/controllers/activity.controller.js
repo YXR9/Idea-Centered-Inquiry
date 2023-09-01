@@ -9,9 +9,6 @@ const Op = db.Sequelize.Op;
 
 // Create and Save new Activity.
 exports.create = async (req, res) => {
-    console.log("✨✨✨✨✨");
-    console.log("✨✨✨✨✨", req.body);
-
     const activity = await Activity.create({
         title: req.body.title,
         userId: req.body.userId,
