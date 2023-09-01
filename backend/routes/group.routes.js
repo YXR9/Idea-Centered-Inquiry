@@ -5,7 +5,7 @@ module.exports = app => {
     var router = require("express").Router();
 
     // Update a Group with joinCode
-    router.put("/:joinCode", bodyParser.json(), groups.joinGroup);
+    router.put("/:joinCode/join", bodyParser.json(), groups.joinGroup);
 
     app.use('/api/groups', router);
 }

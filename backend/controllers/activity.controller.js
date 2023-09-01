@@ -43,6 +43,7 @@ exports.createGroupsForActivity = async (req, res) => {
             const group = await Group.create({
                 joinCode: joinCode,
                 activityId: activityId,
+                userId: new Array()
             });
 
             createdGroups.push(group);

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
       },
       activityId: DataTypes.INTEGER,
-      userId: DataTypes.BIGINT
+      userId: DataTypes.ARRAY(DataTypes.INTEGER)
   }, {});
     
   // Group.associate = (models) => {
