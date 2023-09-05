@@ -38,5 +38,13 @@ db.Node = require("./node.model.js")(sequelize, DataTypes);
 //     db[modelName].associate(db);
 //   }
 // });
+db.Activity.belongsTo(db.User, {
+  foreignKey: "userId",
+  as: "User"
+})
+db.Group.belongsTo(db.Activity, {
+  foreignKey: "activityId",
+  as: "Activity"
+});
 
 module.exports = db;

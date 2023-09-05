@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   //   });
   // };
   
-  Activity.hasMany(Group);
+  Activity.hasMany(Group, {as: "groups" });
 
   return Activity;
 };

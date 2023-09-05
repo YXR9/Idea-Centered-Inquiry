@@ -10,10 +10,7 @@ module.exports = app => {
     router.post('/createGroup', activities.createGroupsForActivity);
     
     // Get user's all activity.
-    router.get('/:userId', activities.findMyActivity);
-
-    // Join an activity.
-    router.post('/join', bodyParser.json(), activities.joinActivity);
+    router.get('/myActivity', activities.findMyActivity);
     
     // Delete all activities.
     router.delete("/", activities.deleteAll);

@@ -63,58 +63,20 @@ exports.createGroupsForActivity = async (req, res) => {
     }
 }
 
-// 我的活動
-exports.findMyActivity = async (req, res) => {
-    const userId = req.params.userId
+// Find all activity by userId(owner).
+exports.findMyActivity = (req, res) => {
     Activity
-        .findAll({
-            where: {
-                owner: userId
-            },
-            include: {
-                User,
-                where: {
-                    id: { [Op.ne]: userId }
-                }
-            }
-        })
+        .findAll({ where: { userId: req.body.userId } })
         .then((data) => {
             console.log('data: ', data)
             res.status(200).send(data);
         }).catch((err) => {
             res.status(400).send({
             activity:
-                err.message || "Some error occurred while finding the activity.",
+                err.message || "Some error occurred while finding your activity.",
         });
     });
 };
-
-// 加入活動
-// Create a new student and associate it with the activity.
-exports.joinActivity = async (req, res) => {
-    const { joinCode, userId } = req.body;
-    console.log('I want to join this activity!')
-    try {
-      // Find the activity based on joinCode.
-      const activity = await Activity.findOne({ where: { 'groups.member.joinCode': joinCode } });
-
-      if (!activity) {
-        return res.status(404).json({ message: 'Activity not found' });
-      }
-
-      // Spread and add the new member
-      const member = {
-        ...member,
-        userId: userId,
-        role: 'member'
-      }
-
-      return res.status(200).json({ message: 'User successfully joined the activity', activity: activity });
-    } catch (error) {
-      console.error('Error joining activity:', error);
-      return res.status(500).json({ message: 'Error joining activity' });
-    }
-}
 
 // 列出某活動的所有參加者
 exports.getUsersByActivityId = async (req, res) => {

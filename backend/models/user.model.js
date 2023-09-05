@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     //   });
     // };
 
-    User.hasMany(Activity);
+    User.hasMany(Activity, { as: "activities" });
 
     return User;
 };
