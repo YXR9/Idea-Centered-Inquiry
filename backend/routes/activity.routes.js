@@ -11,6 +11,8 @@ module.exports = app => {
     
     // Get user's all activity.
     router.get('/myActivity', activities.findMyActivity);
+
+    router.get('/:id', activities.findOneActivity);
     
     // Delete all activities.
     router.delete("/", activities.deleteAll);

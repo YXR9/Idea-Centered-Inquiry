@@ -78,6 +78,28 @@ exports.findMyActivity = (req, res) => {
     });
 };
 
+// Find a single activity with an id
+exports.findOneActivity = (req, res) => {
+    const id = req.params.id;
+
+    Activity.findByPk(id, { include: ["groups"] })
+      .then(data => {
+        if (data) {
+          res.send(data);
+        } else {
+          res.status(404).send({
+            message: `Cannot find activity with id=${id}.`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: 
+            err.message || "Error retrieving activity with id=" + id,
+        });
+      });
+};
+
 // 列出某活動的所有參加者
 exports.getUsersByActivityId = async (req, res) => {
     const { activityId } = req.params;
