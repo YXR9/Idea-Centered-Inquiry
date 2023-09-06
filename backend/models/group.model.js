@@ -1,5 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
+      groupName: DataTypes.STRING,
       joinCode: {
           type: DataTypes.STRING,
           allowNull: false,
