@@ -78,11 +78,11 @@ exports.findMyActivity = (req, res) => {
     });
 };
 
-// Find a single activity with an id
+// Find a single activity with an id.
 exports.findOneActivity = (req, res) => {
     const id = req.params.id;
 
-    Activity.findByPk(id, { include: ["groups"] })
+    Activity.findByPk(id)
       .then(data => {
         if (data) {
           res.send(data);
