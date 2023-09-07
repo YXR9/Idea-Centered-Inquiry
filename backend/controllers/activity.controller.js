@@ -1,10 +1,11 @@
 const db = require('../models');
-const { customAlphabet } = require('nanoid')
+const { customAlphabet } = require('nanoid');
 
 // Assigning activities to the variable Activity
 const Activity = db.Activity;
 const User = db.User;
 const Group = db.Group;
+const ActivityGroup = db.ActivityGroup;
 const Op = db.Sequelize.Op;
 
 // Create and Save new Activity.
@@ -47,6 +48,11 @@ exports.createGroupsForActivity = async (req, res) => {
             });
 
             createdGroups.push(group);
+
+            await ActivityGroup.bulkCreate([{
+                ActivityId: activityId,
+                GroupId: group.id
+            }])
         }
 
         console.log('Created groups:', createdGroups);
@@ -66,7 +72,19 @@ exports.createGroupsForActivity = async (req, res) => {
 // Find all activity by userId(owner).
 exports.findMyActivity = (req, res) => {
     Activity
-        .findAll({ where: { userId: req.body.userId } })
+        .findAll({
+            where: {
+                userId: req.body.userId
+            },
+            include: [
+                    {
+                        model: Group,
+                        attributes: ["id", "joinCode", "activityId"],
+                        through: { attributes: [] }
+                    }
+                ] 
+            
+        })
         .then((data) => {
             console.log('data: ', data)
             res.status(200).send(data);
@@ -82,22 +100,31 @@ exports.findMyActivity = (req, res) => {
 exports.findOneActivity = (req, res) => {
     const id = req.params.id;
 
-    Activity.findByPk(id)
-      .then(data => {
-        if (data) {
-          res.send(data);
-        } else {
-          res.status(404).send({
-            message: `Cannot find activity with id=${id}.`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: 
-            err.message || "Error retrieving activity with id=" + id,
+    Activity.findByPk(id, {
+            model: ActivityGroup,
+            include: [
+                {
+                    model: User,
+                    through: { attributes: [] }
+                },
+                Group
+            ] 
+        })
+        .then(data => {
+            if (data) {
+              res.send(data);
+            } else {
+              res.status(404).send({
+                message: `Cannot find activity with id=${id}.`
+              });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+              message: 
+                err.message || "Error retrieving activity with id=" + id,
+            });
         });
-      });
 };
 
 // 列出某活動的所有參加者

@@ -29,22 +29,23 @@ db.sequelize = sequelize;
 db.User = require("./user.model.js")(sequelize, DataTypes);
 db.Activity = require("./activity.model.js")(sequelize, DataTypes);
 db.Group = require("./group.model.js")(sequelize, DataTypes);
+db.ActivityGroup = require("./activityGroup.model.js")(sequelize, DataTypes);
+db.UserActivityGroup = require("./userActivityGroup.model.js")(sequelize, DataTypes);
 db.Part = require("./part.model.js")(sequelize, DataTypes);
 db.SubPart = require("./subPart.model.js")(sequelize, DataTypes);
 db.Node = require("./node.model.js")(sequelize, DataTypes);
 
-// Object.keys(db).forEach(modelName => {
-//   if(db[modelName].associate) {
-//     db[modelName].associate(db);
-//   }
-// });
-db.Activity.belongsTo(db.User, {
-  foreignKey: "userId",
-  as: "User"
-})
-db.Group.belongsTo(db.Activity, {
-  foreignKey: "activityId",
-  as: "Activity"
-});
+db.Group.belongsToMany(db.Activity, { through: db.ActivityGroup });
+db.Activity.belongsToMany(db.Group, { through: db.ActivityGroup });
+db.ActivityGroup.belongsTo(db.Activity);
+db.ActivityGroup.belongsTo(db.Group);
+db.Activity.hasMany(db.ActivityGroup);
+db.Group.hasMany(db.ActivityGroup);
+db.User.belongsToMany(db.ActivityGroup, { through: db.UserActivityGroup });
+db.ActivityGroup.belongsToMany(db.User, { through: db.UserActivityGroup });
+db.UserActivityGroup.belongsTo(db.User);
+db.UserActivityGroup.belongsTo(db.ActivityGroup);
+db.User.hasMany(db.UserActivityGroup);
+db.ActivityGroup.hasMany(db.UserActivityGroup);
 
 module.exports = db;

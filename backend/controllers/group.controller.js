@@ -1,7 +1,9 @@
+const { User } = require('../models');
 const db = require('../models');
 
 // Assigning groups to the variable Group
 const Group = db.Group;
+const UserActivityGroup = db.UserActivityGroup;
 const Op = db.Sequelize.Op;
 
 exports.joinGroup = async (req, res) => {
@@ -20,11 +22,11 @@ exports.joinGroup = async (req, res) => {
             return res.status(404).send({ message: 'Group not found.' });
         }
 
-        // 檢查是否已經加入該小組
-        // const isUserInGroup = group.userId.includes(userId);
-        // if (isUserInGroup) {
-        //     return res.status(400).send({ message: 'User is already in the group.' });
-        // }
+        console.log("ActivityGroupId: ", group.id)
+        await UserActivityGroup.bulkCreate([{
+            UserId: userId,
+            ActivityGroupId: group.id
+        }])
 
         // 將使用者 ID 添加到小組的 userId 數組中
         group.userId = [...group.userId, userId];
@@ -42,4 +44,28 @@ exports.joinGroup = async (req, res) => {
                 err.message || 'Some error occurred while joining the activity.',
         });
     }
+};
+
+exports.findMyMember = (req, res) => {
+    Group
+        .findAll({
+            where: {
+                activityId: req.body.activityId
+            },
+            include: [
+                {
+                    model: User,
+                    through: { attributes: [] }
+                }
+            ]  
+        })
+        .then((data) => {
+            console.log('data: ', data)
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(400).send({
+            activity:
+                err.message || "Some error occurred while finding your activity.",
+        });
+    });
 };

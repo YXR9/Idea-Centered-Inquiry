@@ -34,29 +34,6 @@ module.exports = (sequelize, DataTypes) => {
       //   type: DataTypes.BIGINT
       // },
     }, {timestamps: true}, );
-    
-    // User.associate = (models) => {
-    //   console.log("User.associate✨")
-    //   User.belongsTo(models.Activity, {
-    //     through: models.ActivityUser,
-    //     foreignKey: 'userId'
-    //   });
-    // }
-
-    // User.associate = (models) => {
-    //   User.hasMany(models.Activity, {
-    //     foreignKey: 'userId',
-    //     as: 'activities',
-    //     onDelete: 'CASCADE',
-    //   });
-    //   User.hasMany(models.Node, {
-    //     foreignKey: 'userId',
-    //     as: 'nodes',
-    //     onDelete: 'CASCADE',
-    //   });
-    // };
-
-    User.hasMany(Activity, { as: "activities" });
 
     return User;
 };
