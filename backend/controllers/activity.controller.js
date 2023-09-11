@@ -3,9 +3,9 @@ const { customAlphabet } = require('nanoid');
 
 // Assigning activities to the variable Activity
 const Activity = db.Activity;
-const User = db.User;
 const Group = db.Group;
 const ActivityGroup = db.ActivityGroup;
+const UserActivityGroup = db.UserActivityGroup;
 const Op = db.Sequelize.Op;
 
 // Create and Save new Activity.
@@ -77,13 +77,12 @@ exports.findMyActivity = (req, res) => {
                 userId: req.body.userId
             },
             include: [
-                    {
-                        model: Group,
-                        attributes: ["id", "joinCode", "activityId"],
-                        through: { attributes: [] }
-                    }
-                ] 
-            
+                {
+                    model: Group,
+                    attributes: ["id", "joinCode", "activityId"],
+                    through: { attributes: [] }
+                }
+            ]
         })
         .then((data) => {
             console.log('data: ', data)
@@ -92,8 +91,8 @@ exports.findMyActivity = (req, res) => {
             res.status(400).send({
             activity:
                 err.message || "Some error occurred while finding your activity.",
+            });
         });
-    });
 };
 
 // Find a single activity with an id.
@@ -126,72 +125,31 @@ exports.findOneActivity = (req, res) => {
         });
 };
 
-// 列出某活動的所有參加者
-exports.getUsersByActivityId = async (req, res) => {
-    const { activityId } = req.params;
-    console.log("activityId: ", activityId);
-    const activity = await Activity.findByPk(activityId, {
-        include: User
-    });
-    console.log("activity: ", activity.toJSON());
-    if (!activity) {
-        console.log('Activity not found.');
-        return;
-    }
-
-    console.log('Activity:', activity.activityTitle);
-    res.status(200).send(
-        activity.toJSON()
-    );
-    
-    // console.log('Users:', activity.User.map(user => user));
-
-    // Activity.findOne({
-    //     where: {
-    //         id: activityId
-    //     },
-    //     include: {
-    //         model: User,
-    //         attributes: ['username']
-    //     }
-    // }).then(activity => {
-    //     if (!activity) {
-    //         return res.status(404).send({ message: "Activity not found." });
-    //     }
-
-    //     var members = activity.Users.map(user => user.username);
-
-    //     res.status(200).send({
-    //         id: activity.id,
-    //         owner: activity.owner,
-    //         activityTitle: activity.activityTitle,
-    //         activityKey: activity.activityKey,
-    //         members: members
-    //     });
-    // }).catch(err => {
-    //     res.status(500).send({ message: err.message });
-    // })
-
-    // try {
-    //     // Find the activity based on activityId
-    //     const activity = await ActivityUser.findOne({
-    //       where: { activityId },
-    //       include: {
-    //         model: User,
-    //         attributes: ['id', 'username', 'createdAt', 'updatedAt'],
-    //         through: { attributes: ['createdAt', 'updatedAt', 'activityId', 'userId'] }
-    //       }
-    //     });
-    
-    //     if (!activity) {
-    //       return { success: false, message: 'Activity not found' };
-    //     }
-    
-    //     return { success: true, activity };
-    //   } catch (error) {
-    //     console.error('Error fetching activity:', error);
-    //     return { success: false, message: 'Error fetching activity' };
-    //   }
+// Get User joined's Activities by id.
+exports.getJoinedActivitiesByUserId = (req, res) => {
+    UserActivityGroup
+        .findAll({
+            where: {
+                UserId: req.body.userId
+            },
+            include: [
+                {
+                    model: ActivityGroup,
+                    include: [{
+                        model: Activity,
+                    }]
+                }
+            ]
+        })
+        .then((data) => {
+            console.log('data: ', data)
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(400).send({
+            activity:
+                err.message || "Some error occurred while finding your joined activity.",
+            });
+        });
 };
 
 // Delete all activities from the database.

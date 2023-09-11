@@ -7,18 +7,20 @@ module.exports = app => {
     // Create an activity.
     router.post('/create', bodyParser.json(), activities.create);
 
+    // Create group.
     router.post('/createGroup', activities.createGroupsForActivity);
     
     // Get user's all activity.
     router.get('/myActivity', activities.findMyActivity);
 
+    // Find all user in activity.
+    router.get('/myJoinedActivity', activities.getJoinedActivitiesByUserId);
+
+    // Ger user's one activity.
     router.get('/:id', activities.findOneActivity);
     
     // Delete all activities.
-    router.delete("/", activities.deleteAll);
-
-    // Find all user in activity.
-    router.get('/activity/:activityId', activities.getUsersByActivityId);
+    router.delete('/', activities.deleteAll);
 
     app.use('/api/activities', router);
 }
