@@ -32,6 +32,7 @@ db.Group = require("./group.model.js")(sequelize, DataTypes);
 db.ActivityGroup = require("./activityGroup.model.js")(sequelize, DataTypes);
 db.UserActivityGroup = require("./userActivityGroup.model.js")(sequelize, DataTypes);
 db.Part = require("./part.model.js")(sequelize, DataTypes);
+db.ActivityPart = require("./activityPart.model.js")(sequelize, DataTypes);
 db.SubPart = require("./subPart.model.js")(sequelize, DataTypes);
 db.Node = require("./node.model.js")(sequelize, DataTypes);
 
@@ -47,5 +48,11 @@ db.UserActivityGroup.belongsTo(db.User);
 db.UserActivityGroup.belongsTo(db.ActivityGroup);
 db.User.hasMany(db.UserActivityGroup);
 db.ActivityGroup.hasMany(db.UserActivityGroup);
+db.Part.belongsToMany(db.Activity, { through: db.ActivityPart });
+db.Activity.belongsToMany(db.Part, { through: db.ActivityPart});
+db.ActivityPart.belongsTo(db.Activity);
+db.ActivityPart.belongsTo(db.Part);
+db.Activity.hasMany(db.ActivityPart);
+db.Part.hasMany(db.ActivityPart);
 
 module.exports = db;
