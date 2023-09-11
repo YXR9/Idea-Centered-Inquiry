@@ -101,13 +101,12 @@ exports.findOneActivity = (req, res) => {
     const id = req.params.id;
 
     Activity.findByPk(id, {
-            model: ActivityGroup,
             include: [
                 {
-                    model: User,
+                    model: Group,
+                    attributes: ["joinCode", "userId"],
                     through: { attributes: [] }
                 },
-                Group
             ] 
         })
         .then(data => {
