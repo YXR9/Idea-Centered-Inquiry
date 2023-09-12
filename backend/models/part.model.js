@@ -4,16 +4,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      activityId: DataTypes.INTEGER,
     });
-
-    Part.associate = (models) => {
-      Part.belongsTo(models.Activity, {
-        foreignKey: 'activityId'
-      });
-      Part.hasMany(models.SubPart, {
-        foreignKey: 'partId'
-      });
-    };
     
     return Part;
 };

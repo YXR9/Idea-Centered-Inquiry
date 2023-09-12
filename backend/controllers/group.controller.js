@@ -1,11 +1,14 @@
-const { User } = require('../models');
 const db = require('../models');
 
 // Assigning groups to the variable Group
+const User = db.User;
 const Group = db.Group;
+const Activity = db.Activity;
 const UserActivityGroup = db.UserActivityGroup;
+const ActivityGroup = db.ActivityGroup;
 const Op = db.Sequelize.Op;
 
+// Join group by join code.
 exports.joinGroup = async (req, res) => {
     const userId = req.body.userId;
     const joinCode = req.params.joinCode;
@@ -46,18 +49,24 @@ exports.joinGroup = async (req, res) => {
     }
 };
 
+// Find one activity's all memebers.
 exports.findMyMember = (req, res) => {
-    Group
+    Activity
         .findAll({
             where: {
-                activityId: req.body.activityId
+                id: req.params.id
             },
-            include: [
-                {
-                    model: User,
-                    through: { attributes: [] }
-                }
-            ]  
+            include: [{
+                model: Group,
+                include: [{
+                    model: ActivityGroup,
+                    include: [{
+                        model: User,
+                        through: { attributes: [] }
+                    }],
+                    Group
+                }]
+            }]  
         })
         .then((data) => {
             console.log('data: ', data)

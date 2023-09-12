@@ -34,7 +34,9 @@ db.UserActivityGroup = require("./userActivityGroup.model.js")(sequelize, DataTy
 db.Part = require("./part.model.js")(sequelize, DataTypes);
 db.ActivityPart = require("./activityPart.model.js")(sequelize, DataTypes);
 db.SubPart = require("./subPart.model.js")(sequelize, DataTypes);
+db.ActivityPartSubPart = require("./activityPartSubPart.model.js")(sequelize, DataTypes);
 db.Node = require("./node.model.js")(sequelize, DataTypes);
+db.SubPartNode = require("./subPartNode.model")(sequelize, DataTypes);
 
 db.Group.belongsToMany(db.Activity, { through: db.ActivityGroup });
 db.Activity.belongsToMany(db.Group, { through: db.ActivityGroup });
@@ -42,17 +44,33 @@ db.ActivityGroup.belongsTo(db.Activity);
 db.ActivityGroup.belongsTo(db.Group);
 db.Activity.hasMany(db.ActivityGroup);
 db.Group.hasMany(db.ActivityGroup);
+
 db.User.belongsToMany(db.ActivityGroup, { through: db.UserActivityGroup });
 db.ActivityGroup.belongsToMany(db.User, { through: db.UserActivityGroup });
 db.UserActivityGroup.belongsTo(db.User);
 db.UserActivityGroup.belongsTo(db.ActivityGroup);
 db.User.hasMany(db.UserActivityGroup);
 db.ActivityGroup.hasMany(db.UserActivityGroup);
+
 db.Part.belongsToMany(db.Activity, { through: db.ActivityPart });
 db.Activity.belongsToMany(db.Part, { through: db.ActivityPart});
 db.ActivityPart.belongsTo(db.Activity);
 db.ActivityPart.belongsTo(db.Part);
 db.Activity.hasMany(db.ActivityPart);
 db.Part.hasMany(db.ActivityPart);
+
+db.SubPart.belongsToMany(db.ActivityPart, { through: db.ActivityPartSubPart });
+db.ActivityPart.belongsToMany(db.SubPart, { through: db.ActivityPartSubPart });
+db.ActivityPartSubPart.belongsTo(db.SubPart);
+db.ActivityPartSubPart.belongsTo(db.ActivityPart);
+db.SubPart.hasMany(db.ActivityPartSubPart);
+db.ActivityPart.hasMany(db.ActivityPartSubPart);
+
+db.Node.belongsToMany(db.SubPart, { through: db.SubPartNode });
+db.SubPart.belongsToMany(db.Node, { through: db.SubPartNode });
+db.SubPartNode.belongsTo(db.SubPart);
+db.SubPartNode.belongsTo(db.Node);
+db.SubPart.hasMany(db.SubPartNode);
+db.Node.hasMany(db.SubPartNode);
 
 module.exports = db;

@@ -5,17 +5,18 @@ module.exports = (sequelize, DataTypes) => {
       complete: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
-      }
+      },
+      partId: DataTypes.INTEGER,
     });
   
-    SubPart.associate = (models) => {
-      SubPart.belongsTo(models.Part, {
-        foreignKey: 'partId'
-      });
-      SubPart.hasMany(models.Node, {
-        foreignKey: 'subPartId'
-      });
-    };
+    // SubPart.associate = (models) => {
+    //   SubPart.belongsTo(models.Part, {
+    //     foreignKey: 'partId'
+    //   });
+    //   SubPart.hasMany(models.Node, {
+    //     foreignKey: 'subPartId'
+    //   });
+    // };
   
     return SubPart;
   };

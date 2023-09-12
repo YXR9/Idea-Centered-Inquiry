@@ -72,6 +72,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 require("./routes/user.routes")(app);
 require("./routes/activity.routes")(app);
 require("./routes/group.routes")(app);
+require("./routes/part.routes")(app);
+require("./routes/subPart.routes")(app);
+require("./routes/node.routes")(app);
 
 // simple route
 app.get("/", (req, res) => {

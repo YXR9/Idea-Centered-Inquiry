@@ -8,7 +8,7 @@ module.exports = app => {
     router.put("/:joinCode/join", bodyParser.json(), groups.joinGroup);
 
     // Get all member in activity.
-    router.get("/:activityId/members", groups.findMyMember);
+    router.get("/:id/members", groups.findMyMember);
 
     app.use('/api/groups', router);
 }
