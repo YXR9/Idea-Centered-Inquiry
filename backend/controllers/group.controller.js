@@ -76,10 +76,10 @@ exports.findMyMember = (req, res) => {
             res.status(200).send(data);
         }).catch((err) => {
             res.status(400).send({
-            activity:
-                err.message || "Some error occurred while finding your activity.",
+                activity:
+                    err.message || "Some error occurred while finding your activity.",
+            });
         });
-    });
 };
 
 // Update a Group with the specified id in the request
