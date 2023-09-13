@@ -8,14 +8,5 @@ module.exports = (sequelize, DataTypes) => {
       y: DataTypes.FLOAT
     });
   
-    // Node.associate = (models) => {
-    //   Node.belongsTo(models.SubPart, {
-    //     foreignKey: 'subPartId'
-    //   });
-    //   Node.belongsTo(models.User, {
-    //     foreignKey: 'userId'
-    //   });
-    // };
-  
     return Node;
-  };  
+};  

@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      activityId: DataTypes.INTEGER,
+      activityId: DataTypes.INTEGER
     });
     
     return Part;

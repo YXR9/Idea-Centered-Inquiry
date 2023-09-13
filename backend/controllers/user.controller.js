@@ -11,7 +11,7 @@ const Op = db.Sequelize.Op;
 // hashing users password before its saved to the database with bcrypt
 exports.signup = async (req, res) => {
   try {
-    const { name, email, password, passwordConf, school, city } = req.body;
+    const { name, email, password, passwordConf, school, city, profile } = req.body;
     
     // Check if password and passwordConf match
     if (password !== passwordConf) {
@@ -23,7 +23,8 @@ exports.signup = async (req, res) => {
       email,
       password: await bcrypt.hash(password, 10),
       school,
-      city
+      city,
+      profile
     };
 
     //saving the user

@@ -1,5 +1,4 @@
 module.exports = (sequelize, DataTypes) => {
-    const Activity = require("./activity.model.js")(sequelize, DataTypes);
     const User = sequelize.define("User", {
       id: {
         allowNull: false,
@@ -29,10 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      // activityId: {
-      //   allowNull: true,   
-      //   type: DataTypes.BIGINT
-      // },
+      profile: DataTypes.ARRAY(DataTypes.STRING),
     }, {timestamps: true}, );
 
     return User;

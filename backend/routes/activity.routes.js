@@ -7,8 +7,11 @@ module.exports = app => {
     // Create an activity.
     router.post('/create', bodyParser.json(), activities.create);
 
-    // Create group.
-    router.post('/createGroup', activities.createGroupsForActivity);
+    // Create one group.
+    router.post('/createOneGroup', activities.createOneGroupForActivity);
+
+    // Create many groups.
+    router.post('/createGroups', activities.createGroupsForActivity);
     
     // Get user's all activity.
     router.get('/myActivity', activities.findMyActivity);

@@ -32,9 +32,41 @@ exports.create = async (req, res) => {
         });
 }
 
+// Create and Save one Group
+exports.createOneGroupForActivity = async (req, res) => {
+    const { groupName, activityId } = req.body;
+
+    try {
+        const joinCode = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 5)();
+        const group = await Group.create({
+            groupName: groupName,
+            joinCode: joinCode,
+            activityId: activityId,
+            userId: new Array()
+        });
+
+        await ActivityGroup.create({
+            ActivityId: activityId,
+            GroupId: group.id
+        })
+
+        console.log('Created group:', group);
+        res.status(200).send({
+            message: 'Group created successfully',
+            group: group
+        });
+    } catch (err) {
+        console.log('Error while creating group:', err);
+        res.status(500).send({
+            message: 'Error while creating group',
+            error: err.message
+        });
+    }
+}
+
 // Create and Save new Groups
 exports.createGroupsForActivity = async (req, res) => {
-    const { activityId, numGroups } = req.body;
+    const { groupName, activityId, numGroups } = req.body;
 
     try {
         const createdGroups = [];
@@ -42,6 +74,7 @@ exports.createGroupsForActivity = async (req, res) => {
         for (let i = 0; i < numGroups; i++) {
             const joinCode = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 5)();
             const group = await Group.create({
+                groupName: groupName,
                 joinCode: joinCode,
                 activityId: activityId,
                 userId: new Array()
@@ -79,7 +112,7 @@ exports.findMyActivity = (req, res) => {
             include: [
                 {
                     model: Group,
-                    attributes: ["id", "joinCode", "activityId"],
+                    attributes: ["id", "groupName", "joinCode", "activityId"],
                     through: { attributes: [] }
                 }
             ]

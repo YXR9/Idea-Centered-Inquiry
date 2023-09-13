@@ -1,9 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
-  const Group = require("./group.model.js")(sequelize, DataTypes);
   const Activity = sequelize.define("Activity", {
     title: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: true
     },
     startDate: {
       type: DataTypes.DATE,

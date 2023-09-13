@@ -7,13 +7,14 @@ const Op = db.Sequelize.Op;
 
 // Create and Save new Part.
 exports.create = async (req, res) => {
-    const { title, content, complete, partId } = req.body;
+    const { title, content, typeTags, partId } = req.body;
 
     try {
         const subPart = await SubPart.create({
             title: title,
             content: content,
-            complete: complete,
+            typeTags: typeTags,
+            complete: false,
             partId: partId
         });
         await ActivityPartSubPart.create({
