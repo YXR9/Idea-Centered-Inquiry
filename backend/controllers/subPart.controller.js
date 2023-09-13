@@ -34,3 +34,75 @@ exports.create = async (req, res) => {
         });
     }
 };
+
+// Clone one subPart by id.
+exports.cloneSubPart = (req, res) => {
+    const subPartId = req.params.subPartId;
+    SubPart.findOne({
+        where: { id: subPartId },
+        raw: true
+    })
+    .then(data => {
+        delete data.id;
+        SubPart.create(data);
+        console.log('data: ', data)
+        res.status(200).send(data);
+    }).catch((err) => {
+        res.status(400).send({
+            subPart:
+                err.message || "Some error occurred while finding your subPart.",
+        });
+    });
+}
+
+// Update a SubPart with the specified id in the request.
+exports.updateSubPart = (req, res) => {
+    const subPartId = req.params.subPartId;
+
+    SubPart.update(req.body, {
+        where: { id: subPartId }
+    })
+    .then(num => {
+        if (num == 1) {
+            res.status(200).send({
+                message: "SubPart was updated successfully."
+            });
+        } else {
+            res.send({
+                message: `Cannot update SubPart with id=${subPartId}. Maybe SubPart was not found or req.body is empty!`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: 
+                err || "Error updating SubPart with id=" + subPartId
+        });
+    });
+}
+
+// Delete a SubPart with the specified id in the request.
+exports.delete = (req, res) => {
+    const subPartId = req.params.subPartId;
+
+    SubPart.destroy({
+      where: { id: subPartId }
+    })
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "SubPart was deleted successfully!"
+          });
+        } else {
+          res.send({
+            message: `Cannot delete SubPart with id=${subPartId}. Maybe SubPart was not found!`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+            message: 
+                err || "Could not delete SubPart with id=" + subPartId
+        });
+      });
+};
