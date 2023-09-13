@@ -122,14 +122,14 @@ exports.delete = (req, res) => {
           });
         } else {
           res.send({
-            message: `Cannot delete group with id=${groupId}. Maybe user was not found!`
+            message: `Cannot delete group with id=${groupId}. Maybe group was not found!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
             message: 
-                err || "Could not delete user with id=" + groupId
+                err || "Could not delete group with id=" + groupId
         });
       });
 };
