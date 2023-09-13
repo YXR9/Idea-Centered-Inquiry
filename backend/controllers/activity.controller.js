@@ -152,6 +152,78 @@ exports.getJoinedActivitiesByUserId = (req, res) => {
         });
 };
 
+// Clone one activity by id.
+exports.cloneActivity = (req, res) => {
+    const activityId = req.params.activityId;
+    Activity.findOne({
+        where: { id: activityId },
+        raw: true
+    })
+    .then(data => {
+        delete data.id;
+        Activity.create(data);
+        console.log('data: ', data)
+        res.status(200).send(data);
+    }).catch((err) => {
+        res.status(400).send({
+            activity:
+                err.message || "Some error occurred while finding your activity.",
+        });
+    });
+}
+
+// Update a Activity with the specified id in the request.
+exports.updateActivity = (req, res) => {
+    const activityId = req.params.activityId;
+
+    Activity.update(req.body, {
+        where: { id: activityId }
+    })
+    .then(num => {
+        if (num == 1) {
+            res.status(200).send({
+                message: "Activity was updated successfully."
+            });
+        } else {
+            res.send({
+                message: `Cannot update Activity with id=${activityId}. Maybe Activity was not found or req.body is empty!`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: 
+                err || "Error updating activity with id=" + activityId
+        });
+    });
+}
+
+// Delete a Activity with the specified id in the request.
+exports.delete = (req, res) => {
+    const activityId = req.params.activityId;
+
+    Activity.destroy({
+      where: { id: activityId }
+    })
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "Activity was deleted successfully!"
+          });
+        } else {
+          res.send({
+            message: `Cannot delete activity with id=${activityId}. Maybe activity was not found!`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+            message: 
+                err || "Could not delete group with id=" + activityId
+        });
+      });
+};
+
 // Delete all activities from the database.
 exports.deleteAll = (req, res) => {
     Activity.destroy({
