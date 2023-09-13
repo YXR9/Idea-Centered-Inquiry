@@ -82,6 +82,7 @@ exports.findMyMember = (req, res) => {
     });
 };
 
+// Update a Group with the specified id in the request
 exports.updateGroup = (req, res) => {
     const groupId = req.params.groupId;
 
