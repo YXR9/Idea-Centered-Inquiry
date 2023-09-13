@@ -71,3 +71,75 @@ exports.findAllPart = (req, res) => {
             });
         });
 };
+
+// Update a Part with the specified id in the request.
+exports.updatePart = (req, res) => {
+    const partId = req.params.partId;
+
+    Part.update(req.body, {
+        where: { id: partId }
+    })
+    .then(num => {
+        if (num == 1) {
+            res.status(200).send({
+                message: "Part was updated successfully."
+            });
+        } else {
+            res.send({
+                message: `Cannot update Part with id=${partId}. Maybe Part was not found or req.body is empty!`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: 
+                err || "Error updating part with id=" + partId
+        });
+    });
+};
+
+// Clone one part by id.
+exports.clonePart = (req, res) => {
+    const partId = req.params.partId;
+    Part.findOne({
+        where: { id: partId },
+        raw: true
+    })
+    .then(data => {
+        delete data.id;
+        Part.create(data);
+        console.log('data: ', data)
+        res.status(200).send(data);
+    }).catch((err) => {
+        res.status(400).send({
+            part:
+                err.message || "Some error occurred while finding your part.",
+        });
+    });
+};
+
+// Delete a Part with the specified id in the request.
+exports.delete = (req, res) => {
+    const partId = req.params.partId;
+
+    Part.destroy({
+      where: { id: partId }
+    })
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "Part was deleted successfully!"
+          });
+        } else {
+          res.send({
+            message: `Cannot delete part with id=${partId}. Maybe part was not found!`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+            message: 
+                err || "Could not delete part with id=" + partId
+        });
+      });
+};
