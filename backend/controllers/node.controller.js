@@ -111,7 +111,7 @@ exports.updateNode = (req, res) => {
     .catch(err => {
         res.status(500).send({
             message: 
-                err || "Error updating Node with id=" + id
+                err || "Error updating Node with id=" + nodeId
         });
     });
 }

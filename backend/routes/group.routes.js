@@ -10,5 +10,11 @@ module.exports = app => {
     // Get all member in activity.
     router.get("/:id/members", groups.findMyMember);
 
+    // Update a Group with id.
+    router.put("/:groupId", groups.updateGroup);
+
+    // Delete a Group with id
+    router.delete("/:groupId", groups.delete);
+
     app.use('/api/groups', router);
 }

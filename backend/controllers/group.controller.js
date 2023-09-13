@@ -39,7 +39,10 @@ exports.joinGroup = async (req, res) => {
 
         // 也可以選擇更新相關的 Activity 模型，以標記使用者已加入活動
 
-        res.send({ message: 'User joined the activity successfully.' });
+        res.status(200).send({
+            message: 'User joined the activity successfully.',
+            group: group
+        });
     } catch (err) {
         console.error('Error while joining activity:', err);
         res.status(500).send({
@@ -77,4 +80,55 @@ exports.findMyMember = (req, res) => {
                 err.message || "Some error occurred while finding your activity.",
         });
     });
+};
+
+exports.updateGroup = (req, res) => {
+    const groupId = req.params.groupId;
+
+    Group.update(req.body, {
+        where: { id: groupId }
+    })
+    .then(num => {
+        if (num == 1) {
+            res.status(200).send({
+                message: "Group was updated successfully."
+            });
+        } else {
+            res.send({
+                message: `Cannot update Group with id=${groupId}. Maybe Group was not found or req.body is empty!`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: 
+                err || "Error updating group with id=" + groupId
+        });
+    });
+}
+
+// Delete a Group with the specified id in the request
+exports.delete = (req, res) => {
+    const groupId = req.params.groupId;
+
+    Group.destroy({
+      where: { id: groupId }
+    })
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "Group was deleted successfully!"
+          });
+        } else {
+          res.send({
+            message: `Cannot delete group with id=${groupId}. Maybe user was not found!`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+            message: 
+                err || "Could not delete user with id=" + groupId
+        });
+      });
 };
