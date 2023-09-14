@@ -4,14 +4,14 @@ const jwt = require("jsonwebtoken");
 
 // Assigning users to the variable User
 const User = db.User;
-const Activity = db.Activity;
+const Profile = db.Profile;
 const Op = db.Sequelize.Op;
 
 // signing a user up
 // hashing users password before its saved to the database with bcrypt
 exports.signup = async (req, res) => {
   try {
-    const { name, email, password, passwordConf, school, city, profile } = req.body;
+    const { name, email, password, passwordConf, school, city } = req.body;
     
     // Check if password and passwordConf match
     if (password !== passwordConf) {
@@ -23,8 +23,7 @@ exports.signup = async (req, res) => {
       email,
       password: await bcrypt.hash(password, 10),
       school,
-      city,
-      profile
+      city
     };
 
     //saving the user
