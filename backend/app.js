@@ -11,6 +11,8 @@ const usePassport = require('./config/passport');
 const db = require("./models");
 require('dotenv').config();
 
+global.__basedir = __dirname + "/..";
+
 // assigning the variable app to express
 const app = express();
 

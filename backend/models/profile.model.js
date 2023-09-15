@@ -2,26 +2,26 @@ module.exports = (sequelize, DataTypes) => {
     const Profile = sequelize.define("Profile", {
         userId: {
             type: DataTypes.BIGINT,
-            allowNull: false
+            allowNull: true
         },
         className: {    // 班級
-          type: DataTypes.VARCHAR(10),
+          type: DataTypes.STRING,
           allowNull: false
         },
         studentId: {    // 學號
-            type: DataTypes.CHAR(10),
+            type: DataTypes.STRING,
             allowNull: false
         },
         name: {    // 姓名
-            type: DataTypes.CHAR(10),
+            type: DataTypes.STRING,
             allowNull: false
         },
         year: {   // 入學年度
-          type: DataTypes.VARCHAR(10),
+          type: DataTypes.STRING,
           allowNull: false
         },
         sex: {  // 性別
-          type: DataTypes.VARCHAR(5),
+          type: DataTypes.STRING,
           allowNull: false
         }
     }, {timestamps: true}, );
