@@ -9,6 +9,8 @@ services:
       DB_USERPSW: ytwu35415 #<USERPSW>
       DB_HOST: db
     restart: always
+    volumes:
+      - "./uploads:/app/uploads/"
     ports:
         - "8000:8000"
     depends_on:

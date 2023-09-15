@@ -52,13 +52,17 @@ exports.signup = async (req, res) => {
 };
 
 exports.batchRegistration = async (req, res) => {
+  console.log("😍");
+  console.log(req.file);
+  console.log("😍");
   try {
+    console.log("😍");
     if (req.file == undefined) {
       return res.status(400).send("Please upload an excel file!");
     }
 
     let path =
-      __basedir + "/resources/static/assets/uploads/" + req.file.filename;
+      __basedir + "/uploads/" + req.file.filename;
 
     readXlsxFile(path).then(function (rows) {
       // skip header
@@ -69,6 +73,7 @@ exports.batchRegistration = async (req, res) => {
       
 
       rows.forEach((row) => {
+        console.log(row);
         let user = {
           name: row[0],
           email: row[1],
@@ -77,45 +82,45 @@ exports.batchRegistration = async (req, res) => {
           city: row[4],
         };
 
-        let profile = {
-          className: row[5],
-          studentId: row[6],
-          year: row[7],
-          sex: row[8]
-        }
-
         users.push(user);
-        profiles.push(profile);
+        console.log("HI");
       });
 
+      
+      console.log("Hello");
       User.bulkCreate(users)
-        .then(() => {
-          res.status(200).send({
-            message: "Uploaded the file successfully: " + req.file.originalname,
-          });
-        })
-        .catch((error) => {
-          res.status(500).send({
-            message: "Fail to import data into database!",
-            error: error.message,
-          });
-        });
+        .then((data) => {
+          console.log("data: ", data, data.length);
+          for(let i=0; i<data.length; i++){
+            let profile = {
+              userId: data[i].dataValues.id,
+              className: rows[i][5],
+              studentId: rows[i][6],
+              year: rows[i][7],
+              sex: rows[i][8]
+            }
+            console.log("profile: ", profile);
+            profiles.push(profile);
+            console.log("profiles: ", profiles, profiles.length);
+          };
+          console.log("pro: ", profiles);
 
-        Profile.bulkCreate(profiles)
+          Profile.bulkCreate(profiles)
           .then(() => {
             res.status(200).send({
               message: "Uploaded the file successfully: " + req.file.originalname,
             });
           })
-          .catch((error) => {
-            res.status(500).send({
-              message: "Fail to import data into database!",
-              error: error.message,
-            });
+        })
+        .catch((error) => {
+          res.status(500).send({
+            message: "Fail to import data into database!",
+            error: error,
           });
+        });
     });
   } catch (error) {
-    console.log(error);
+    console.log("❤️", error);
     res.status(500).send({
       message: "Could not upload the file: " + req.file.originalname,
     });

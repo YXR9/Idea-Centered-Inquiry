@@ -12,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        name: {    // 姓名
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         year: {   // 入學年度
           type: DataTypes.STRING,
           allowNull: false
