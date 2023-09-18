@@ -52,11 +52,8 @@ exports.signup = async (req, res) => {
 };
 
 exports.batchRegistration = async (req, res) => {
-  console.log("😍");
   console.log(req.file);
-  console.log("😍");
   try {
-    console.log("😍");
     if (req.file == undefined) {
       return res.status(400).send("Please upload an excel file!");
     }
@@ -83,11 +80,8 @@ exports.batchRegistration = async (req, res) => {
         };
         console.log(await bcrypt.hash(row[2], 10))
         users.push(user);
-        console.log("HI");
       });
 
-      
-      console.log("Hello");
       User.bulkCreate(users)
         .then((data) => {
             for(let i=0; i<data.length; i++){
@@ -118,8 +112,7 @@ exports.batchRegistration = async (req, res) => {
           });
         });
     });
-  } catch (error) {
-    console.log("❤️", error);
+  } catch (error) { 
     res.status(500).send({
       message: "Could not upload the file: " + req.file.originalname,
     });
