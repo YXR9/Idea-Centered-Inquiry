@@ -72,16 +72,16 @@ exports.batchRegistration = async (req, res) => {
       let profiles = [];
       
 
-      rows.forEach((row) => {
+      rows.forEach(async (row) => {
         console.log(row);
         let user = {
           name: row[0],
           email: row[1],
-          password: row[2],
+          password: await bcrypt.hash(row[2], 10),
           school: row[3],
           city: row[4],
         };
-
+        console.log(await bcrypt.hash(row[2], 10))
         users.push(user);
         console.log("HI");
       });
@@ -90,27 +90,26 @@ exports.batchRegistration = async (req, res) => {
       console.log("Hello");
       User.bulkCreate(users)
         .then((data) => {
-          console.log("data: ", data, data.length);
-          for(let i=0; i<data.length; i++){
-            let profile = {
-              userId: data[i].dataValues.id,
-              className: rows[i][5],
-              studentId: rows[i][6],
-              year: rows[i][7],
-              sex: rows[i][8]
-            }
-            console.log("profile: ", profile);
-            profiles.push(profile);
-            console.log("profiles: ", profiles, profiles.length);
-          };
-          console.log("pro: ", profiles);
+            for(let i=0; i<data.length; i++){
+              let profile = {
+                userId: data[i].dataValues.id,
+                className: rows[i][5],
+                studentId: rows[i][6],
+                year: rows[i][7],
+                sex: rows[i][8]
+              }
+              console.log("profile: ", profile);
+              profiles.push(profile);
+              console.log("profiles: ", profiles, profiles.length);
+            };
+            console.log("pro: ", profiles);
 
-          Profile.bulkCreate(profiles)
-          .then(() => {
-            res.status(200).send({
-              message: "Uploaded the file successfully: " + req.file.originalname,
-            });
-          })
+            Profile.bulkCreate(profiles)
+            .then(() => {
+              res.status(200).send({
+                message: "Uploaded the file successfully: " + req.file.originalname,
+              });
+            })
         })
         .catch((error) => {
           res.status(500).send({
