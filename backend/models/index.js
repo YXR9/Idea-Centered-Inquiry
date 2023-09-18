@@ -42,6 +42,10 @@ db.SubPartNode = require("./subPartNode.model")(sequelize, DataTypes);
 
 db.User.belongsToMany(db.Profile, { through: db.UserProfile });
 db.Profile.belongsToMany(db.User, { through: db.UserProfile });
+db.UserProfile.belongsTo(db.User);
+db.UserProfile.belongsTo(db.Profile);
+db.User.hasMany(db.UserProfile);
+db.Profile.hasMany(db.Profile);
 
 db.Group.belongsToMany(db.Activity, { through: db.ActivityGroup });
 db.Activity.belongsToMany(db.Group, { through: db.ActivityGroup });
