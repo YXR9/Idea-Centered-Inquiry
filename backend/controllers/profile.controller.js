@@ -31,3 +31,34 @@ exports.findOne = (req, res) => {
         });
     });
 };
+
+// Find UserProfile with an classname
+exports.findUserByClassName = (req, res) => {
+    const className = req.body.className;
+    Profile.findAll({
+        where: {
+            className: className,
+        },
+        include: [{
+            model: UserProfile,
+            include: [{
+                model: User
+            }]
+        }]
+    })
+    .then(data => {
+        if (data.length > 0) { // 檢查數據是否為空
+            res.send(data);
+        } else {
+            res.status(404).send({
+                message: `No users found with className=${req.body.className}.`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Error retrieving users by className=" + req.body.className
+        });
+    });
+};
