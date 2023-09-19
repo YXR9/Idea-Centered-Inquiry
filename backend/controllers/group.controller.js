@@ -2,6 +2,8 @@ const db = require('../models');
 
 // Assigning groups to the variable Group
 const User = db.User;
+const UserProfile = db.UserProfile;
+const Profile = db.Profile;
 const Group = db.Group;
 const Activity = db.Activity;
 const UserActivityGroup = db.UserActivityGroup;
@@ -65,7 +67,12 @@ exports.findMyMember = (req, res) => {
                     model: ActivityGroup,
                     include: [{
                         model: User,
-                        through: { attributes: [] }
+                        include: [{
+                            model: UserProfile,
+                            include: [{
+                                model: Profile
+                            }]
+                        }]
                     }],
                     Group
                 }]

@@ -6,7 +6,6 @@ const Activity = db.Activity;
 const Group = db.Group;
 const ActivityGroup = db.ActivityGroup;
 const UserActivityGroup = db.UserActivityGroup;
-const Op = db.Sequelize.Op;
 
 // Create and Save new Activity.
 exports.create = async (req, res) => {
