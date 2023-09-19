@@ -7,7 +7,6 @@ const readXlsxFile = require("read-excel-file/node");
 const User = db.User;
 const Profile = db.Profile;
 const UserProfile = db.UserProfile;
-const Op = db.Sequelize.Op;
 
 // signing a user up
 // hashing users password before its saved to the database with bcrypt
@@ -53,7 +52,6 @@ exports.signup = async (req, res) => {
 };
 
 exports.batchRegistration = async (req, res) => {
-  console.log("😍");
   console.log(req.file);
   try {
     if (req.file == undefined) {
