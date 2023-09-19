@@ -6,6 +6,7 @@ const readXlsxFile = require("read-excel-file/node");
 // Assigning users to the variable User
 const User = db.User;
 const Profile = db.Profile;
+const UserProfile = db.UserProfile;
 const Op = db.Sequelize.Op;
 
 // signing a user up
@@ -52,72 +53,85 @@ exports.signup = async (req, res) => {
 };
 
 exports.batchRegistration = async (req, res) => {
+  console.log("😍");
   console.log(req.file);
   try {
     if (req.file == undefined) {
       return res.status(400).send("Please upload an excel file!");
     }
 
-    let path =
-      __basedir + "/uploads/" + req.file.filename;
+    let path = __basedir + "/uploads/" + req.file.filename;
 
-    readXlsxFile(path).then(function (rows) {
-      // skip header
-      rows.shift();
+    const rows = await readXlsxFile(path);
+    // skip header
+    rows.shift();
 
-      let users = [];
-      let profiles = [];
-      
+    let users = [];
+    let profiles = [];
 
-      rows.forEach(async (row) => {
-        console.log(row);
-        let user = {
-          name: row[0],
-          email: row[1],
-          password: await bcrypt.hash(row[2], 10),
-          school: row[3],
-          city: row[4],
-        };
-        console.log(await bcrypt.hash(row[2], 10))
-        users.push(user);
-      });
+    for (const row of rows) {
+      console.log(row);
+      const hashedPassword = await bcrypt.hash(row[2], 10);
+      let user = {
+        name: row[0],
+        email: row[1],
+        password: hashedPassword,
+        school: row[3],
+        city: row[4],
+      };
+      console.log(hashedPassword);
+      users.push(user);
+      console.log("Users: ", users);
+    }
 
-      User.bulkCreate(users)
-        .then((data) => {
-            for(let i=0; i<data.length; i++){
-              let profile = {
-                userId: data[i].dataValues.id,
-                className: rows[i][5],
-                studentId: rows[i][6],
-                year: rows[i][7],
-                sex: rows[i][8]
-              }
-              console.log("profile: ", profile);
-              profiles.push(profile);
-              console.log("profiles: ", profiles, profiles.length);
-            };
-            console.log("pro: ", profiles);
+    await User.bulkCreate(users)
+      .then(async (createdUsers) => {
+        console.log("data: ", createdUsers);
+        for (let i = 0; i < createdUsers.length; i++) {
+          let profile = {
+            userId: createdUsers[i].dataValues.id,
+            className: rows[i][5],
+            studentId: rows[i][6],
+            year: rows[i][7],
+            sex: rows[i][8],
+          };
+          console.log("profile: ", profile);
+          profiles.push(profile);
+          console.log("profiles: ", profiles, profiles.length);
+        }
+        console.log("pro: ", profiles);
 
-            Profile.bulkCreate(profiles)
-            .then(() => {
-              res.status(200).send({
-                message: "Uploaded the file successfully: " + req.file.originalname,
-              });
+        await Profile.bulkCreate(profiles)
+          .then(async (createdProfiles) => {
+            for (let i = 0; i < createdProfiles.length; i++) {
+              UserProfile.create({
+                UserId: createdUsers[i].dataValues.id,
+                ProfileId: createdProfiles[i].dataValues.id
+              })
+            }
+            res.status(200).send({
+              message: "Uploaded the file successfully: " + req.file.originalname,
             })
-        })
-        .catch((error) => {
-          res.status(500).send({
-            message: "Fail to import data into database!",
-            error: error,
-          });
+          }).catch((err) => {
+            res.status(400).send({
+                activity:
+                    err.message || "Some error occurred while creating user's profile.",
+            });
         });
-    });
-  } catch (error) { 
+      })
+      .catch((error) => {
+        res.status(500).send({
+          message: "Fail to import data into the database!",
+          error: error,
+        });
+      });
+  } catch (error) {
     res.status(500).send({
       message: "Could not upload the file: " + req.file.originalname,
     });
   }
-}
+};
+
 
 exports.login = async (req, res) => {
   try {
