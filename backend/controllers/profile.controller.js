@@ -7,6 +7,7 @@ const UserProfile = db.UserProfile;
 // Find UserProfile with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
+    console.log("😜")
 
     User.findByPk(id, {
         include: [{
@@ -34,16 +35,14 @@ exports.findOne = (req, res) => {
 
 // Find UserProfile with an classname
 exports.findUserByClassName = (req, res) => {
+    console.log("😍")
     const className = req.body.className;
     Profile.findAll({
         where: {
             className: className,
         },
         include: [{
-            model: UserProfile,
-            include: [{
-                model: User
-            }]
+            model: User
         }]
     })
     .then(data => {

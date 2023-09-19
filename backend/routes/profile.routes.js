@@ -7,7 +7,7 @@ module.exports = app => {
     router.get("/:id", profiles.findOne);
 
     // Get all user with classname.
-    router.get("/find", profiles.findUserByClassName);
+    router.get("/", profiles.findUserByClassName);
 
     app.use('/api/profiles', router);
 }
