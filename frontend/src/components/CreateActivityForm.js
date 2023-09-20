@@ -59,7 +59,7 @@ export const CreateActivityForm = () => {
       <div>
         <>  
             <div onClick={handleClickOpen}>
-                建立活動
+                備課區
             </div>
         </>
         <Dialog open={open} onClose={handleClose}>
