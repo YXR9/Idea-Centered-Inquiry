@@ -20,7 +20,7 @@ module.exports = app => {
     router.get('/:id', activities.findOneActivity);
 
     // Find all user in activity.
-    router.get('/myJoinedActivity', activities.getJoinedActivitiesByUserId);
+    router.get('/:userId/myJoined', activities.getJoinedActivitiesByUserId);
 
     // Clone one activity by id.
     router.get('/clone/:activityId', activities.cloneActivity);

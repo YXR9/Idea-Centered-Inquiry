@@ -162,7 +162,7 @@ exports.getJoinedActivitiesByUserId = (req, res) => {
     UserActivityGroup
         .findAll({
             where: {
-                UserId: req.body.userId
+                UserId: req.params.userId
             },
             include: [
                 {
