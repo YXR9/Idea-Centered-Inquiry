@@ -61,16 +61,22 @@ exports.findMyMember = (req, res) => {
             where: {
                 id: req.params.id
             },
+            attributes: ["title"],
             include: [{
                 model: Group,
+                attributes: ["groupName", "joinCode"],
                 include: [{
                     model: ActivityGroup,
+                    attributes: ["GroupId"],
                     include: [{
                         model: User,
+                        attributes: ["name"],
                         include: [{
                             model: UserProfile,
+                            attributes: ["UserId"],
                             include: [{
-                                model: Profile
+                                model: Profile,
+                                attributes: ["className", "studentId"],
                             }]
                         }]
                     }],
@@ -88,6 +94,34 @@ exports.findMyMember = (req, res) => {
             });
         });
 };
+
+// Find group member.
+exports.findMyGroupMember = (req, res) => {
+    Group
+        .findAll({
+            where: {
+                id: req.params.groupId
+            },
+            attributes: ["groupName"],
+            include: [{
+                model: ActivityGroup,
+                attributes: ["GroupId"],
+                include: [{
+                    model: User,
+                    attributes: ["name"]
+                }]
+            }]
+        })
+        .then((data) => {
+            console.log('data: ', data)
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(400).send({
+                activity:
+                    err.message || "Some error occurred while finding your group.",
+            });
+        });
+}
 
 // Update a Group with the specified id in the request
 exports.updateGroup = (req, res) => {

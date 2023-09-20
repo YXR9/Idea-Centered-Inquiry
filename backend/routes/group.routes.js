@@ -10,6 +10,9 @@ module.exports = app => {
     // Get all member in activity.
     router.get("/:id/members", groups.findMyMember);
 
+    // Get group member.
+    router.get("/:groupId/groupMember", groups.findMyGroupMember);
+
     // Update a Group with id.
     router.put("/:groupId", groups.updateGroup);
 

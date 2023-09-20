@@ -33,7 +33,7 @@ exports.create = async (req, res) => {
 
 // Create and Save one Group
 exports.createOneGroupForActivity = async (req, res) => {
-    const { groupName, activityId } = req.body;
+    const { groupName, activityId, userId } = req.body;
 
     try {
         const joinCode = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 5)();
@@ -41,7 +41,7 @@ exports.createOneGroupForActivity = async (req, res) => {
             groupName: groupName,
             joinCode: joinCode,
             activityId: activityId,
-            userId: new Array()
+            userId: userId
         });
 
         await ActivityGroup.create({
