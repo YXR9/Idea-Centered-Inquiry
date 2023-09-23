@@ -65,7 +65,6 @@ exports.batchRegistration = async (req, res) => {
     rows.shift();
 
     let users = [];
-    let profiles = [];
 
     for (const row of rows) {
       console.log(row);
@@ -82,6 +81,8 @@ exports.batchRegistration = async (req, res) => {
       console.log("Users: ", users);
     }
 
+    
+    let profiles = [];
     await User.bulkCreate(users)
       .then(async (createdUsers) => {
         console.log("data: ", createdUsers);
@@ -97,10 +98,11 @@ exports.batchRegistration = async (req, res) => {
           profiles.push(profile);
           console.log("profiles: ", profiles, profiles.length);
         }
-        console.log("pro: ", profiles);
+        console.log("✨pro: ", profiles);
 
         await Profile.bulkCreate(profiles)
           .then(async (createdProfiles) => {
+            console.log("😳😳😳: ", createdProfiles);
             for (let i = 0; i < createdProfiles.length; i++) {
               UserProfile.create({
                 UserId: createdUsers[i].dataValues.id,
@@ -112,8 +114,8 @@ exports.batchRegistration = async (req, res) => {
             })
           }).catch((err) => {
             res.status(400).send({
-                activity:
-                    err.message || "Some error occurred while creating user's profile.",
+                user:
+                    err || "Some error occurred while creating user's profile.",
             });
         });
       })
