@@ -1,21 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
-    const Group = sequelize.define('group', {
-      content: {
-        type: DataTypes.STRING,
-        allowNull: false,
+  const Group = sequelize.define('Group', {
+      groupName: DataTypes.STRING,
+      joinCode: {
+          type: DataTypes.STRING,
+          allowNull: false,
       },
-      complete: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-      }
-    });
+      activityId: DataTypes.INTEGER,
+      userId: DataTypes.ARRAY(DataTypes.INTEGER)
+  }, {});
 
-    Group.associate = (models) => {
-        Group.belongsTo(models.Activity, {
-        foreignKey: 'activityId',
-        onDelete: 'CASCADE',
-      });
-    };
-    
-    return Group;
+  return Group;
 };

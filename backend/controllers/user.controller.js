@@ -1,25 +1,32 @@
 const db = require('../models');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const readXlsxFile = require("read-excel-file/node");
 
 // Assigning users to the variable User
-const User = db.users;
-const Activity = db.activities;
-const Op = db.Sequelize.Op;
+const User = db.User;
+const Profile = db.Profile;
+const UserProfile = db.UserProfile;
 
 // signing a user up
 // hashing users password before its saved to the database with bcrypt
 exports.signup = async (req, res) => {
   try {
-    const { username, email, password, passwordConf, school, city } = req.body;
+    const { name, email, password, passwordConf, school, city } = req.body;
+    
+    // Check if password and passwordConf match
+    if (password !== passwordConf) {
+      return res.status(400).send("Password and password confirmation do not match.");
+    }
+    
     const data = {
-      username,
+      name,
       email,
       password: await bcrypt.hash(password, 10),
-      passwordConf: await bcrypt.hash(password, 10),
       school,
       city
     };
+
     //saving the user
     const user = await User.create(data);
  
@@ -43,6 +50,88 @@ exports.signup = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.batchRegistration = async (req, res) => {
+  console.log(req.file);
+  try {
+    if (req.file == undefined) {
+      return res.status(400).send("Please upload an excel file!");
+    }
+
+    let path = __basedir + "/uploads/" + req.file.filename;
+
+    const rows = await readXlsxFile(path);
+    // skip header
+    rows.shift();
+
+    let users = [];
+
+    for (const row of rows) {
+      console.log(row);
+      const hashedPassword = await bcrypt.hash(row[2], 10);
+      let user = {
+        name: row[0],
+        email: row[1],
+        password: hashedPassword,
+        school: row[3],
+        city: row[4],
+      };
+      console.log(hashedPassword);
+      users.push(user);
+      console.log("Users: ", users);
+    }
+
+    
+    let profiles = [];
+    await User.bulkCreate(users)
+      .then(async (createdUsers) => {
+        console.log("data: ", createdUsers);
+        for (let i = 0; i < createdUsers.length; i++) {
+          let profile = {
+            userId: createdUsers[i].dataValues.id,
+            className: rows[i][5],
+            studentId: rows[i][6],
+            year: rows[i][7],
+            sex: rows[i][8],
+          };
+          console.log("profile: ", profile);
+          profiles.push(profile);
+          console.log("profiles: ", profiles, profiles.length);
+        }
+        console.log("✨pro: ", profiles);
+
+        await Profile.bulkCreate(profiles)
+          .then(async (createdProfiles) => {
+            console.log("😳😳😳: ", createdProfiles);
+            for (let i = 0; i < createdProfiles.length; i++) {
+              UserProfile.create({
+                UserId: createdUsers[i].dataValues.id,
+                ProfileId: createdProfiles[i].dataValues.id
+              })
+            }
+            res.status(200).send({
+              message: "Uploaded the file successfully: " + req.file.originalname,
+            })
+          }).catch((err) => {
+            res.status(400).send({
+                user:
+                    err || "Some error occurred while creating user's profile.",
+            });
+        });
+      })
+      .catch((error) => {
+        res.status(500).send({
+          message: "Fail to import data into the database!",
+          error: error,
+        });
+      });
+  } catch (error) {
+    res.status(500).send({
+      message: "Could not upload the file: " + req.file.originalname,
+    });
+  }
+};
+
 
 exports.login = async (req, res) => {
   try {
@@ -180,14 +269,14 @@ exports.deleteAll = (req, res) => {
     User.destroy({
         where: {},
         truncate: false
-      })
-        .then(nums => {
-          res.send({ message: `${nums} users were deleted successfully!` });
-        })
-        .catch(err => {
-          res.status(500).send({
+    })
+    .then(nums => {
+        res.send({ message: `${nums} users were deleted successfully!` });
+    })
+    .catch(err => {
+        res.status(500).send({
             message:
-              err.message || "Some error occurred while removing all users."
-          });
+                err.message || "Some error occurred while removing all users."
         });
+    });
 };

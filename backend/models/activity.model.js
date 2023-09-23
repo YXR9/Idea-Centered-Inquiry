@@ -1,45 +1,23 @@
-module.exports = (sequelize, DataTypes, literal) => {
-    const Activity = sequelize.define("activity", {
-      owner: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      activityTitle: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      activityInfo: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      activityKey: {
-        type: DataTypes.STRING,
-        allowNull: false
-      }
-    }, {timestamps: true}, );
+module.exports = (sequelize, DataTypes) => {
+  const Activity = sequelize.define("Activity", {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    startDate: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    endDate: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    userId: DataTypes.BIGINT
+  }, { timestamps: true });
 
-    Activity.associate = (models) => {
-      Activity.belongsTo(models.User, {
-        foreignKey:'userId',
-        as: 'user'
-      });
-    };
-
-    Activity.associate = (models) => {
-      Activity.hasMany(models.Level, {
-        through: 'activityLevel',
-        as: 'levels',
-        foreignKey: 'activityId'
-      });
-    };
-
-    Activity.associate = (models) => {
-      Activity.hasMany(models.Group, {
-        through: 'activityGroup',
-        as: 'groups',
-        foreignKey: 'activityId'
-      });
-    };
-
-    return Activity;
+  return Activity;
 };

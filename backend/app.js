@@ -11,6 +11,8 @@ const usePassport = require('./config/passport');
 const db = require("./models");
 require('dotenv').config();
 
+global.__basedir = __dirname;
+
 // assigning the variable app to express
 const app = express();
 
@@ -24,7 +26,8 @@ db.sequelize
   .sync()
   .then(() => {
     console.log('Initialing...');
-    initial();  // 産生資料表後，呼叫 initial function 為 roles table 新增三筆初始資料
+    //initial();  // 産生資料表後，呼叫 initial function 為 roles table 新增三筆初始資料
+    console.log('Initialing... done');
   })
   .catch((err) => {
     console.log('Failed to sync db: ' + err.message);
@@ -69,7 +72,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 用 require()導入來自我們的路由目錄的模塊。這些模塊/文件包含用於處理特定的相關“路由”集合（URL 路徑）的代碼。當我們擴展骨架應用程序，我們將添加一個新文件，來處理與書籍相關的路由。
 // 掛載 middleware
 require("./routes/user.routes")(app);
+require("./routes/profile.routes")(app);
 require("./routes/activity.routes")(app);
+require("./routes/group.routes")(app);
+require("./routes/part.routes")(app);
+require("./routes/subPart.routes")(app);
+require("./routes/node.routes")(app);
 
 // simple route
 app.get("/", (req, res) => {

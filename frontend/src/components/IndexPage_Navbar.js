@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import user from '../assets/user.png';
 import edit from '../assets/edit.png';
+import { CreateActivityForm } from './CreateActivityForm';
+import { JoinActivityForm } from './JoinActivityForm';
 
 function stringToColor(string) {
     let hash = 0;
@@ -51,7 +53,7 @@ export default function IndexPage_Navbar() {
     const singOut = useSignOut();
     const navigate = useNavigate();
 
-    const username = localStorage.getItem('username');
+    const name = localStorage.getItem('name');
     const email = localStorage.getItem('email')
     
     let menuRef = useRef();
@@ -76,7 +78,8 @@ export default function IndexPage_Navbar() {
     const logout = () => {
       singOut();
       navigate("/");
-      localStorage.removeItem('username');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('name');
       localStorage.removeItem('email');
     };
 
@@ -85,18 +88,25 @@ export default function IndexPage_Navbar() {
             <div className='nav-logo-container'>
                 <img alt='' src={Logo} width={85} height={85} />
             </div>
-            <div className="menu-trigger" onClick={()=>{setOpen(!open)}}>
-                <Avatar {...stringAvatar(username)} />
+            <div className='nav-buttons'>
+                <button className='create-activity-button'>
+                  <CreateActivityForm/>
+                </button>
+                <button className='join-activity-button'>
+                  <JoinActivityForm/>
+                </button>
+                <div className="menu-trigger" onClick={() => { setOpen(!open) }}>
+                    <Avatar {...stringAvatar(name)} />
+                </div>
             </div>
             <div className={`dropdown-menu ${open? 'active' : 'inactive'}`} >
-                <h3>{username}<br/><span>{email}</span></h3>
+                <h3>{name}<br/><span>{email}</span></h3>
                 <ul>
                     <DropdownItem img = {user} text = {"My Profile"}/>
                     <DropdownItem img = {edit} text = {"Edit Profile"}/>
                 </ul>
                 <h3><button className='register-button' onClick={logout}>Logout</button></h3>
             </div>
-            {/* <button onClick={logout}>Logout</button> */}
       </nav>
     )
 }

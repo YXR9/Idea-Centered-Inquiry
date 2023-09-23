@@ -69,7 +69,8 @@ export const Login = () => {
                     authState: { email: response.data.email },
                 });
 
-                localStorage.setItem('username', response.data.username);
+                localStorage.setItem('userId', response.data.id);
+                localStorage.setItem('name', response.data.name);
                 localStorage.setItem('email', response.data.email);
 
                 console.log("res: ", response.data)

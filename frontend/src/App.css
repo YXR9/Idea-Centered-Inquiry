@@ -17,11 +17,7 @@
   body {
     max-width: 100%;
     overflow-x: hidden;
-  }
-  
-  body {
     background-color: #ECF2FF;
-    ;
   }
   
   nav {
@@ -40,6 +36,10 @@
     color: black;
     font-size: 1.1rem;
     font-weight: 600;
+  }
+  .nav-buttons {
+    display: flex;
+    align-items: center;
   }
   .modal-image {
     height: 100px;
@@ -81,6 +81,32 @@
     font-weight: 600;
     transition: 0.2s;
   }
+  .join-activity-button {
+    padding: 0.9rem 1.75rem;
+    background-color: #ECF2FF;
+    outline: none;
+    border: none;
+    border-style: solid;
+    border-color: #E3DFFD;
+    border-radius: 5rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+    margin-right: 4rem;
+  }
+  .create-activity-button {
+    padding: 0.9rem 1.75rem;
+    background-color: #E3DFFD;
+    outline: none;
+    border: none;
+    border-radius: 5rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+    margin-right: 10px;
+  }
   .navbar-cart-icon {
     font-size: 1.15rem;
   }
@@ -98,6 +124,7 @@
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
+    margin-left: 100px;
   }
   .activity-status{
     margin: 0px 0px 30px 120px;
