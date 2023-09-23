@@ -101,20 +101,24 @@ exports.findMyGroupMember = (req, res) => {
         .findAll({
             where: {
                 id: req.params.groupId
-            },
-            attributes: ["groupName"],
-            include: [{
-                model: ActivityGroup,
-                attributes: ["GroupId"],
-                include: [{
-                    model: User,
-                    attributes: ["name"]
-                }]
-            }]
+            }
         })
         .then((data) => {
-            console.log('data: ', data)
-            res.status(200).send(data);
+            console.log("👇", data[0].dataValues.userId);
+            if (data[0].dataValues.userId) {
+                User.findAll({
+                    where: {
+                        id: data[0].dataValues.userId
+                    }
+                })
+                .then((data) => {
+                    res.status(200).send(data);
+                })
+            } else {
+                res.status(404).send({
+                    message: `Group with id=${req.params.groupId} not found.`
+                });
+            }
         }).catch((err) => {
             res.status(400).send({
                 activity:
