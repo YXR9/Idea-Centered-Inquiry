@@ -55,44 +55,42 @@ exports.joinGroup = async (req, res) => {
 };
 
 // Find one activity's all memebers.
-exports.findMyMember = (req, res) => {
-    Activity
-        .findAll({
+exports.findMyMember = async (req, res) => {
+    try {
+        const activity = await Activity.findOne({
             where: {
                 id: req.params.id
             },
             attributes: ["title"],
             include: [{
-                model: Group,
-                attributes: ["groupName", "joinCode"],
-                include: [{
-                    model: ActivityGroup,
-                    attributes: ["GroupId"],
-                    include: [{
-                        model: User,
-                        attributes: ["name"],
-                        include: [{
-                            model: UserProfile,
-                            attributes: ["UserId"],
-                            include: [{
-                                model: Profile,
-                                attributes: ["className", "studentId"],
-                            }]
-                        }]
-                    }],
-                    Group
-                }]
+                model: Group
             }]  
-        })
-        .then((data) => {
-            console.log('data: ', data)
-            res.status(200).send(data);
-        }).catch((err) => {
-            res.status(400).send({
-                activity:
-                    err.message || "Some error occurred while finding your activity.",
-            });
         });
+
+        if (!activity) {
+            return res.status(404).send({
+                message: `Activity with id=${req.params.id} not found.`
+            });
+        }
+
+        const activityMembers = [];
+
+        for (let i = 0; i < activity.Groups.length; i++) {
+            const userId = activity.Groups[i].userId;
+            const users = await User.findAll({
+                where: {
+                    id: userId
+                }
+            });
+            activityMembers.push(activity.Groups[i].groupName, users);
+        }
+
+        res.status(200).send(activityMembers);
+    } catch (err) {
+        res.status(500).send({
+            activity: err.message || "Some error occurred while finding activity members.",
+        });
+    }
 };
 
 // Find group member.
