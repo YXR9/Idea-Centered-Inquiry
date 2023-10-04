@@ -2,6 +2,7 @@ const db = require('../models');
 const { customAlphabet } = require('nanoid');
 
 // Assigning activities to the variable Activity
+const User = db.User;
 const Activity = db.Activity;
 const Group = db.Group;
 const ActivityGroup = db.ActivityGroup;
@@ -111,7 +112,7 @@ exports.findMyActivity = (req, res) => {
             include: [
                 {
                     model: Group,
-                    attributes: ["id", "groupName", "joinCode", "activityId"],
+                    // attributes: ["className"],
                     through: { attributes: [] }
                 }
             ]

@@ -4,6 +4,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import IndexPage_Navbar from '../components/IndexPage_Navbar';
 import { styled, Grid, Avatar, Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Select, InputLabel, MenuItem, FormControl, Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { json } from 'react-router-dom';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#E3DFFD',
@@ -14,26 +15,33 @@ const Item = styled(Card)(({ theme }) => ({
 
 export default function Index() {
 
-    const userId = localStorage.getItem('userId'); 
-
     const [all, setAll] = useState('');
     const [activities, setActivities] = useState([]);
 
     const handleChange = (event) => {
       setAll(event.target.value);
     };
-    console.log(`${config[3].activityList}${userId}`)
 
     const getActivities = async() => {
       console.log("我在這裡!!!看我!!!")
       try{
-        const fetchData = await axios.get(`${config[3].activityList}${userId}`, {
+        const request_config = {
+          data: {
+            'userId': localStorage.getItem('userId')
+          }
+        };
+
+        console.log(localStorage.getItem('userId'));
+        
+        const fetchData = await axios.get(`${config[3].activityList}`, {
           headers: {
-            authorization: 'Bearer JWT Token',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer JWT Token',
           },
+          request_config
         })
         setActivities(fetchData.data)
-        console.log(fetchData);
+        console.log("📌fetchData:", fetchData);
       }
       catch (err){
         console.log(err)
@@ -87,12 +95,12 @@ export default function Index() {
                                   <MoreVertIcon />
                                 </IconButton>
                               }
-                              title={activity.activityTitle}
+                              title={activity.title}
                               subheader={activity.activityKey}
                             />
                             <CardContent>
                               <Typography variant="body2" color="text.secondary">
-                                {activity.activityInfo}
+                                {activity.startDate}-{activity.endDate}
                               </Typography>
                             </CardContent>
                         </Item>
