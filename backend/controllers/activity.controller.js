@@ -107,7 +107,7 @@ exports.findMyActivity = (req, res) => {
     Activity
         .findAll({
             where: {
-                userId: req.body.userId
+                userId: req.params.userId
             },
             include: [
                 {

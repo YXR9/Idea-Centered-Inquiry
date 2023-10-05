@@ -25,12 +25,6 @@ export default function Index() {
     const getActivities = async() => {
       console.log("我在這裡!!!看我!!!")
       try{
-        const request_config = {
-          data: {
-            'userId': localStorage.getItem('userId')
-          }
-        };
-
         console.log(localStorage.getItem('userId'));
         
         const fetchData = await axios.get(`${config[3].activityList}`, {
@@ -38,7 +32,9 @@ export default function Index() {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer JWT Token',
           },
-          request_config
+          params: {
+            userId: localStorage.getItem('userId')
+          }
         })
         setActivities(fetchData.data)
         console.log("📌fetchData:", fetchData);

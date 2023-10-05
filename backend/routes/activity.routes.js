@@ -14,13 +14,13 @@ module.exports = app => {
     router.post('/createGroups', activities.createGroupsForActivity);
     
     // Get user's all activity.
-    router.get('/myActivity', activities.findMyActivity);
+    router.get('/myActivity/:userId', activities.findMyActivity);
 
     // Get user's one activity.
     router.get('/:id', activities.findOneActivity);
 
     // Find all user in activity.
-    router.get('/:userId/myJoined', activities.getJoinedActivitiesByUserId);
+    router.get('/myJoined/:userId', activities.getJoinedActivitiesByUserId);
 
     // Clone one activity by id.
     router.get('/clone/:activityId', activities.cloneActivity);
