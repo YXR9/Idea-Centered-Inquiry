@@ -14,6 +14,7 @@ const Item = styled(Card)(({ theme }) => ({
 }));
 
 export default function Index() {
+    const userId = localStorage.getItem('userId');
 
     const [all, setAll] = useState('');
     const [activities, setActivities] = useState([]);
@@ -23,33 +24,40 @@ export default function Index() {
     };
 
     const getActivities = async() => {
-      console.log("我在這裡!!!看我!!!")
+      console.log("我在這裡!!!看我!!!");
       try{
         console.log(localStorage.getItem('userId'));
         
-        const fetchData = await axios.get(`${config[3].activityList}`, {
+        // 建立 WebSocket 連線
+        const fetchData = await axios.get(`${config[3].activityList}/${userId}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer JWT Token',
           },
-          params: {
-            userId: localStorage.getItem('userId')
-          }
         })
         setActivities(fetchData.data)
         console.log("📌fetchData:", fetchData);
       }
       catch (err){
-        console.log(err)
+        console.log(err);
       }
-    }
+    };
 
     useEffect(() => {
-      window.addEventListener('load', getActivities)
-      return () => {
-        window.removeEventListener('load', getActivities)
-      }
-    }, [activities])
+        // 建立 WebSocket 連線
+        const socket = new WebSocket(`ws://${config[3].websocket}/user/${userId}`);
+        
+        // 監聽 WebSocket 事件
+        socket.addEventListener('message', (event) => {
+          // 有新資料時，重新取得資料
+          getActivities();
+        });
+      
+        // 在 component 卸載時關閉 WebSocket 連線
+        return () => {
+          socket.close();
+        };
+    }, []);
 
     return (
       <div className="home-container">
