@@ -9,43 +9,25 @@ const logger = require('morgan');
 const createError = require('http-errors');
 const usePassport = require('./config/passport');
 const db = require("./models");
-const SocketServer = require('ws').Server;
 require('dotenv').config();
+const socketIO = require('socket.io');
 
 global.__basedir = __dirname;
 
 // assigning the variable app to express
 const app = express();
 
+socketIO.on('connection', (socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+  socket.on('disconnect', () => {
+    console.log('🔥: A user disconnected');
+  });
+});
+
 const corseOptions = {
   origin: "*",
   credentials: true,
 };
-
-const wss = new SocketServer({ server });
-
-wss.on('connection', ws => {
-  console.log('Client connected')
-  // 當收到client消息時
-  ws.on('message', data => {
-    // 收回來是 Buffer 格式、需轉成字串
-    data = data.toString()  
-    console.log(data) // 可在 terminal 看收到的訊息
-
-    /// 發送消息給client 
-    ws.send(data)
-
-    /// 發送給所有client： 
-    let clients = wss.clients  //取得所有連接中的 client
-    clients.forEach(client => {
-        client.send(data)  // 發送至每個 client
-    })
-  })
-  // 當連線關閉
-  ws.on('close', () => {
-    console.log('Close connected')
-  })
-});
 
 // 呼叫 sync function 將會依 model 定義內容産生資料表，force 參數值為 true 將會重建已存在的資料表
 db.sequelize
@@ -129,4 +111,18 @@ app.use(function(err, req, res, next) {
 });
 
 // Express 應用程序對象（app）現已完全完成配置。最後一步，是將其添加到模塊導出（這允許它通過 /bin/www 導入）
-module.exports = app;
+const server = require('http').Server(app);
+const io = socketIO(server, {
+  cors: {
+    origin: "http://localhost:4000"
+  }
+});
+
+io.on('connection', (socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+  socket.on('disconnect', () => {
+    console.log('🔥: A user disconnected');
+  });
+});
+
+module.exports = { app, io };
