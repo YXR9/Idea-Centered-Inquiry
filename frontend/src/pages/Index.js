@@ -4,7 +4,9 @@ import React, {useState, useEffect, useRef} from 'react';
 import IndexPage_Navbar from '../components/IndexPage_Navbar';
 import { styled, Grid, Avatar, Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Select, InputLabel, MenuItem, FormControl, Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import socketIO from 'socket.io-client';
+import io from 'socket.io-client';
+
+const socket = io.connect(`${config[3].activityList}/${localStorage.getItem('userId')}`);
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#E3DFFD',
@@ -12,8 +14,6 @@ const Item = styled(Card)(({ theme }) => ({
   padding: theme.spacing(2),
   color: theme.palette.text.secondary,
 }));
-
-const socket = socketIO.connect(`${config[3].activityList}/${localStorage.getItem('userId')}`);
 
 export default function Index() {
     const [all, setAll] = useState('');
@@ -42,6 +42,10 @@ export default function Index() {
     };
   
     useEffect(() => {
+
+      socket.on("showActivities", (data) => {
+        console.log(data.message);
+      });
       // 在 component mount 時執行一次
       getActivities();
   
@@ -49,7 +53,7 @@ export default function Index() {
       return () => {
         socket.disconnect();
       };
-    }, []);
+    }, [socket]);
 
     return (
       <div className="home-container">

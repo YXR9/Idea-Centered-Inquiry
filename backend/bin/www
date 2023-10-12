@@ -1,25 +1,41 @@
-#!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
 
-var { app, io } = require('../app');
-var debug = require('debug')('backend:server');
-var http = require('http').Server(app);
+const app = require('../app');
+const debug = require('debug')('backend:server');
+const http = require('http');
+const Server = require('socket.io');
+const { Socket } = require('dgram');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '8000');
+const port = normalizePort(process.env.PORT || '8000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = require('http').createServer(app);
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("getActivities", (data) => {
+    console.log(data);
+    socket.broadcast.emit("showActivities", data);
+  });
+});
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -28,10 +44,6 @@ var server = require('http').createServer(app);
 server.listen(port, console.log(`Backend server is running on port ${port}`));
 server.on('error', onError);
 server.on('listening', onListening);
-
-
-// 將 io 傳遞給 Socket.IO 處理
-io.attach(server);
 
 /**
  * Normalize a port into a number, string, or false.
