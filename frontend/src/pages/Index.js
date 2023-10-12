@@ -29,7 +29,7 @@ export default function Index() {
         console.log(localStorage.getItem('userId'));
   
         // 使用 socket.io-client 連接伺服器
-        socket.emit('getActivities', localStorage.getItem('userId'));
+        socket.emit('getActivities', { activities });
   
         // 在伺服器回傳資料後，觸發重新取得資料的功能
         socket.on('newActivities', (data) => {
