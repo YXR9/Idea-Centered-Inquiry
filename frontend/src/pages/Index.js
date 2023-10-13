@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import IndexPage_Navbar from '../components/IndexPage_Navbar';
 import { styled, Grid, Card, CardHeader, CardContent, IconButton, Typography, Select, InputLabel, MenuItem, FormControl, Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import webSocket from 'socket.io-client';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#E3DFFD',
@@ -15,10 +16,16 @@ const Item = styled(Card)(({ theme }) => ({
 export default function Index() {
   const [all, setAll] = useState('');
   const [activities, setActivities] = useState([]);
+  const [ws, setWs] = useState(null);
 
   const handleChange = (event) => {
     setAll(event.target.value);
   };
+
+  const connectWebSocket = () => {
+    console.log('😮😮😮');
+    setWs(webSocket('http://localhost:8000'));
+  }
 
   useEffect(() => {
     const getActivities = async() => {
@@ -37,12 +44,31 @@ export default function Index() {
       }
     };
     getActivities();
-  }, []); // 空的依賴陣列確保 `useEffect` 只執行一次，相當於 `componentDidMount`
+
+    if(ws){
+      console.log('success connect!');
+      initWebSocket();
+    }
+  }, [ws]); // 空的依賴陣列確保 `useEffect` 只執行一次，相當於 `componentDidMount`
+
+  const initWebSocket = () => {
+    ws.on('getActivities', data => {
+      console.log(data);
+    });
+  };
+
+  const sendMessage = () => {
+    console.log("sendMessage!!!");
+    ws.emit('getActivities', '回傳發送訊息的...');
+    console.log("sendMessage!!!!!!!");
+  };
 
   return (
     <div className="home-container">
       <IndexPage_Navbar />
       <h2>我們的探究活動</h2>
+      <input type='button' value='連線' onClick={connectWebSocket} />
+      <input type='button' value='送出' onClick={sendMessage} />
       <Box sx={{ maxWidth: 120 }} className='activity-status'>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">狀態</InputLabel>

@@ -5,8 +5,7 @@
 const app = require('../app');
 const debug = require('debug')('backend:server');
 const http = require('http');
-const Server = require('socket.io');
-const { Socket } = require('dgram');
+const socketServer = require('socket.io');
 
 /**
  * Get port from environment and store in Express.
@@ -21,42 +20,6 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
-
-io.on("connection", (socket) => {
-  console.log(`⚡: ${socket.id} user just connected!`);
-  console.log(socket.connected); 
-  // socket.emit('showActivities', { message: "123❎" });
-  // 添加對 'getActivities' 事件的處理
-  socket.on('getActivities', (data) => {
-    // 在這裡處理獲取活動的邏輯
-    // const userId = data.userId; // 你可能需要在客戶端 emit 時傳遞 userId
-    // const activities = fetchActivities(userId); // 根據 userId 獲取活動列表
-    socket.emit('showActivities', data);
-  });
-
-  // socket.on('disconnect', () => {
-  //   console.log('🔥: A user disconnected');
-  // });
-});
-
-function fetchActivities(userId) {
-  // 在這裡實現獲取活動列表的邏輯，然後返回 activities
-  // 這可能需要與你的資料庫進行交互
-  // 注意：這裡的邏輯僅作參考，實際情況可能有所不同
-  return [
-    // 返回活動列表的範例數據
-    { title: 'Activity 1', activityKey: 'Key 1', startDate: '2023-01-01', endDate: '2023-01-05' },
-    { title: 'Activity 2', activityKey: 'Key 2', startDate: '2023-02-01', endDate: '2023-02-05' },
-    // ...
-  ];
-}
-
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -64,6 +27,37 @@ function fetchActivities(userId) {
 server.listen(port, console.log(`Backend server is running on port ${port}`));
 server.on('error', onError);
 server.on('listening', onListening);
+
+const io = socketServer(server
+//   , {
+//   cors: {
+//     origin: "http://localhost:3000",
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//   },
+// }
+);
+
+// io.on("connection", socket => {
+//   console.log(`⚡: ${socket.id} user just connected!`);
+//   console.log(socket.connected); 
+//   // socket.emit('showActivities', { message: "123❎" });
+//   // 添加對 'getActivities' 事件的處理
+//   socket.on('getActivities', (data) => {
+//     // 在這裡處理獲取活動的邏輯
+//     // const userId = data.userId; // 在客戶端 emit 時傳遞 userId
+//     // const activities = fetchActivities(userId); // 根據 userId 獲取活動列表
+//     console.log("data: ", data);
+//     socket.emit('getActivities', data);
+//   });
+
+//   // socket.on('disconnect', () => {
+//   //   console.log('🔥: A user disconnected');
+//   // });
+// });
+
+io.on('connection', (socket) => {
+  console.log('User connected: ', socket.id);
+})
 
 /**
  * Normalize a port into a number, string, or false.
