@@ -28,36 +28,30 @@ server.listen(port, console.log(`Backend server is running on port ${port}`));
 server.on('error', onError);
 server.on('listening', onListening);
 
-const io = socketServer(server
-//   , {
-//   cors: {
-//     origin: "http://localhost:3000",
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//   },
-// }
+const io = socketServer(server,{
+  cors: {
+    origin: "http://127.0.0.1:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  },
+}
 );
 
-// io.on("connection", socket => {
-//   console.log(`⚡: ${socket.id} user just connected!`);
-//   console.log(socket.connected); 
-//   // socket.emit('showActivities', { message: "123❎" });
-//   // 添加對 'getActivities' 事件的處理
-//   socket.on('getActivities', (data) => {
-//     // 在這裡處理獲取活動的邏輯
-//     // const userId = data.userId; // 在客戶端 emit 時傳遞 userId
-//     // const activities = fetchActivities(userId); // 根據 userId 獲取活動列表
-//     console.log("data: ", data);
-//     socket.emit('getActivities', data);
-//   });
 
-//   // socket.on('disconnect', () => {
-//   //   console.log('🔥: A user disconnected');
-//   // });
-// });
+io.on("connection", socket => {
+  // console.log(`⚡: ${socket.id} user just connected!`);
+  console.log(socket.connected); 
+  socket.on('event01', (msg, callback) => {
+    console.log("event01", msg);
+    callback({
+      status: "event01 ok"
+    })
+    socket.emit("event02", "event02 ok",(response) => {
+      console.log(response.status); // ok
+    });
+  });
+});
 
-io.on('connection', (socket) => {
-  console.log('User connected: ', socket.id);
-})
+
 
 /**
  * Normalize a port into a number, string, or false.

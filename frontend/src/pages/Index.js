@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import IndexPage_Navbar from '../components/IndexPage_Navbar';
 import { styled, Grid, Card, CardHeader, CardContent, IconButton, Typography, Select, InputLabel, MenuItem, FormControl, Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import webSocket from 'socket.io-client';
+import io from 'socket.io-client';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#E3DFFD',
@@ -24,7 +24,7 @@ export default function Index() {
 
   const connectWebSocket = () => {
     console.log('😮😮😮');
-    setWs(webSocket('http://localhost:8000'));
+    setWs(io("http://127.0.0.1:8000"));
   }
 
   useEffect(() => {
@@ -52,15 +52,26 @@ export default function Index() {
   }, [ws]); // 空的依賴陣列確保 `useEffect` 只執行一次，相當於 `componentDidMount`
 
   const initWebSocket = () => {
-    ws.on('getActivities', data => {
-      console.log(data);
+    console.log("initWebSocket1",ws);
+    ws.on("connect", () => {
+      console.log(ws.id); // x8WIv7-mJelg7on_ALbx
     });
+    ws.on("event02", (arg,callback) => {
+      console.log(arg); // world
+      callback({
+        status: "event02 ok"
+      })
+    });
+    console.log("initWebSocket2",ws);
+
   };
 
   const sendMessage = () => {
-    console.log("sendMessage!!!");
-    ws.emit('getActivities', '回傳發送訊息的...');
-    console.log("sendMessage!!!!!!!");
+    console.log("event01!!!",ws);
+    ws.emit('event01', '回傳發送訊息的...',(response) => {
+      console.log(response.status); // ok
+    });
+    console.log("event01!!!!!!!");
   };
 
   return (
