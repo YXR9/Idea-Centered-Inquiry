@@ -45,7 +45,7 @@ io.on("connection", socket => {
     callback({
       status: "event01 ok"
     })
-    socket.emit("event02", "event02 ok",(response) => {
+    socket.emit("event02", "event02 ok", (response) => {
       console.log(response.status); // ok
     });
   });

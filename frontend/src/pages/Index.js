@@ -52,7 +52,7 @@ export default function Index() {
   }, [ws]); // 空的依賴陣列確保 `useEffect` 只執行一次，相當於 `componentDidMount`
 
   const initWebSocket = () => {
-    console.log("initWebSocket1",ws);
+    console.log("initWebSocket1", ws);
     ws.on("connect", () => {
       console.log(ws.id); // x8WIv7-mJelg7on_ALbx
     });
@@ -62,13 +62,13 @@ export default function Index() {
         status: "event02 ok"
       })
     });
-    console.log("initWebSocket2",ws);
+    console.log("initWebSocket2", ws);
 
   };
 
   const sendMessage = () => {
-    console.log("event01!!!",ws);
-    ws.emit('event01', '回傳發送訊息的...',(response) => {
+    console.log("event01!!!", ws);
+    ws.emit('event01', '回傳發送訊息的...', (response) => {
       console.log(response.status); // ok
     });
     console.log("event01!!!!!!!");
@@ -78,8 +78,8 @@ export default function Index() {
     <div className="home-container">
       <IndexPage_Navbar />
       <h2>我們的探究活動</h2>
-      <input type='button' value='連線' onClick={connectWebSocket} />
-      <input type='button' value='送出' onClick={sendMessage} />
+      {/* <input type='button' value='連線' onClick={connectWebSocket} />
+      <input type='button' value='送出' onClick={sendMessage} /> */}
       <Box sx={{ maxWidth: 120 }} className='activity-status'>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">狀態</InputLabel>
@@ -104,9 +104,9 @@ export default function Index() {
         alignItems="stretch"
       >
         <Grid item xs={10}>
-          <Grid container justifyContent="center" spacing={4}>
+          <Grid container justifyContent="center" spacing={2}>
             {activities.map((activity) => (
-              <Grid item xs={6} key={activity.id}>
+              <Grid item xs={3} key={activity.id} spacing={2}>
                 <Item>
                   <CardHeader
                     action={
