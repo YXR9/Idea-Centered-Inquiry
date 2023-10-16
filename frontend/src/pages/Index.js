@@ -4,6 +4,12 @@ import React, { useState, useEffect } from 'react';
 import IndexPage_Navbar from '../components/IndexPage_Navbar';
 import { styled, Grid, Card, CardHeader, CardContent, IconButton, Typography, Select, InputLabel, MenuItem, FormControl, Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CardMedia from '@mui/material/CardMedia';
+import CardActions from '@mui/material/CardActions';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import Collapse from '@mui/material/Collapse';
 import io from 'socket.io-client';
 
 const Item = styled(Card)(({ theme }) => ({
@@ -13,10 +19,26 @@ const Item = styled(Card)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
+
 export default function Index() {
   const [all, setAll] = useState('');
   const [activities, setActivities] = useState([]);
   const [ws, setWs] = useState(null);
+  const [expanded, setExpanded] = useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   const handleChange = (event) => {
     setAll(event.target.value);
@@ -117,11 +139,32 @@ export default function Index() {
                     title={activity.ActivityGroup.Activity.title}
                     // subheader={activity.activityKey}
                   />
-                  <CardContent>
+                  {/* <CardContent>
                     <Typography variant="body2" color="text.secondary">
                       {activity.ActivityGroup.Activity.startDate}-{activity.ActivityGroup.Activity.endDate}
                     </Typography>
-                  </CardContent>
+                  </CardContent> */}
+                  <CardActions disableSpacing>
+                    <IconButton aria-label="add to favorites">
+                      <FavoriteIcon />
+                    </IconButton>
+                    <IconButton aria-label="share">
+                      <ShareIcon />
+                    </IconButton>
+                    <ExpandMore
+                      expand={expanded}
+                      onClick={handleExpandClick}
+                      aria-expanded={expanded}
+                      aria-label="show more"
+                    >
+                      <ExpandMoreIcon />
+                    </ExpandMore>
+                  </CardActions>
+                  <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent>
+                      <Typography paragraph>{activity.ActivityGroup.Activity.content}</Typography>
+                    </CardContent>
+                  </Collapse>
                 </Item>
               </Grid>
             ))}
