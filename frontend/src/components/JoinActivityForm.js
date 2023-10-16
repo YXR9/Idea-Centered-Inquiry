@@ -35,7 +35,7 @@ export const JoinActivityForm = () => {
             activityKey: data.activityKey
         };
         axios
-            .post(config[4].joinActivity, activityData)
+            .post(config[5].joinActivity, activityData)
             .then((response) => {
                 setOpen(false);
                 setData({

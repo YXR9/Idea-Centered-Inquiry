@@ -31,7 +31,7 @@ export default function Index() {
     const getActivities = async() => {
       console.log("我在這裡!!!看我!!!")
       try{
-        const fetchData = await axios.get(`${config[3].activityList}/${localStorage.getItem('userId')}`, {
+        const fetchData = await axios.get(`${config[4].myJoinedActivityList}/${localStorage.getItem('userId')}`, {
           headers: {
             authorization: 'Bearer JWT Token',
           },
@@ -104,9 +104,9 @@ export default function Index() {
         alignItems="stretch"
       >
         <Grid item xs={10}>
-          <Grid container justifyContent="center" spacing={2}>
+          <Grid container justifyContent="center" spacing={5}>
             {activities.map((activity) => (
-              <Grid item xs={3} key={activity.id} spacing={2}>
+              <Grid item xs={3} key={activity.id}>
                 <Item>
                   <CardHeader
                     action={
@@ -114,12 +114,12 @@ export default function Index() {
                         <MoreVertIcon />
                       </IconButton>
                     }
-                    title={activity.title}
+                    title={activity.ActivityGroup.Activity.title}
                     // subheader={activity.activityKey}
                   />
                   <CardContent>
                     <Typography variant="body2" color="text.secondary">
-                      {activity.startDate}-{activity.endDate}
+                      {activity.ActivityGroup.Activity.startDate}-{activity.ActivityGroup.Activity.endDate}
                     </Typography>
                   </CardContent>
                 </Item>
