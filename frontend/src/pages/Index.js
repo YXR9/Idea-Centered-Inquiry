@@ -1,108 +1,79 @@
 import config from '../config.json';
-import axios from "axios";
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import IndexPage_Navbar from '../components/IndexPage_Navbar';
-import { styled, Grid, Card, CardHeader, CardContent, IconButton, Typography, Select, InputLabel, MenuItem, FormControl, Box } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CardMedia from '@mui/material/CardMedia';
-import CardActions from '@mui/material/CardActions';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import Collapse from '@mui/material/Collapse';
+import {
+  Grid,
+  Select,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Box,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import io from 'socket.io-client';
-
-const Item = styled(Card)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#E3DFFD',
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  color: theme.palette.text.secondary,
-}));
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+import ActivityCard from '../components/ActivityCard';
 
 export default function Index() {
   const [all, setAll] = useState('');
   const [activities, setActivities] = useState([]);
   const [ws, setWs] = useState(null);
-  const [expanded, setExpanded] = useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleChange = (event) => {
     setAll(event.target.value);
   };
 
   const connectWebSocket = () => {
-    console.log('😮😮😮');
-    setWs(io("http://127.0.0.1:8000"));
-  }
+    setWs(io('http://127.0.0.1:8000'));
+  };
 
   useEffect(() => {
-    const getActivities = async() => {
-      console.log("我在這裡!!!看我!!!")
-      try{
+    const getActivities = async () => {
+      try {
         const fetchData = await axios.get(`${config[4].myJoinedActivityList}/${localStorage.getItem('userId')}`, {
           headers: {
             authorization: 'Bearer JWT Token',
           },
-        })
-        setActivities(fetchData.data)
-        console.log(fetchData);
-      }
-      catch (err){
-        console.log(err)
+        });
+        setActivities(fetchData.data);
+      } catch (err) {
+        console.log(err);
       }
     };
     getActivities();
 
-    if(ws){
-      console.log('success connect!');
+    if (ws) {
       initWebSocket();
     }
-  }, [ws]); // 空的依賴陣列確保 `useEffect` 只執行一次，相當於 `componentDidMount`
+  }, [ws]);
 
   const initWebSocket = () => {
-    console.log("initWebSocket1", ws);
-    ws.on("connect", () => {
-      console.log(ws.id); // x8WIv7-mJelg7on_ALbx
+    ws.on('connect', () => {
+      console.log(ws.id);
     });
-    ws.on("event02", (arg,callback) => {
-      console.log(arg); // world
-      callback({
-        status: "event02 ok"
-      })
-    });
-    console.log("initWebSocket2", ws);
 
+    ws.on('event02', (arg, callback) => {
+      console.log(arg);
+      callback({
+        status: 'event02 ok',
+      });
+    });
   };
 
   const sendMessage = () => {
-    console.log("event01!!!", ws);
     ws.emit('event01', '回傳發送訊息的...', (response) => {
-      console.log(response.status); // ok
+      console.log(response.status);
     });
-    console.log("event01!!!!!!!");
   };
 
   return (
     <div className="home-container">
       <IndexPage_Navbar />
       <h2>我們的探究活動</h2>
-      {/* <input type='button' value='連線' onClick={connectWebSocket} />
-      <input type='button' value='送出' onClick={sendMessage} /> */}
-      <Box sx={{ maxWidth: 120 }} className='activity-status'>
+      <Box sx={{ maxWidth: 120 }} className="activity-status">
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">狀態</InputLabel>
           <Select
@@ -124,52 +95,14 @@ export default function Index() {
         direction="row"
         justifyContent="center"
         alignItems="stretch"
+        spacing={3}
+        style={{ padding: '0px 30px' }}
       >
-        <Grid item xs={10}>
-          <Grid container justifyContent="center" spacing={5}>
-            {activities.map((activity) => (
-              <Grid item xs={3} key={activity.id}>
-                <Item>
-                  <CardHeader
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                    title={activity.ActivityGroup.Activity.title}
-                    // subheader={activity.activityKey}
-                  />
-                  {/* <CardContent>
-                    <Typography variant="body2" color="text.secondary">
-                      {activity.ActivityGroup.Activity.startDate}-{activity.ActivityGroup.Activity.endDate}
-                    </Typography>
-                  </CardContent> */}
-                  <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                      <FavoriteIcon />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                      <ShareIcon />
-                    </IconButton>
-                    <ExpandMore
-                      expand={expanded}
-                      onClick={handleExpandClick}
-                      aria-expanded={expanded}
-                      aria-label="show more"
-                    >
-                      <ExpandMoreIcon />
-                    </ExpandMore>
-                  </CardActions>
-                  <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                      <Typography paragraph>{activity.ActivityGroup.Activity.content}</Typography>
-                    </CardContent>
-                  </Collapse>
-                </Item>
-              </Grid>
-            ))}
+        {activities.map((activity) => (
+          <Grid item xs={12} sm={isMobile ? 8 : 4} key={activity.id}>
+            <ActivityCard activity={activity} />
           </Grid>
-        </Grid>
+        ))}
       </Grid>
     </div>
   );
