@@ -16,5 +16,8 @@
     },
     {
         "joinActivity": "http://127.0.0.1:8000/api/activities/join"
+    },
+    {
+        "enterActivity": "http://127.0.0.1:8000/api/activities"
     }
 ]

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled, Card, CardHeader, CardContent, Typography, CardActions, IconButton } from '@mui/material';
-import { MoreVert, Favorite } from '@mui/icons-material';
+import { Favorite } from '@mui/icons-material';
+import { Button } from '@mui/base';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#E3DFFD',
@@ -20,6 +22,7 @@ const EnterActivity = styled((props) => {
   }));
 
 export default function ActivityCard({ activity }) {
+    const navigate = useNavigate();
     const formatTimestamp = (timestamp) => {
         return new Intl.DateTimeFormat('en-US', {
             year: 'numeric',
@@ -30,6 +33,12 @@ export default function ActivityCard({ activity }) {
             //   second: 'numeric',
             hour12: false,
         }).format(new Date(timestamp));
+    };
+
+    const handleEnter = async (e) => {
+        e.preventDefault();
+        localStorage.setItem('activityId', activity.ActivityGroup.Activity.id)
+        navigate("/forum");
     };
 
     return (
@@ -48,7 +57,9 @@ export default function ActivityCard({ activity }) {
                     <Favorite />
                 </IconButton>
                 <EnterActivity>
-                    <button className='enter-activity-button'>進入活動</button>
+                    <Button className='enter-activity-button' onClick={handleEnter}>
+                        進入課程
+                    </Button>
                 </EnterActivity>
             </CardActions>
         </Item>
