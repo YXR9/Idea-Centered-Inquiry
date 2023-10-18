@@ -107,6 +107,19 @@
     transition: 0.2s;
     margin-right: 10px;
   }
+  .enter-activity-button {
+    padding: 0.9rem 1.75rem;
+    background-color: #ECF2FF;
+    outline: none;
+    border: none;
+    border-style: solid;
+    border-color: #E3DFFD;
+    border-radius: 5rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+  }
   .navbar-cart-icon {
     font-size: 1.15rem;
   }

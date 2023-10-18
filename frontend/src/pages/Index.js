@@ -96,10 +96,10 @@ export default function Index() {
         justifyContent="center"
         alignItems="stretch"
         spacing={3}
-        style={{ padding: '0px 30px' }}
+        style={{ paddingRight: '120px', paddingLeft: '120px' }}
       >
         {activities.map((activity) => (
-          <Grid item xs={12} sm={isMobile ? 8 : 4} key={activity.id}>
+          <Grid item xs={8} sm={isMobile ? 8 : 4} key={activity.id}>
             <ActivityCard activity={activity} />
           </Grid>
         ))}
