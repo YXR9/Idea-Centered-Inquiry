@@ -81,6 +81,7 @@ export default function IndexPage_Navbar() {
       localStorage.removeItem('userId');
       localStorage.removeItem('name');
       localStorage.removeItem('email');
+      localStorage.removeItem('activityId');
     };
 
     return (
