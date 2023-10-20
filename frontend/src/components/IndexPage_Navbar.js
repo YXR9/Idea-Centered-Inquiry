@@ -1,5 +1,3 @@
-import config from '../config.json';
-import axios from "axios";
 import React, {useState, useEffect, useRef} from 'react';
 import Logo from "../assets/logo v4.png"
 import Avatar from '@mui/material/Avatar';
