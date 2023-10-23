@@ -196,7 +196,7 @@ export default function ForumPage_Navbar() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} PaperProps={{ sx: { width: "90%" }}}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -221,7 +221,7 @@ export default function ForumPage_Navbar() {
                       justifyContent: 'center',
                     }}
                   >
-                    <img alt='' src={iconMapping[text]} width={50} height={50} />
+                    <img alt='' src={iconMapping[text]} />
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
