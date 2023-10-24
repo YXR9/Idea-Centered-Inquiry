@@ -151,7 +151,7 @@ export default function ForumPage_Navbar() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} color=''>
+      <AppBar position="fixed" open={open} style={{ background: 'transparent', boxShadow: 'none'}}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -180,17 +180,17 @@ export default function ForumPage_Navbar() {
               color="inherit"
             >
               <Badge color="error">
-                <img alt='小組討論' src={CommunityIcon} width={64} height={64} />
+                <img alt='小組討論' src={CommunityIcon} width={50} height={50} />
               </Badge>
             </IconButton>
             <IconButton size="large" aria-label="show new notifications" color="inherit">
               <Badge color="error">
-                <img alt='學生提問' src={AskToTeacherIcon} width={64} height={64} />
+                <img alt='學生提問' src={AskToTeacherIcon} width={50} height={50} />
               </Badge>
             </IconButton>
             <IconButton size="large" aria-label="show new notifications" color="inherit">
               <Badge color="error">
-                <img alt='任務公告' src={AnnouncementIcon} width={64} height={64} />
+                <img alt='任務公告' src={AnnouncementIcon} width={50} height={50} />
               </Badge>
             </IconButton>
           </Box>
@@ -217,7 +217,7 @@ export default function ForumPage_Navbar() {
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      maxWidth: 64,
+                      maxWidth: 54,
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
