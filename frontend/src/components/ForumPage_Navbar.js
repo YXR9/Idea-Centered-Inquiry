@@ -149,7 +149,7 @@ export default function ForumPage_Navbar() {
   }, []);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <nav sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} style={{ background: 'transparent', boxShadow: 'none'}}>
         <Toolbar>
@@ -163,9 +163,9 @@ export default function ForumPage_Navbar() {
               ...(open && { display: 'none' }),
             }}
           >
-            <MenuIcon />
+            {/* <MenuIcon color="primary" /> */}
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div"  color="primary">
             {activityData && (    // ensure that activityData is not null or undefined before trying to access its properties.
               <>
                 {activityData.title}
@@ -237,6 +237,6 @@ export default function ForumPage_Navbar() {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
       </Box>
-    </Box>
+    </nav>
   );
 }
