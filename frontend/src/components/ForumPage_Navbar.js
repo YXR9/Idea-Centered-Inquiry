@@ -151,6 +151,7 @@ export default function ForumPage_Navbar() {
   return (
     <nav sx={{ display: 'flex' }}>
       <CssBaseline />
+      {/* <AppBar position="fixed" open={open} style={{ background: 'transparent', boxShadow: 'none'}}> */}
       <AppBar position="fixed" open={open} style={{ background: 'transparent', boxShadow: 'none'}}>
         <Toolbar>
           <IconButton
@@ -163,7 +164,7 @@ export default function ForumPage_Navbar() {
               ...(open && { display: 'none' }),
             }}
           >
-            {/* <MenuIcon color="primary" /> */}
+            <MenuIcon color="primary" style={{ background: 'white', boxShadow: 'none'}}/>
           </IconButton>
           <Typography variant="h6" noWrap component="div"  color="primary">
             {activityData && (    // ensure that activityData is not null or undefined before trying to access its properties.
