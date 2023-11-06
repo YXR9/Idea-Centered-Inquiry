@@ -19,6 +19,7 @@ import LearningFeedbackIcon from '../assets/LearningFeedbackIcon.png';
 import CommunityIcon from '../assets/CommunityIcon.png';
 import AskToTeacherIcon from '../assets/AskToTeacherIcon.png';
 import AnnouncementIcon from '../assets/AnnouncementIcon.png';
+import CreateIdea from './CreateIdea';
 
 const drawerWidth = 240;
 
@@ -170,21 +171,21 @@ export default function ForumPage_Navbar() {
                 color="inherit"
               >
                 <Badge color="error">
-                  <img alt='小組聊天室' src={CommunityIcon} width={20} height={20} />
+                  <img alt='小組聊天室' src={CommunityIcon} width={24} height={24} />
                 </Badge>
               </IconButton>
             </Tooltip>
             <Tooltip title='學生提問' arrow>
               <IconButton size="large" aria-label="show new notifications" color="inherit">
                 <Badge color="error">
-                  <img alt='學生提問' src={AskToTeacherIcon} width={20} height={20} />
+                  <img alt='學生提問' src={AskToTeacherIcon} width={24} height={24} />
                 </Badge>
               </IconButton>
             </Tooltip>
             <Tooltip title='任務公告' arrow>
               <IconButton size="large" aria-label="show new notifications" color="inherit">
                 <Badge color="error">
-                  <img alt='任務公告' src={AnnouncementIcon} width={20} height={20} />
+                  <img alt='任務公告' src={AnnouncementIcon} width={24} height={24} />
                 </Badge>
               </IconButton>
             </Tooltip>
@@ -213,7 +214,7 @@ export default function ForumPage_Navbar() {
                     <ListItemIcon
                       sx={{
                         minWidth: 0,
-                        maxWidth: 20,
+                        maxWidth: 24,
                         mr: open ? 3 : 'auto',
                         justifyContent: 'center',
                       }}

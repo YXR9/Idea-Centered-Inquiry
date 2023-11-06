@@ -80,9 +80,9 @@ export default function Forum() {
   return (
     <div className="home-container">
         <ForumPage_Navbar />
-        {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <DrawerHeader />
-        </Box> */}
+        </Box>
     </div>
   );
 }
