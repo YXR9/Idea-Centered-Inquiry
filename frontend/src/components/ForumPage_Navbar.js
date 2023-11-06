@@ -181,7 +181,7 @@ export default function ForumPage_Navbar() {
               color="inherit"
             >
               <Badge color="error">
-                <img alt='小組討論' src={CommunityIcon} width={50} height={50} />
+                <img alt='小組聊天室' src={CommunityIcon} width={50} height={50} />
               </Badge>
             </IconButton>
             <IconButton size="large" aria-label="show new notifications" color="inherit">
@@ -218,7 +218,7 @@ export default function ForumPage_Navbar() {
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      maxWidth: 54,
+                      maxWidth: 48,
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
