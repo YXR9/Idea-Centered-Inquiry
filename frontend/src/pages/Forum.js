@@ -1,47 +1,75 @@
 import React, { useEffect, useRef } from 'react';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
 import { Network } from 'vis-network';
-// import 'vis-network/styles/vis-network.css'; // Import the styles for vis-network
-import { Options, Edge, Node } from "vis-network/standalone/esm/vis-network";
-
-const nodes =[
-  { id: 1, label: 'Node 1' },
-  { id: 2, label: 'Node 2' },
-  { id: 3, label: 'Node 3' },
-  { id: 4, label: 'Node 4' },
-  { id: 5, label: 'Node 5' }
-];
-
-const edges = [
-  { from: 1, to: 3 },
-  { from: 1, to: 2 },
-  { from: 2, to: 4 },
-  { from: 2, to: 5 },
-  { from: 3, to: 3 },
-];
+// import {visNetworkOptions as option} from '../../utils/VisNetworkOptions';
 
 export default function Forum() {
 
-  // Create a ref to provide DOM access
-  const visJsRef = useRef(null);
+  
+    // const container = useRef(null);
+    // const [ nodes, setnodes] = useState([]);
+    // const [nodeData, setNodeData] = useState({});
+    // const [ edges, setEdges ] = useState([]);
+    
+  //   const getNodesQuery = useQuery({
+  //     queryKey: ['ideaWallDatas', tempid],
+  //     queryFn: () => getNodes(tempid),
+  //     // The query will not execute until the userId exists
+  //     onSuccess:setnodes,
+  //     enabled: !!tempid,
+  //     retryOnMount:false
+  //   });
 
-  useEffect(() => {
-    const network = visJsRef.current && new Network(visJsRef.current, { nodes, edges });
+  //   // vis network
+  //   useEffect(() => {
+  //     const network = 
+  //         container.current && 
+  //             new Network(container.current, {nodes, edges}, option);
 
-    // Use `network` here to configure events, etc
+  //     network?.on("click", () => {
+  //         setCreateOptionModalOpen(false);
+  //         setBuildOnOptionModalOpen(false);
+  //     })
 
-    // Cleanup function to destroy the network when the component is unmounted
-    return () => {
-      if (network) {
-        network.destroy();
-      }
-    };
-  }, [visJsRef, nodes, edges]);
+  //     network?.on("doubleClick", () =>{
+  //     })
+
+  //     network?.on("oncontext", (properties)=>{
+  //         const {pointer, event, nodes} = properties;
+  //         event.preventDefault();
+  //         const x_coordinate = pointer.DOM.x;
+  //         const y_coordinate = pointer.DOM.y;
+  //         const oncontextSelectNode = network.getNodeAt({x:x_coordinate, y:y_coordinate})
+  //         if(oncontextSelectNode){
+  //             setBuildOnOptionModalOpen(true);
+  //             setBuildOnId(oncontextSelectNode)
+  //         }else{
+  //             setCreateOptionModalOpen(true);
+  //         }
+  //         setCanvasPosition({ x:x_coordinate, y:y_coordinate })
+  //     })
+      
+  //     network?.on("selectNode", ({ nodes:selectNodes })=>{
+  //         setUpdateNodeModalOpen(true);
+  //         let nodeId = selectNodes[0];
+  //         let nodeInfo = nodes.filter( item => item.id === nodeId)
+  //         setSelectNodeInfo(nodeInfo[0])
+  //     })
+
+  //     return ()=>{
+  //         network?.off("click", ({event})=>{
+  //             console.log(event);
+  //         })
+  //         network?.off("selectNode", ({event})=>{
+  //             console.log(event);
+  //         })
+  //     }
+  // },[container, nodes, edges]);
 
   return (
     <div className="home-container">
       <ForumPage_Navbar />
-      <div ref={visJsRef} style={{ height: '400px' }} />
+      {/* <div ref={visJsRef} style={{ height: '400px' }} /> */}
     </div>
   );
 }

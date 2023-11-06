@@ -164,9 +164,9 @@ export default function ForumPage_Navbar() {
               ...(open && { display: 'none' }),
             }}
           >
-            <MenuIcon color="primary" style={{ background: 'white', boxShadow: 'none'}}/>
+            <MenuIcon color="primary" style={{ color: 'black', background: 'white', boxShadow: 'none'}}/>
           </IconButton>
-          <Typography variant="h6" noWrap component="div"  color="primary">
+          <Typography variant="h6" noWrap component="div"  color="black" fontWeight="bolder">
             {activityData && (    // ensure that activityData is not null or undefined before trying to access its properties.
               <>
                 {activityData.title}
@@ -181,17 +181,17 @@ export default function ForumPage_Navbar() {
               color="inherit"
             >
               <Badge color="error">
-                <img alt='小組聊天室' src={CommunityIcon} width={50} height={50} />
+                <img alt='小組聊天室' src={CommunityIcon} width={20} height={20} />
               </Badge>
             </IconButton>
             <IconButton size="large" aria-label="show new notifications" color="inherit">
               <Badge color="error">
-                <img alt='學生提問' src={AskToTeacherIcon} width={50} height={50} />
+                <img alt='學生提問' src={AskToTeacherIcon} width={20} height={20} />
               </Badge>
             </IconButton>
             <IconButton size="large" aria-label="show new notifications" color="inherit">
               <Badge color="error">
-                <img alt='任務公告' src={AnnouncementIcon} width={50} height={50} />
+                <img alt='任務公告' src={AnnouncementIcon} width={20} height={20} />
               </Badge>
             </IconButton>
           </Box>
@@ -218,7 +218,7 @@ export default function ForumPage_Navbar() {
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      maxWidth: 48,
+                      maxWidth: 20,
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
