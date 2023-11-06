@@ -215,7 +215,7 @@ export default function ForumPage_Navbar() {
           {menuItems.map((text, index) => (
             <div key={text}>
               <ListItem disablePadding sx={{ display: 'block' }}>
-                <Tooltip title={text} arrow>
+                <Tooltip title={text} arrow placement="right">
                   <ListItemButton
                     sx={{
                       minHeight: 48,
