@@ -19,6 +19,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Tooltip from '@mui/material/Tooltip';
 import IdeaIcon from '../assets/idea.png';
 import QuestionIcon from '../assets/question-mark.png';
 import InformationIcon from '../assets/information.png';
@@ -175,25 +176,31 @@ export default function ForumPage_Navbar() {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge color="error">
-                <img alt='小組聊天室' src={CommunityIcon} width={20} height={20} />
-              </Badge>
-            </IconButton>
-            <IconButton size="large" aria-label="show new notifications" color="inherit">
-              <Badge color="error">
-                <img alt='學生提問' src={AskToTeacherIcon} width={20} height={20} />
-              </Badge>
-            </IconButton>
-            <IconButton size="large" aria-label="show new notifications" color="inherit">
-              <Badge color="error">
-                <img alt='任務公告' src={AnnouncementIcon} width={20} height={20} />
-              </Badge>
-            </IconButton>
+            <Tooltip title='小組聊天室' arrow>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+              >
+                <Badge color="error">
+                  <img alt='小組聊天室' src={CommunityIcon} width={20} height={20} />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title='學生提問' arrow>
+              <IconButton size="large" aria-label="show new notifications" color="inherit">
+                <Badge color="error">
+                  <img alt='學生提問' src={AskToTeacherIcon} width={20} height={20} />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title='任務公告' arrow>
+              <IconButton size="large" aria-label="show new notifications" color="inherit">
+                <Badge color="error">
+                  <img alt='任務公告' src={AnnouncementIcon} width={20} height={20} />
+                </Badge>
+              </IconButton>
+            </Tooltip>
           </Box>
         </Toolbar>
       </AppBar>
@@ -208,25 +215,27 @@ export default function ForumPage_Navbar() {
           {menuItems.map((text, index) => (
             <div key={text}>
               <ListItem disablePadding sx={{ display: 'block' }}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
+                <Tooltip title={text} arrow>
+                  <ListItemButton
                     sx={{
-                      minWidth: 0,
-                      maxWidth: 20,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'center',
+                      px: 2.5,
                     }}
                   >
-                    <img alt='' src={iconMapping[text]} />
-                  </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        maxWidth: 20,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <img alt='' src={iconMapping[text]} />
+                    </ListItemIcon>
+                    <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                  </ListItemButton>
+                </Tooltip>
               </ListItem>
               {specialItems.includes(text) && index < menuItems.length - 2 && (
                 <Divider />
