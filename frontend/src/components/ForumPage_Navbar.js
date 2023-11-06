@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import config from '../config.json';
 import axios from "axios";
 import { styled, useTheme } from '@mui/material/styles';
-import { Box, MuiDrawer, MuiAppBar, Toolbar, Tooltip, List, ListItem, ListItemButton, ListItemIcon, ListItemText, CssBaseline, Typography, Divider, IconButton, Badge } from '@mui/material';
+import MuiDrawer from '@mui/material/Drawer';
+import MuiAppBar from '@mui/material/AppBar';
+import { Box, Toolbar, Tooltip, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, IconButton, Badge } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -91,7 +93,7 @@ const iconMapping = {
   '新增資訊': InformationIcon,
   '新增實驗': FlaskIcon,
   '新增紀錄': NoteIcon,
-  '新增討論區': CreateForumIcon,
+  '新增想法牆': CreateForumIcon,
   '任務地圖': TaskMapIcon,
   '學習歷程': LearningFeedbackIcon,
 };
@@ -102,12 +104,12 @@ const menuItems = [
   '新增資訊',
   '新增實驗',
   '新增紀錄',
-  '新增討論區',
+  '新增想法牆',
   '任務地圖',
   '學習歷程',
 ];
 
-const specialItems = ['新增討論區','任務地圖', '學習歷程'];
+const specialItems = ['新增想法牆','任務地圖', '學習歷程'];
 
 export default function ForumPage_Navbar() {
   const [activityData, setActivityData] = useState(null);
@@ -136,8 +138,7 @@ export default function ForumPage_Navbar() {
   }, []);
 
   return (
-    <nav sx={{ display: 'flex' }}>
-      <CssBaseline />
+    <nav>
       {/* <AppBar position="fixed" open={open} style={{ background: 'transparent', boxShadow: 'none'}}> */}
       <AppBar position="fixed" open={open} style={{ background: 'transparent', boxShadow: 'none'}}>
         <Toolbar>
@@ -230,9 +231,6 @@ export default function ForumPage_Navbar() {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-      </Box>
     </nav>
   );
 }

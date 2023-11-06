@@ -130,8 +130,8 @@
   .navbar {
     height: 100%;
     width: 100px;
-    background-color: #fff;
-    color: #fff;
+    /* background-color: #fff; */
+    /* color: #fff; */
     display: flex;
     flex-direction: column;
     align-items: center;

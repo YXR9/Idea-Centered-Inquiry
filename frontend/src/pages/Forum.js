@@ -1,7 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
 import { Network } from 'vis-network';
+import { Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
 // import {visNetworkOptions as option} from '../../utils/VisNetworkOptions';
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
 
 export default function Forum() {
 
@@ -68,8 +79,10 @@ export default function Forum() {
 
   return (
     <div className="home-container">
-      <ForumPage_Navbar />
-      {/* <div ref={visJsRef} style={{ height: '400px' }} /> */}
+        <ForumPage_Navbar />
+        {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <DrawerHeader />
+        </Box> */}
     </div>
   );
 }
