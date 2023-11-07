@@ -17,7 +17,6 @@ import CreateForumIcon from '../assets/CreateForumIcon.png';
 import TaskMapIcon from '../assets/TaskMapIcon.png';
 import LearningFeedbackIcon from '../assets/LearningFeedbackIcon.png';
 import CommunityIcon from '../assets/CommunityIcon.png';
-import AskToTeacherIcon from '../assets/AskToTeacherIcon.png';
 import AnnouncementIcon from '../assets/AnnouncementIcon.png';
 import CreateIdea from './CreateIdea';
 
@@ -88,26 +87,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const iconMapping = {
-  '新增想法': IdeaIcon,
-  '新增提問': QuestionIcon,
-  '新增資訊': InformationIcon,
-  '新增實驗': FlaskIcon,
-  '新增紀錄': NoteIcon,
-  '新增想法牆': CreateForumIcon,
-  '任務地圖': TaskMapIcon,
-  '學習歷程': LearningFeedbackIcon,
-};
-
 const menuItems = [
-  '新增想法',
-  '新增提問',
-  '新增資訊',
-  '新增實驗',
-  '新增紀錄',
-  '新增想法牆',
-  '任務地圖',
-  '學習歷程',
+  { text: '新增想法', modalKey: 'createIdea', icon: IdeaIcon },
+  { text: '新增提問', modalKey: 'createQuestion', icon: QuestionIcon },
+  { text: '新增資訊', modalKey: 'createInformation', icon: InformationIcon },
+  { text: '新增實驗', modalKey: 'createFlask', icon: FlaskIcon },
+  { text: '新增紀錄', modalKey: 'createNote', icon: NoteIcon },
+  { text: '新增想法牆', modalKey: 'createForum', icon: CreateForumIcon },
+  { text: '任務地圖', modalKey: 'createTaskMap', icon: TaskMapIcon },
+  { text: '學習歷程', modalKey: 'createLearningFeedback', icon: LearningFeedbackIcon },
 ];
 
 const specialItems = ['新增想法牆','任務地圖', '學習歷程'];
@@ -116,6 +104,7 @@ export default function ForumPage_Navbar() {
   const [activityData, setActivityData] = useState(null);
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [selectedModal, setSelectedModal] = useState(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -123,6 +112,14 @@ export default function ForumPage_Navbar() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const openModal = (modalKey) => {
+    setSelectedModal(modalKey);
+  };
+
+  const closeModal = () => {
+    setSelectedModal(null);
   };
 
   useEffect(() => {
@@ -153,7 +150,7 @@ export default function ForumPage_Navbar() {
               ...(open && { display: 'none' }),
             }}
           >
-            <MenuIcon color="primary" style={{ color: 'black', background: 'white', boxShadow: 'none'}}/>
+            <MenuIcon color="primary" style={{ color: '#8B8B8B', background: 'white', boxShadow: 'none'}}/>
           </IconButton>
           <Typography variant="h6" noWrap component="div"  color="black" fontWeight="bolder">
             {activityData && (    // ensure that activityData is not null or undefined before trying to access its properties.
@@ -175,13 +172,6 @@ export default function ForumPage_Navbar() {
                 </Badge>
               </IconButton>
             </Tooltip>
-            <Tooltip title='學生提問' arrow>
-              <IconButton size="large" aria-label="show new notifications" color="inherit">
-                <Badge color="error">
-                  <img alt='學生提問' src={AskToTeacherIcon} width={24} height={24} />
-                </Badge>
-              </IconButton>
-            </Tooltip>
             <Tooltip title='任務公告' arrow>
               <IconButton size="large" aria-label="show new notifications" color="inherit">
                 <Badge color="error">
@@ -200,16 +190,17 @@ export default function ForumPage_Navbar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {menuItems.map((text, index) => (
-            <div key={text}>
+        {menuItems.map((menuItem, index) => (
+            <div key={menuItem.text}>
               <ListItem disablePadding sx={{ display: 'block' }}>
-                <Tooltip title={text} arrow placement="right">
+                <Tooltip title={menuItem.text} arrow placement="right">
                   <ListItemButton
                     sx={{
-                      minHeight: 48,
+                      minHeight: 60,
                       justifyContent: open ? 'initial' : 'center',
                       px: 2.5,
                     }}
+                    onClick={() => openModal(menuItem.modalKey)}
                   >
                     <ListItemIcon
                       sx={{
@@ -219,19 +210,25 @@ export default function ForumPage_Navbar() {
                         justifyContent: 'center',
                       }}
                     >
-                      <img alt='' src={iconMapping[text]} />
+                      <img alt='' src={menuItem.icon} />
                     </ListItemIcon>
-                    <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                    <ListItemText primary={menuItem.text} sx={{ opacity: open ? 1 : 0 }} style={{ color: '#8B8B8B' }} />
                   </ListItemButton>
                 </Tooltip>
               </ListItem>
-              {specialItems.includes(text) && index < menuItems.length - 2 && (
+              {specialItems.includes(menuItem.text) && index < menuItems.length - 2 && (
                 <Divider />
               )}
             </div>
           ))}
         </List>
       </Drawer>
+      {selectedModal === 'createIdea' && (
+        <CreateIdea onClose={closeModal} />
+      )}
+      {/* {selectedModal === 'createQuestion' && (
+        <CreateQuestionModal onClose={closeModal} />
+      )} */}
     </nav>
   );
 }

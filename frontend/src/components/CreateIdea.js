@@ -1,37 +1,21 @@
-import { useSignIn } from 'react-auth-kit';
 import config from '../config.json';
 import axios from "axios";
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from '@mui/material';
-import loginImg from '../assets/undraw_login_re_4vu2.svg';
-import { Register } from './Register';
+import createActivityImg from '../assets/undraw_creative_thinking_re_9k71.svg';
 
 export default function CreateIdea() {
-    const navigate = useNavigate();
-    const login = useSignIn();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [open, setOpen] = useState(false);
+    const userId = localStorage.getItem('userId'); 
+    const [open, setOpen] = React.useState(false);
     const [data, setData] = useState({
-        email: "",
-        password: ""
+        owner: userId,
+        activityTitle: ""
     });
-
-    useEffect(() => {
-        // Checking if user is loggedIn
-        if(isLoggedIn){
-            navigate("/index");
-        }
-        else {
-            navigate("/");
-        }
-    }, [navigate, isLoggedIn]);
-
+    
     const handleClickOpen = () => {
         setOpen(true);
     };
-
+  
     const handleClose = () => {
         setOpen(false);
     };
@@ -44,36 +28,20 @@ export default function CreateIdea() {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Hi")
-        const userData = {
-            email: data.email,
-            password: data.password
+        const activityData = {
+            owner: data.owner,
+            activityTitle: data.activityTitle
         };
-        console.log("userData: ", userData)
-        await axios
-            .post(config[1].loginUrl, userData)
+        axios
+            .post(config[2].createActivity, activityData)
             .then((response) => {
-                setIsLoggedIn(true)
                 setOpen(false);
                 setData({
-                  email: "",
-                  password: ""
+                    activityTitle: ""
                 })
-                
-                login({
-                    token: response.data.token,
-                    expiresIn: 3600,
-                    tokenType: "Bearer",
-                    authState: { email: response.data.email },
-                });
-
-                localStorage.setItem('userId', response.data.id);
-                localStorage.setItem('name', response.data.name);
-                localStorage.setItem('email', response.data.email);
-
-                console.log("res: ", response.data)
+                console.log(response.status, response.data);
             })
             .catch((error) => {
                 if (error.response) {
@@ -89,47 +57,27 @@ export default function CreateIdea() {
   
     return (
       <div>
-        <>  
-            <div onClick={handleClickOpen}>
-                登入
-            </div>
-        </>
         <Dialog open={open} onClose={handleClose}>
             <div>
-              <img src={loginImg} />
+              <img className='modal-image' src={createActivityImg} />
             </div>
-            <DialogTitle>登入</DialogTitle>
+            <DialogTitle>建立活動</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
                     margin="dense"
-                    id="name"
-                    label={"email"}
-                    type="email"
-                    name='email'
-                    value={data.email}
+                    id="title"
+                    label={"activityTitle"}
+                    type="text"
+                    name='activityTitle'
+                    value={data.activityTitle}
                     fullWidth
                     variant="standard"
                     onChange={handleChange}
                 />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label={"password"}
-                    type="password"
-                    name='password'
-                    value={data.password}
-                    fullWidth
-                    variant="standard"
-                    onChange={handleChange}
-                />
-                <DialogContentText>
-                    還沒有帳號嗎？<Link component="button" underline="none"><Register>註冊</Register></Link>
-                </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button type='submit' onClick={handleSubmit}>登入</Button>
+                <Button type='submit' onClick={handleSubmit}>建立</Button>
             </DialogActions>
         </Dialog>
       </div>
