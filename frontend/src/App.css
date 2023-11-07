@@ -55,6 +55,9 @@
     min-height: 165vh;
     margin-left: 64px;
   }
+  .vis-network {
+    height: 100%;
+  }
   .modal-image {
     height: 100px;
     width: auto;

@@ -21,10 +21,16 @@ export default function Forum() {
       navigationButtons: true
     },
     edges: {
-      color: "yellow"
+      color: "#8B8B8B"
     },
-    heigth: "900px"
+    heigth: "100%"
   }
+ 
+  const events = {
+    select: function(event) {
+      var { nodes, edges } = event;
+    }
+  };
 
   return (
     <div className="home-container">
@@ -33,6 +39,7 @@ export default function Forum() {
             <Graph
               graph={graph}
               options={options}
+              events={events}
             />
         </div>
     </div>
