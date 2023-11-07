@@ -48,13 +48,13 @@
     display: flex;
     align-items: center;
   }
-  .forum-container {
+  /* .forum-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 165vh;
     margin-left: 64px;
-  }
+  } */
   .vis-network {
     height: 100%;
   }
