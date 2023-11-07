@@ -18,7 +18,7 @@ import TaskMapIcon from '../assets/TaskMapIcon.png';
 import LearningFeedbackIcon from '../assets/LearningFeedbackIcon.png';
 import CommunityIcon from '../assets/CommunityIcon.png';
 import AnnouncementIcon from '../assets/AnnouncementIcon.png';
-import CreateIdea from './CreateIdea';
+import { CreateIdea } from './CreateIdea';
 
 const drawerWidth = 240;
 
@@ -224,7 +224,7 @@ export default function ForumPage_Navbar() {
         </List>
       </Drawer>
       {selectedModal === 'createIdea' && (
-        <CreateIdea onClose={closeModal} />
+        <CreateIdea />
       )}
       {/* {selectedModal === 'createQuestion' && (
         <CreateQuestionModal onClose={closeModal} />

@@ -1,85 +1,98 @@
-import config from '../config.json';
-import axios from "axios";
-import React, { useState } from 'react'
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from '@mui/material';
-import createActivityImg from '../assets/undraw_creative_thinking_re_9k71.svg';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Switch from '@mui/material/Switch';
 
-export default function CreateIdea() {
-    const userId = localStorage.getItem('userId'); 
+export const CreateIdea = () => {
     const [open, setOpen] = React.useState(false);
-    const [data, setData] = useState({
-        owner: userId,
-        activityTitle: ""
-    });
-    
+    const [fullWidth, setFullWidth] = React.useState(true);
+    const [maxWidth, setMaxWidth] = React.useState('sm');
+
     const handleClickOpen = () => {
-        setOpen(true);
+      setOpen(true);
     };
-  
+
     const handleClose = () => {
-        setOpen(false);
+      setOpen(false);
     };
 
-    const handleChange = (e) => {
-        const value = e.target.value;
-        setData({
-            ...data,
-            [e.target.name]: value
-        });
+    const handleMaxWidthChange = (event) => {
+      setMaxWidth(
+        // @ts-expect-error autofill of arbitrary value is not handled.
+        event.target.value,
+      );
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const activityData = {
-            owner: data.owner,
-            activityTitle: data.activityTitle
-        };
-        axios
-            .post(config[2].createActivity, activityData)
-            .then((response) => {
-                setOpen(false);
-                setData({
-                    activityTitle: ""
-                })
-                console.log(response.status, response.data);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log("server responded");
-                } else if (error.request) {
-                    console.log("network error");
-                } else {
-                    console.log(error);
-                }
-            });
+    const handleFullWidthChange = (event) => {
+      setFullWidth(event.target.checked);
     };
-  
+
     return (
-      <div>
-        <Dialog open={open} onClose={handleClose}>
-            <div>
-              <img className='modal-image' src={createActivityImg} />
-            </div>
-            <DialogTitle>建立活動</DialogTitle>
-            <DialogContent>
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="title"
-                    label={"activityTitle"}
-                    type="text"
-                    name='activityTitle'
-                    value={data.activityTitle}
-                    fullWidth
-                    variant="standard"
-                    onChange={handleChange}
-                />
-            </DialogContent>
-            <DialogActions>
-                <Button type='submit' onClick={handleSubmit}>建立</Button>
-            </DialogActions>
+      <React.Fragment>
+        <Dialog
+            fullWidth={fullWidth}
+            maxWidth={maxWidth}
+            open={open}
+            onClose={handleClose}
+        >
+          <DialogTitle>Optional sizes</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              You can set my maximum width and whether to adapt or not.
+            </DialogContentText>
+            <Box
+              noValidate
+              component="form"
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                m: 'auto',
+                width: 'fit-content',
+              }}
+            >
+              <FormControl sx={{ mt: 2, minWidth: 120 }}>
+                <InputLabel htmlFor="max-width">maxWidth</InputLabel>
+                <Select
+                  autoFocus
+                  value={maxWidth}
+                  onChange={handleMaxWidthChange}
+                  label="maxWidth"
+                  inputProps={{
+                    name: 'max-width',
+                    id: 'max-width',
+                  }}
+                >
+                  <MenuItem value={false}>false</MenuItem>
+                  <MenuItem value="xs">xs</MenuItem>
+                  <MenuItem value="sm">sm</MenuItem>
+                  <MenuItem value="md">md</MenuItem>
+                  <MenuItem value="lg">lg</MenuItem>
+                  <MenuItem value="xl">xl</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControlLabel
+                sx={{ mt: 1 }}
+                control={
+                  <Switch checked={fullWidth} onChange={handleFullWidthChange} />
+                }
+                label="Full width"
+              />
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Close</Button>
+          </DialogActions>
         </Dialog>
-      </div>
+      </React.Fragment>
     );
 }
