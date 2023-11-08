@@ -38,7 +38,7 @@ export const CreateIdea = () => {
     };
 
     return (
-      <React.Fragment>
+      <>
         <Dialog
             fullWidth={fullWidth}
             maxWidth={maxWidth}
@@ -93,6 +93,6 @@ export const CreateIdea = () => {
             <Button onClick={handleClose}>Close</Button>
           </DialogActions>
         </Dialog>
-      </React.Fragment>
+      </>
     );
 }
