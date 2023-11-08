@@ -190,7 +190,7 @@ export default function ForumPage_Navbar() {
         </DrawerHeader>
         <Divider />
         <List>
-        {menuItems.map((menuItem, index) => (
+          {menuItems.map((menuItem, index) => (
             <div key={menuItem.text}>
               <ListItem disablePadding sx={{ display: 'block' }}>
                 <Tooltip title={menuItem.text} arrow placement="right">

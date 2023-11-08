@@ -10,57 +10,85 @@ export default function Forum() {
   const graph = {
     nodes: [
       { id: 1, label: "node 1", title: 'this is title 1', shape: "image", image: NoteIcon, size: 100 },
-      { id: 2, label: "node 2", title: 'this is title 2', shape: "image", image: NoteIcon, size: 100  }
+      { id: 2, label: "node 2", title: 'this is title 2', shape: "image", image: NoteIcon, size: 100  },
+      { id: 3, label: "node 3", title: 'this is title 3', shape: "image", image: NoteIcon, size: 100  },
+      { id: 4, label: "node 4", title: 'this is title 4', shape: "image", image: NoteIcon, size: 100  },
+      { id: 5, label: "node 5", title: 'this is title 5', shape: "image", image: NoteIcon, size: 100  },
+      { id: 6, label: "node 6", title: 'this is title 6', shape: "image", image: NoteIcon, size: 100  },
+      { id: 7, label: "node 7", title: 'this is title 7', shape: "image", image: NoteIcon, size: 100  },
+      { id: 8, label: "node 8", title: 'this is title 8', shape: "image", image: NoteIcon, size: 100  },
+      { id: 9, label: "node 9", title: 'this is title 9', shape: "image", image: NoteIcon, size: 100  },
+      { id: 10, label: "node 10", title: 'this is title 10', shape: "image", image: NoteIcon, size: 100  },
+      { id: 11, label: "node 11", title: 'this is title 11', shape: "image", image: NoteIcon, size: 100  },
+      { id: 12, label: "node 12", title: 'this is title 12', shape: "image", image: NoteIcon, size: 100  }
     ],
     edges: [
-      { from: 1, to: 2 }
+      { from: 1, to: 2 },
+      { from: 1, to: 3 },
+      { from: 2, to: 4 },
+      { from: 2, to: 5 },
+      { from: 2, to: 6 },
+      { from: 3, to: 7 },
+      { from: 3, to: 8 },
+      { from: 3, to: 9 },
+      { from: 4, to: 10 },
+      { from: 5, to: 11 }
     ]
   }
 
   const options = {
+    layout: {
+      randomSeed: 23,
+      hierarchical: {
+        enabled: true,
+        // levelSeparation: 40,
+        // nodeSpacing: 300,
+        // treeSpacing: 100,
+        blockShifting: true,
+        edgeMinimization: true,
+        direction: "LR",
+        sortMethod: "directed"
+      }
+    },
     interaction: {
       navigationButtons: true
     },
     edges: {
-      color: "#8B8B8B"
+      color: "#8B8B8B",
+      length: 300,
+      color: {inherit: "from"},
+      smooth: {
+        enabled: true,
+        type: "dynamic",
+        roundness: 1
+      },
+      arrows: {
+        from: {
+          enabled: true,
+          scaleFactor: 0.7
+        },
+        to: {
+          enabled: false
+        }
+      }
     },
     nodes: {
-      borderWidth: 0,
-      borderWidthSelected: 0,
-      // color: "#0262C4",
-      // shape: "square",
-      size: 1,
-      shadow: {
-        enabled: true,
-        color: "rgba(0,0,0,0.5)",
-        size: 10,
-        x: 5,
-        y: 5
+      shape: "box",
+      scaling: {
+          min: 10,
+          max: 30,
+          label: {
+              min: 8,
+              max: 30,
+              drawThreshold: 12,
+              maxVisible: 20
+          }
       },
       font: {
-        color: "#fff",
-        size: 13,
-        bold: {
-          mod: "bold"
-        }
+          size: 12,
+          face: "Tahoma"
       }
     },
-    manipulation: {
-      controlNodeStyle: {
-        shape: "dot",
-        size: 6,
-        color: {
-          background: "#ff0000",
-          border: "#3c3c3c",
-          highlight: {
-            background: "#07f968",
-            border: "#3c3c3c"
-          },
-          borderWidth: 2,
-          borderWidthSelected: 2
-        }
-      }
-    }
   }
  
   const events = {
