@@ -105,6 +105,7 @@ export default function ForumPage_Navbar() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [selectedModal, setSelectedModal] = useState(null);
+  const [selectedModalOpen, setSelectedModalOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -116,10 +117,12 @@ export default function ForumPage_Navbar() {
 
   const openModal = (modalKey) => {
     setSelectedModal(modalKey);
+    setSelectedModalOpen(true);
   };
 
   const closeModal = () => {
     setSelectedModal(null);
+    setSelectedModalOpen(false);
   };
 
   useEffect(() => {
@@ -224,7 +227,10 @@ export default function ForumPage_Navbar() {
         </List>
       </Drawer>
       {selectedModal === 'createIdea' && (
-        <CreateIdea />
+        <CreateIdea
+          open={openModal}
+          onClose={closeModal}
+        />
       )}
       {/* {selectedModal === 'createQuestion' && (
         <CreateQuestionModal onClose={closeModal} />

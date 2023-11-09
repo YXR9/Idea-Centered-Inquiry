@@ -1,96 +1,66 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Switch from '@mui/material/Switch';
+import React, { useState } from 'react';
+import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControl, FormHelperText, Input, InputLabel, Box } from '@mui/material';
+import { EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-export const CreateIdea = () => {
-    const [open, setOpen] = React.useState(false);
-    const [fullWidth, setFullWidth] = React.useState(true);
-    const [maxWidth, setMaxWidth] = React.useState('sm');
+const scaffold = [
+  <Button key="1">我的想法</Button>,
+  <Button key="2">我覺得更好的想法</Button>,
+  <Button key="3">我想知道</Button>,
+  <Button key="4">這個想法不能解釋</Button>,
+  <Button key="5">舉例和參考來源</Button>,
+  <Button key="6">我的總結</Button>
+];
 
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-
-    const handleClose = () => {
-      setOpen(false);
-    };
-
-    const handleMaxWidthChange = (event) => {
-      setMaxWidth(
-        // @ts-expect-error autofill of arbitrary value is not handled.
-        event.target.value,
-      );
-    };
-
-    const handleFullWidthChange = (event) => {
-      setFullWidth(event.target.checked);
-    };
+export const CreateIdea = ({ open, onClose }) => {
+    const [editorState, setEditorState] = useState(
+      () => EditorState.createEmpty(),
+    );
 
     return (
       <>
         <Dialog
-            fullWidth={fullWidth}
-            maxWidth={maxWidth}
-            open={open}
-            onClose={handleClose}
+          open={open}
+          onClose={onClose}
         >
-          <DialogTitle>Optional sizes</DialogTitle>
+          <DialogTitle>新增想法</DialogTitle>
+          <Divider variant="middle" />
           <DialogContent>
-            <DialogContentText>
-              You can set my maximum width and whether to adapt or not.
-            </DialogContentText>
+            <FormControl variant="standard" fullWidth>
+              <InputLabel htmlFor="component-helper">標題</InputLabel>
+              <Input
+                id="component-helper"
+                aria-describedby="component-helper-text"
+              />
+              <FormHelperText id="component-helper-text">
+                請輸入你的想法標題，讓其他同學能更快速的了解你的想法！
+              </FormHelperText>
+            </FormControl>
             <Box
-              noValidate
-              component="form"
               sx={{
                 display: 'flex',
-                flexDirection: 'column',
-                m: 'auto',
-                width: 'fit-content',
+                '& > *': {
+                  m: 1,
+                },
               }}
             >
-              <FormControl sx={{ mt: 2, minWidth: 120 }}>
-                <InputLabel htmlFor="max-width">maxWidth</InputLabel>
-                <Select
-                  autoFocus
-                  value={maxWidth}
-                  onChange={handleMaxWidthChange}
-                  label="maxWidth"
-                  inputProps={{
-                    name: 'max-width',
-                    id: 'max-width',
-                  }}
-                >
-                  <MenuItem value={false}>false</MenuItem>
-                  <MenuItem value="xs">xs</MenuItem>
-                  <MenuItem value="sm">sm</MenuItem>
-                  <MenuItem value="md">md</MenuItem>
-                  <MenuItem value="lg">lg</MenuItem>
-                  <MenuItem value="xl">xl</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControlLabel
-                sx={{ mt: 1 }}
-                control={
-                  <Switch checked={fullWidth} onChange={handleFullWidthChange} />
-                }
-                label="Full width"
+              <ButtonGroup
+                orientation="vertical"
+                aria-label="vertical outlined button group"
+                style={{ color:'#ECF2FF' }}
+              >
+                {scaffold}
+              </ButtonGroup>
+              <Editor
+                editorState={editorState}
+                onEditorStateChange={setEditorState}
               />
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
+            <Button onClick={onClose}>取消</Button>
+            <Button onClick={onClose}>送出</Button>
           </DialogActions>
         </Dialog>
       </>
