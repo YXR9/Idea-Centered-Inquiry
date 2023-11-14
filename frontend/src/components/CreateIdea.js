@@ -55,6 +55,9 @@ export const CreateIdea = ({ open, onClose }) => {
               <Editor
                 editorState={editorState}
                 onEditorStateChange={setEditorState}
+                wrapperClassName="wrapper-class"
+                editorClassName="editor-class"
+                toolbarClassName="toolbar-class"
               />
             </Box>
           </DialogContent>
