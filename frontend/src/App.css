@@ -629,7 +629,7 @@
   }
   .editor-class {
     padding: 1rem;
-    clear: both;
+    overflow: hidden !important;
     border: 1px solid #ccc;
     flex: 1;
   }
