@@ -622,3 +622,17 @@
       display: none;
     }
   }
+  .wrapper-class {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    overflow: hidden;
+  }
+  .editor-class {
+    padding: 1rem;
+    clear: both;
+    border: 1px solid #ccc;
+    flex: 1;
+  }
+  .toolbar-class {
+    border: 1px solid #ccc;
+  }

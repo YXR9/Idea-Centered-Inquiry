@@ -23,6 +23,7 @@ export const CreateIdea = ({ open, onClose }) => {
         <Dialog
           open={open}
           onClose={onClose}
+          maxWidth="md"
         >
           <DialogTitle>新增想法</DialogTitle>
           <Divider variant="middle" />
