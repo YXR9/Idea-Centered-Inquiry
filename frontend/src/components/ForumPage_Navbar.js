@@ -19,6 +19,8 @@ import LearningFeedbackIcon from '../assets/LearningFeedbackIcon.png';
 import CommunityIcon from '../assets/CommunityIcon.png';
 import AnnouncementIcon from '../assets/AnnouncementIcon.png';
 import { CreateIdea } from './CreateIdea';
+import { CreateQuestion } from './CreateQuestion';
+import { CreateInformation } from './CreateInformation';
 
 const drawerWidth = 240;
 
@@ -232,9 +234,18 @@ export default function ForumPage_Navbar() {
           onClose={closeModal}
         />
       )}
-      {/* {selectedModal === 'createQuestion' && (
-        <CreateQuestionModal onClose={closeModal} />
-      )} */}
+      {selectedModal === 'createQuestion' && (
+        <CreateQuestion
+          open={openModal}
+          onClose={closeModal}
+        />
+      )}
+      {selectedModal === 'CreateInformation' && (
+        <CreateInformation
+          open={openModal}
+          onClose={closeModal}
+        />
+      )}
     </nav>
   );
 }
