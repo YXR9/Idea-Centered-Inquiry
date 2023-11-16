@@ -15,8 +15,7 @@ exports.create = async (req, res) => {
             title: title,
             content: content,
             tags: tags,
-            x: x,
-            y: y,
+            author: author,
             subPartId: subPartId
         });
         await SubPartNode.create({
