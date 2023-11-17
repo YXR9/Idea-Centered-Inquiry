@@ -1,11 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
     const Node = sequelize.define('Node', {
-      subPartId: DataTypes.INTEGER,
+      groupId: DataTypes.INTEGER,
       title: DataTypes.STRING,
       content: DataTypes.TEXT,
       tags: DataTypes.ARRAY(DataTypes.STRING),
-      x: DataTypes.FLOAT,
-      y: DataTypes.FLOAT
+      author: DataTypes.INTEGER,
     });
   
     return Node;

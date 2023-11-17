@@ -8,7 +8,7 @@ const Op = db.Sequelize.Op;
 
 // Create and Save new Node.
 exports.create = async (req, res) => {
-    const { title, content, tags, x, y, subPartId } = req.body;
+    const { title, content, tags, author, groupId } = req.body;
 
     try {
         const node = await Node.create({
@@ -16,10 +16,10 @@ exports.create = async (req, res) => {
             content: content,
             tags: tags,
             author: author,
-            subPartId: subPartId
+            groupId: groupId
         });
         await SubPartNode.create({
-            SubPartId: subPartId,
+            SubPartId: groupId,
             NodeId: node.id
         })
 
