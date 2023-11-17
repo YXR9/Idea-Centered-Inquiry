@@ -22,6 +22,7 @@ import { CreateIdea } from './CreateIdea';
 import { CreateQuestion } from './CreateQuestion';
 import { CreateInformation } from './CreateInformation';
 import { CreateFlask } from './CreateFlask';
+import { CreateNote } from './CreateNote';
 
 const drawerWidth = 240;
 
@@ -249,6 +250,12 @@ export default function ForumPage_Navbar() {
       )}
       {selectedModal === 'createFlask' && (
         <CreateFlask
+          open={openModal}
+          onClose={closeModal}
+        />
+      )}
+      {selectedModal === 'createNote' && (
+        <CreateNote
           open={openModal}
           onClose={closeModal}
         />
