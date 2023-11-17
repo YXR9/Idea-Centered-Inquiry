@@ -21,6 +21,7 @@ import AnnouncementIcon from '../assets/AnnouncementIcon.png';
 import { CreateIdea } from './CreateIdea';
 import { CreateQuestion } from './CreateQuestion';
 import { CreateInformation } from './CreateInformation';
+import { CreateFlask } from './CreateFlask';
 
 const drawerWidth = 240;
 
@@ -240,8 +241,14 @@ export default function ForumPage_Navbar() {
           onClose={closeModal}
         />
       )}
-      {selectedModal === 'CreateInformation' && (
+      {selectedModal === 'createInformation' && (
         <CreateInformation
+          open={openModal}
+          onClose={closeModal}
+        />
+      )}
+      {selectedModal === 'createFlask' && (
+        <CreateFlask
           open={openModal}
           onClose={closeModal}
         />
