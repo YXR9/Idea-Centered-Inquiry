@@ -1,9 +1,9 @@
 const db = require('../models');
 
-// Assigning levels to the variable SubPart
+// Assigning levels to the variable Group
 const Node = db.Node;
-const SubPartNode = db.SubPartNode;
-const SubPart = db.SubPart;
+const GroupNode = db.GroupNode;
+const Group = db.Group;
 const Op = db.Sequelize.Op;
 
 // Create and Save new Node.
@@ -18,8 +18,8 @@ exports.create = async (req, res) => {
             author: author,
             groupId: groupId
         });
-        await SubPartNode.create({
-            SubPartId: groupId,
+        await GroupNode.create({
+            GroupId: groupId,
             NodeId: node.id
         })
 
@@ -37,13 +37,13 @@ exports.create = async (req, res) => {
     }
 };
 
-// Find all nodes by subPartId.
+// Find all nodes by groupId.
 exports.findAllNode = (req, res) => {
-    const subPartId = req.body.subPartId;
+    const groupId = req.body.groupId;
 
-    SubPart.findAll({
+    Group.findAll({
             where: {
-                id: subPartId
+                id: groupId
             },
             include: [{
                 model: Node,
@@ -56,14 +56,14 @@ exports.findAllNode = (req, res) => {
               res.send(data);
             } else {
               res.status(404).send({
-                message: `Cannot find subPart with id=${subPartId}.`
+                message: `Cannot find group with id=${groupId}.`
               });
             }
         })
         .catch(err => {
             res.status(500).send({
               message: 
-                err.message || "Error retrieving subPart with id=" + subPartId,
+                err.message || "Error retrieving group with id=" + groupId,
             });
         });
 };

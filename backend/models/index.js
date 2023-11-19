@@ -38,7 +38,7 @@ db.ActivityPart = require("./activityPart.model.js")(sequelize, DataTypes);
 db.SubPart = require("./subPart.model.js")(sequelize, DataTypes);
 db.ActivityPartSubPart = require("./activityPartSubPart.model.js")(sequelize, DataTypes);
 db.Node = require("./node.model.js")(sequelize, DataTypes);
-db.SubPartNode = require("./subPartNode.model")(sequelize, DataTypes);
+db.GroupNode = require("./groupNode.model.js")(sequelize, DataTypes);
 
 db.User.belongsToMany(db.Profile, { through: db.UserProfile });
 db.Profile.belongsToMany(db.User, { through: db.UserProfile });
@@ -75,11 +75,11 @@ db.ActivityPartSubPart.belongsTo(db.ActivityPart);
 db.SubPart.hasMany(db.ActivityPartSubPart);
 db.ActivityPart.hasMany(db.ActivityPartSubPart);
 
-db.Node.belongsToMany(db.SubPart, { through: db.SubPartNode });
-db.SubPart.belongsToMany(db.Node, { through: db.SubPartNode });
-db.SubPartNode.belongsTo(db.SubPart);
-db.SubPartNode.belongsTo(db.Node);
-db.SubPart.hasMany(db.SubPartNode);
-db.Node.hasMany(db.SubPartNode);
+db.Node.belongsToMany(db.Group, { through: db.GroupNode });
+db.Group.belongsToMany(db.Node, { through: db.GroupNode });
+db.GroupNode.belongsTo(db.Group);
+db.GroupNode.belongsTo(db.Node);
+db.Group.hasMany(db.GroupNode);
+db.Node.hasMany(db.GroupNode);
 
 module.exports = db;

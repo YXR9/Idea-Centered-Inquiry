@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const SubPartNode = sequelize.define("SubPartNode", {
+    const GroupNode = sequelize.define("GroupNode", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -7,5 +7,5 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     });
-    return SubPartNode;
+    return GroupNode;
 };
