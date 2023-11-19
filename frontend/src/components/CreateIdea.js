@@ -1,3 +1,5 @@
+import config from '../config.json';
+import axios from "axios";
 import React, { useState } from 'react';
 import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControl, FormHelperText, Input, InputLabel, Box } from '@mui/material';
 import { EditorState } from 'draft-js';
@@ -17,6 +19,13 @@ export const CreateIdea = ({ open, onClose }) => {
     const [editorState, setEditorState] = useState(
       () => EditorState.createEmpty(),
     );
+    const [data, setData] = useState({
+      title: "",
+      content: "",
+      tags: "",
+      author: "",
+      groupId: ""
+    });
 
     return (
       <>
