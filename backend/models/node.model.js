@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
       groupId: DataTypes.INTEGER,
       title: DataTypes.STRING,
       content: DataTypes.TEXT,
-      tags: DataTypes.ARRAY(DataTypes.STRING),
+      tags: DataTypes.STRING,
       author: DataTypes.INTEGER,
     });
   

@@ -6,7 +6,7 @@ import createActivityImg from '../assets/undraw_creative_thinking_re_9k71.svg';
 
 export const CreateActivityForm = () => {
     const userId = localStorage.getItem('userId'); 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [data, setData] = useState({
         owner: userId,
         activityTitle: ""

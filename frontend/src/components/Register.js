@@ -6,7 +6,7 @@ import registerImg from '../assets/undraw_mobile_payments_re_7udl.svg';
 import { Login } from './Login';
 
 export const Register = () => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [data, setData] = useState({
         name: "",
         email: "",

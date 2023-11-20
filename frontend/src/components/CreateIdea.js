@@ -1,8 +1,8 @@
 import config from '../config.json';
 import axios from "axios";
 import React, { useState } from 'react';
-import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControl, FormHelperText, Input, InputLabel, Box } from '@mui/material';
-import { EditorState } from 'draft-js';
+import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormHelperText, TextField, InputLabel, Box } from '@mui/material';
+import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
@@ -16,16 +16,64 @@ const scaffold = [
 ];
 
 export const CreateIdea = ({ open, onClose }) => {
-    const [editorState, setEditorState] = useState(
-      () => EditorState.createEmpty(),
-    );
+    const userId = localStorage.getItem('userId')
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());;
+    const [content, setContent] = useState();
     const [data, setData] = useState({
       title: "",
-      content: "",
-      tags: "",
-      author: "",
-      groupId: ""
+      content: content,
+      tags: "idea",
+      author: userId,
+      groupId: "1"
     });
+    const onEditorStateChange = function (editorState) {
+      setEditorState(editorState);
+      let content = editorState.getCurrentContent().getPlainText("\u0001");
+      setContent(content);
+      console.log("content: ", content);
+    };
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setData({
+            ...data,
+            [e.target.name]: value
+        });
+    };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      const ideaData = {
+        title: data.title,
+        content: data.content,
+        tags: data.tags,
+        author: data.author,
+        groupId: data.groupId
+      };
+      axios
+          .post(config[7].createIdea, ideaData)
+          .then((response) => {
+              onClose(onClose);
+              setData({
+                title: "",
+                content: "",
+                tags: "",
+                author: "",
+                groupId: ""
+              })
+              console.log(response.status, response.data);
+          })
+          .catch((error) => {
+              if (error.response) {
+                  console.log(error.response);
+                  console.log("server responded");
+              } else if (error.request) {
+                  console.log("network error");
+              } else {
+                  console.log(error);
+              }
+          });
+    };
 
     return (
       <>
@@ -33,15 +81,23 @@ export const CreateIdea = ({ open, onClose }) => {
           open={open}
           onClose={onClose}
           maxWidth="md"
+          scroll='body'
         >
           <DialogTitle>新增想法</DialogTitle>
           <Divider variant="middle" />
           <DialogContent>
             <FormControl variant="standard" fullWidth>
-              <InputLabel htmlFor="component-helper">標題</InputLabel>
-              <Input
-                id="component-helper"
-                aria-describedby="component-helper-text"
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label={"title"}
+                type="text"
+                name='title'
+                value={data.title}
+                fullWidth
+                variant="standard"
+                onChange={handleChange}
               />
               <FormHelperText id="component-helper-text">
                 請輸入你的想法標題，讓其他同學能更快速的了解你的想法！
@@ -64,7 +120,7 @@ export const CreateIdea = ({ open, onClose }) => {
               </ButtonGroup>
               <Editor
                 editorState={editorState}
-                onEditorStateChange={setEditorState}
+                onEditorStateChange={onEditorStateChange}
                 wrapperClassName="wrapper-class"
                 editorClassName="editor-class"
                 toolbarClassName="toolbar-class"
@@ -73,8 +129,9 @@ export const CreateIdea = ({ open, onClose }) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={onClose}>取消</Button>
-            <Button onClick={onClose}>送出</Button>
+            <Button type='submit' onClick={handleSubmit}>送出</Button>
           </DialogActions>
+          <div>{content}</div>
         </Dialog>
       </>
     );
