@@ -29,7 +29,10 @@ export const CreateIdea = ({ open, onClose }) => {
     const onEditorStateChange = function (editorState) {
       setEditorState(editorState);
       let content = editorState.getCurrentContent().getPlainText("\u0001");
-      setContent(content);
+      setData({
+        ...data,
+        content: content,
+      });
       console.log("content: ", content);
     };
 
