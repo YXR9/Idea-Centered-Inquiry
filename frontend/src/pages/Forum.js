@@ -1,39 +1,44 @@
-import React, { useEffect, useRef } from 'react';
+import config from '../config.json';
+import axios from 'axios';
+import React, { useEffect, useState, useRef } from 'react';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
 import Graph from 'react-vis-network-graph';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import NoteIcon from '../assets/sticky-note.png';
-// import {visNetworkOptions as option} from '../../utils/VisNetworkOptions';
 
 export default function Forum() {
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
   const graph = {
-    nodes: [
-      { id: 1, label: "node 1", title: 'this is title 1', shape: "image", image: NoteIcon, size: 100 },
-      { id: 2, label: "node 2", title: 'this is title 2', shape: "image", image: NoteIcon, size: 100  },
-      { id: 3, label: "node 3", title: 'this is title 3', shape: "image", image: NoteIcon, size: 100  },
-      { id: 4, label: "node 4", title: 'this is title 4', shape: "image", image: NoteIcon, size: 100  },
-      { id: 5, label: "node 5", title: 'this is title 5', shape: "image", image: NoteIcon, size: 100  },
-      { id: 6, label: "node 6", title: 'this is title 6', shape: "image", image: NoteIcon, size: 100  },
-      { id: 7, label: "node 7", title: 'this is title 7', shape: "image", image: NoteIcon, size: 100  },
-      { id: 8, label: "node 8", title: 'this is title 8', shape: "image", image: NoteIcon, size: 100  },
-      { id: 9, label: "node 9", title: 'this is title 9', shape: "image", image: NoteIcon, size: 100  },
-      { id: 10, label: "node 10", title: 'this is title 10', shape: "image", image: NoteIcon, size: 100  },
-      { id: 11, label: "node 11", title: 'this is title 11', shape: "image", image: NoteIcon, size: 100  },
-      { id: 12, label: "node 12", title: 'this is title 12', shape: "image", image: NoteIcon, size: 100  }
-    ],
-    edges: [
-      { from: 1, to: 2 },
-      { from: 1, to: 3 },
-      { from: 2, to: 4 },
-      { from: 2, to: 5 },
-      { from: 2, to: 6 },
-      { from: 3, to: 7 },
-      { from: 3, to: 8 },
-      { from: 3, to: 9 },
-      { from: 4, to: 10 },
-      { from: 5, to: 11 }
-    ]
+    nodes: nodes,
+    edges: edges
+    // nodes: [
+    //   { id: 1, label: "node 1", title: 'this is title 1', shape: "image", image: NoteIcon, size: 100 },
+    //   { id: 2, label: "node 2", title: 'this is title 2', shape: "image", image: NoteIcon, size: 100  },
+    //   { id: 3, label: "node 3", title: 'this is title 3', shape: "image", image: NoteIcon, size: 100  },
+    //   { id: 4, label: "node 4", title: 'this is title 4', shape: "image", image: NoteIcon, size: 100  },
+    //   { id: 5, label: "node 5", title: 'this is title 5', shape: "image", image: NoteIcon, size: 100  },
+    //   { id: 6, label: "node 6", title: 'this is title 6', shape: "image", image: NoteIcon, size: 100  },
+    //   { id: 7, label: "node 7", title: 'this is title 7', shape: "image", image: NoteIcon, size: 100  },
+    //   { id: 8, label: "node 8", title: 'this is title 8', shape: "image", image: NoteIcon, size: 100  },
+    //   { id: 9, label: "node 9", title: 'this is title 9', shape: "image", image: NoteIcon, size: 100  },
+    //   { id: 10, label: "node 10", title: 'this is title 10', shape: "image", image: NoteIcon, size: 100  },
+    //   { id: 11, label: "node 11", title: 'this is title 11', shape: "image", image: NoteIcon, size: 100  },
+    //   { id: 12, label: "node 12", title: 'this is title 12', shape: "image", image: NoteIcon, size: 100  }
+    // ],
+    // edges: [
+    //   { from: 1, to: 2 },
+    //   { from: 1, to: 3 },
+    //   { from: 2, to: 4 },
+    //   { from: 2, to: 5 },
+    //   { from: 2, to: 6 },
+    //   { from: 3, to: 7 },
+    //   { from: 3, to: 8 },
+    //   { from: 3, to: 9 },
+    //   { from: 4, to: 10 },
+    //   { from: 5, to: 11 }
+    // ]
   }
 
   const options = {

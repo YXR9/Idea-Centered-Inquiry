@@ -10,19 +10,11 @@ const createError = require('http-errors');
 const usePassport = require('./config/passport');
 const db = require("./models");
 require('dotenv').config();
-// const socketIO = require('socket.io');
 
 global.__basedir = __dirname;
 
 // assigning the variable app to express
 const app = express();
-
-// socketIO.on('connection', (socket) => {
-//   console.log(`⚡: ${socket.id} user just connected!`);
-//   socket.on('disconnect', () => {
-//     console.log('🔥: A user disconnected');
-//   });
-// });
 
 const corseOptions = {
   origin: "*",
@@ -109,20 +101,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-// Express 應用程序對象（app）現已完全完成配置。最後一步，是將其添加到模塊導出（這允許它通過 /bin/www 導入）
-// const server = require('http').Server(app);
-// const io = socketIO(server, {
-//   cors: {
-//     origin: "http://localhost:4000"
-//   }
-// });
-
-// io.on('connection', (socket) => {
-//   console.log(`⚡: ${socket.id} user just connected!`);
-//   socket.on('disconnect', () => {
-//     console.log('🔥: A user disconnected');
-//   });
-// });
 
 module.exports = app;
