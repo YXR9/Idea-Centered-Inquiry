@@ -21,6 +21,6 @@
         "enterActivity": "http://127.0.0.1:8000/api/activities"
     },
     {
-        "createIdea": "http://127.0.0.1:8000/api/nodes/create"
+        "createNode": "http://127.0.0.1:8000/api/nodes/create"
     }
 ]

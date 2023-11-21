@@ -54,7 +54,7 @@ export const CreateIdea = ({ open, onClose }) => {
         groupId: data.groupId
       };
       axios
-          .post(config[7].createIdea, ideaData)
+          .post(config[7].createNode, ideaData)
           .then((response) => {
               onClose(onClose);
               setData({
@@ -134,7 +134,6 @@ export const CreateIdea = ({ open, onClose }) => {
             <Button onClick={onClose}>取消</Button>
             <Button type='submit' onClick={handleSubmit}>送出</Button>
           </DialogActions>
-          <div>{content}</div>
         </Dialog>
       </>
     );
