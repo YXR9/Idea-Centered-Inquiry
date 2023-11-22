@@ -7,8 +7,8 @@ module.exports = app => {
     // Create an node.
     router.post('/create', bodyParser.json(), nodes.create);
 
-    // Find all nodes in subPart.
-    router.get('/all', nodes.findAllNode);
+    // Find all nodes in group.
+    router.get('/all/:groupId', nodes.findAllNode);
 
     // Get one node.
     router.get('/:id', nodes.findOneNode);

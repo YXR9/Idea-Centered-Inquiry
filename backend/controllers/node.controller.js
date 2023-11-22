@@ -39,7 +39,7 @@ exports.create = async (req, res) => {
 
 // Find all nodes by groupId.
 exports.findAllNode = (req, res) => {
-    const groupId = req.body.groupId;
+    const groupId = req.params.groupId;
 
     Group.findAll({
             where: {
