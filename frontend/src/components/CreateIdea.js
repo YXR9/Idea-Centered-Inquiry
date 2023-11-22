@@ -5,6 +5,8 @@ import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle,
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { sendMessage } from '../utils/socketTool';
+import io from 'socket.io-client';
 
 const scaffold = [
   <Button key="1">我的想法</Button>,
@@ -15,7 +17,9 @@ const scaffold = [
   <Button key="6">我的總結</Button>
 ];
 
+
 export const CreateIdea = ({ open, onClose }) => {
+    const ws = io.connect('http://127.0.0.1:8000');
     const userId = localStorage.getItem('userId')
     const [editorState, setEditorState] = useState(EditorState.createEmpty());;
     const [content, setContent] = useState();
@@ -26,6 +30,9 @@ export const CreateIdea = ({ open, onClose }) => {
       author: userId,
       groupId: "1"
     });
+
+    
+
     const onEditorStateChange = function (editorState) {
       setEditorState(editorState);
       let content = editorState.getCurrentContent().getPlainText("\u0001");
@@ -65,6 +72,8 @@ export const CreateIdea = ({ open, onClose }) => {
                 groupId: ""
               })
               console.log(response.status, response.data);
+              console.log("1",typeof ws);
+              sendMessage(ws);
           })
           .catch((error) => {
               if (error.response) {

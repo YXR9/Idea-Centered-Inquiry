@@ -63,12 +63,6 @@ export default function Index() {
     });
   };
 
-  const sendMessage = () => {
-    ws.emit('event01', '回傳發送訊息的...', (response) => {
-      console.log(response.status);
-    });
-  };
-
   return (
     <div className="home-container">
       <IndexPage_Navbar />

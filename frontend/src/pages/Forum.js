@@ -1,117 +1,161 @@
-import config from '../config.json';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import React, { useEffect, useState, useRef } from 'react';
+import config from '../config.json';
+import io from 'socket.io-client';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
-import Graph from 'react-vis-network-graph';
-import { Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import Gr from "../utils/Gr";
 import NoteIcon from '../assets/sticky-note.png';
 
 export default function Forum() {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
-  const graph = {
-    nodes: nodes,
-    edges: edges
-    // nodes: [
-    //   { id: 1, label: "node 1", title: 'this is title 1', shape: "image", image: NoteIcon, size: 100 },
-    //   { id: 2, label: "node 2", title: 'this is title 2', shape: "image", image: NoteIcon, size: 100  },
-    //   { id: 3, label: "node 3", title: 'this is title 3', shape: "image", image: NoteIcon, size: 100  },
-    //   { id: 4, label: "node 4", title: 'this is title 4', shape: "image", image: NoteIcon, size: 100  },
-    //   { id: 5, label: "node 5", title: 'this is title 5', shape: "image", image: NoteIcon, size: 100  },
-    //   { id: 6, label: "node 6", title: 'this is title 6', shape: "image", image: NoteIcon, size: 100  },
-    //   { id: 7, label: "node 7", title: 'this is title 7', shape: "image", image: NoteIcon, size: 100  },
-    //   { id: 8, label: "node 8", title: 'this is title 8', shape: "image", image: NoteIcon, size: 100  },
-    //   { id: 9, label: "node 9", title: 'this is title 9', shape: "image", image: NoteIcon, size: 100  },
-    //   { id: 10, label: "node 10", title: 'this is title 10', shape: "image", image: NoteIcon, size: 100  },
-    //   { id: 11, label: "node 11", title: 'this is title 11', shape: "image", image: NoteIcon, size: 100  },
-    //   { id: 12, label: "node 12", title: 'this is title 12', shape: "image", image: NoteIcon, size: 100  }
-    // ],
-    // edges: [
-    //   { from: 1, to: 2 },
-    //   { from: 1, to: 3 },
-    //   { from: 2, to: 4 },
-    //   { from: 2, to: 5 },
-    //   { from: 2, to: 6 },
-    //   { from: 3, to: 7 },
-    //   { from: 3, to: 8 },
-    //   { from: 3, to: 9 },
-    //   { from: 4, to: 10 },
-    //   { from: 5, to: 11 }
-    // ]
-  }
+  const [graph, setGraph] = useState({});
+  const ws = io.connect('http://127.0.0.1:8000');
+  
+  useEffect(() => {
+    console.log("NODE: ", nodes)
+    if (ws) {
+      console.log("initWebSocket 1");
+      initWebSocket();
+    }
+  });
+  
+  const getNodes = async () => {
+    const fetchData = await axios.get(`${config[8].getNode}/1`, {
+      headers: {
+        authorization: 'Bearer JWT Token',
+      },
+    });
+    console.log(nodes);
+    console.log("API Response Nodes:", fetchData.data[0].Nodes);
+
+    const nodeData = fetchData.data[0].Nodes.map((node) => ({
+      id: node.id,
+      label: node.title,
+      title: node.content,
+      shape: 'image',
+      image: NoteIcon,
+      size: 100,
+    }));
+    console.log('nodeData: ', nodeData);
+    const tempGraph = {
+      nodes: [
+        { id: 1, label: 'Node 1', title: 'node 1 tootip text' },
+        { id: 2, label: 'Node 2', title: 'node 2 tootip text' },
+        { id: 3, label: 'Node 3', title: 'node 3 tootip text' },
+        { id: 4, label: 'Node 4', title: 'node 4 tootip text' },
+        { id: 5, label: 'Node 5', title: 'node 5 tootip text' },
+      ],
+      edges: [
+        { from: 1, to: 2 },
+        { from: 1, to: 3 },
+        { from: 2, to: 4 },
+        { from: 2, to: 5 },
+      ],
+    };
+    setGraph(tempGraph);
+    console.log('graph: ', graph);
+      
+    
+  };
+  
+  const initWebSocket = () => {
+    
+    console.log("initWebSocket 2");
+    ws.on('connect', () => {
+      console.log("connect 1", ws.id);
+    });
+
+    ws.on('event02', (arg, callback) => {
+      
+      console.log("connect [event02]",arg);
+      getNodes();
+      callback({
+        status: 'event02 ok',
+      });
+    });
+  };
+
+  console.log('graph.node: ', nodes);
+  console.log('graph.edges: ', edges);
+
+  
 
   const options = {
     layout: {
       randomSeed: 23,
       hierarchical: {
         enabled: true,
-        // levelSeparation: 40,
-        // nodeSpacing: 300,
-        // treeSpacing: 100,
         blockShifting: true,
         edgeMinimization: true,
-        direction: "LR",
-        sortMethod: "directed"
-      }
+        direction: 'LR',
+        sortMethod: 'directed',
+      },
     },
     interaction: {
-      navigationButtons: true
+      navigationButtons: true,
     },
     edges: {
-      color: "#8B8B8B",
+      color: '#8B8B8B',
       length: 300,
-      color: {inherit: "from"},
+      color: { inherit: 'from' },
       smooth: {
         enabled: true,
-        type: "dynamic",
-        roundness: 1
+        type: 'dynamic',
+        roundness: 1,
       },
       arrows: {
         from: {
           enabled: true,
-          scaleFactor: 0.7
+          scaleFactor: 0.7,
         },
         to: {
-          enabled: false
-        }
-      }
+          enabled: false,
+        },
+      },
     },
     nodes: {
-      shape: "box",
+      shape: 'box',
       scaling: {
-          min: 10,
+        min: 10,
+        max: 30,
+        label: {
+          min: 8,
           max: 30,
-          label: {
-              min: 8,
-              max: 30,
-              drawThreshold: 12,
-              maxVisible: 20
-          }
+          drawThreshold: 12,
+          maxVisible: 20,
+        },
       },
       font: {
-          size: 12,
-          face: "Tahoma"
-      }
+        size: 12,
+        face: 'Tahoma',
+      },
     },
-  }
- 
+  };
+
   const events = {
-    select: function(event) {
+    select: function (event) {
       var { nodes, edges } = event;
-    }
+    },
   };
 
   return (
     <div className="home-container">
-        <ForumPage_Navbar />
-        <div id="graph" style={{ flex: 1, height: '100vh', overflow: 'auto', position: 'fixed', top: '0', left: '0', marginLeft: '64px' }}>
-            <Graph
-              graph={graph}
-              options={options}
-              events={events}
-            />
-        </div>
+      <ForumPage_Navbar />
+      <div
+        id="graph"
+        style={{
+          flex: 1,
+          height: '100vh',
+          overflow: 'auto',
+          position: 'fixed',
+          top: '0',
+          left: '0',
+          marginLeft: '64px',
+        }}
+      >
+        <Gr graph={graph} options={options} events={events} />
+      </div>
     </div>
   );
 }

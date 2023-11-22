@@ -35,19 +35,36 @@ const io = socketServer(server,{
   },
 }
 );
-
+// io.on("connection", (socket) => {
+//   console.log(`a user connected ${socket.id}`);
+  
+//   socket.on("event01", (data) => {
+//     socket.broadcast.emit("event02", data);
+//   });
+// });
 
 io.on("connection", socket => {
   // console.log(`⚡: ${socket.id} user just connected!`);
   console.log(socket.connected); 
+
+
+
   socket.on('event01', (msg, callback) => {
+    
+
+    //1
     console.log("event01", msg);
+    
+    //2
     callback({
       status: "event01 ok"
     })
-    socket.emit("event02", "event02 ok", (response) => {
-      console.log(response.status); // ok
+
+    //3
+    socket.broadcast.emit("event02", "event02 ok", (response) => {
+      console.log("event02 sender status:",response.status); // ok
     });
+   
   });
 });
 
