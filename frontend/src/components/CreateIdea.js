@@ -18,7 +18,7 @@ const scaffold = [
 ];
 
 
-export const CreateIdea = ({ open, onClose, currentUser, socket }) => {
+export const CreateIdea = ({ open, onClose }) => {
     const ws = io.connect('http://127.0.0.1:8000');
     const userId = localStorage.getItem('userId')
     const [editorState, setEditorState] = useState(EditorState.createEmpty());;

@@ -10,7 +10,6 @@ export default function Forum() {
   const socket = useRef();
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
-  const [currentUser, setCurrentUser] = useState(undefined);
   const ws = io.connect('http://127.0.0.1:8000');
   
   useEffect(() => {
@@ -19,13 +18,6 @@ export default function Forum() {
       initWebSocket();
     }
   }, []);
-
-  useEffect(() => {
-    if (currentUser) {
-      socket.current = io('http://127.0.0.1:8000');
-      socket.current.emit("add-user", currentUser.id);
-    }
-  })
   
   const getNodes = async () => {
     const fetchData = await axios.get(`${config[8].getNode}/1`, {
@@ -129,7 +121,7 @@ export default function Forum() {
 
   return (
     <div className="home-container">
-      <ForumPage_Navbar currentUser={currentUser} socket={socket}/>
+      <ForumPage_Navbar/>
       <div
         id="graph"
         style={{

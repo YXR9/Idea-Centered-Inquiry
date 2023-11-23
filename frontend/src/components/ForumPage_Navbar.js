@@ -104,7 +104,7 @@ const menuItems = [
 
 const specialItems = ['新增想法牆','任務地圖', '學習歷程'];
 
-export default function ForumPage_Navbar({ currentUser, socket }) {
+export default function ForumPage_Navbar() {
   const [activityData, setActivityData] = useState(null);
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -234,8 +234,6 @@ export default function ForumPage_Navbar({ currentUser, socket }) {
         <CreateIdea
           open={openModal}
           onClose={closeModal}
-          currentUser={currentUser}
-          socket={socket}
         />
       )}
       {selectedModal === 'createQuestion' && (
