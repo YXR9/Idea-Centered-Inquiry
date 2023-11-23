@@ -42,16 +42,14 @@ const io = socketServer(server,{
 //     socket.broadcast.emit("event02", data);
 //   });
 // });
+global.onlineUsers = new Map();
 
 io.on("connection", socket => {
   // console.log(`⚡: ${socket.id} user just connected!`);
   console.log(socket.connected); 
-
-
+  global.chatSocket = socket;
 
   socket.on('event01', (msg, callback) => {
-    
-
     //1
     console.log("event01", msg);
     
@@ -64,8 +62,18 @@ io.on("connection", socket => {
     socket.broadcast.emit("event02", "event02 ok", (response) => {
       console.log("event02 sender status:",response.status); // ok
     });
-   
   });
+
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  })
+
+  socket.on("create-node", (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if(sendUserSocket) {
+      socket.to(sendUserSocket).emit("node-recieve", data.msg);
+    }
+  })
 });
 
 

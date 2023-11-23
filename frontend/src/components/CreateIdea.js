@@ -1,6 +1,6 @@
 import config from '../config.json';
 import axios from "axios";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormHelperText, TextField, InputLabel, Box } from '@mui/material';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -18,7 +18,7 @@ const scaffold = [
 ];
 
 
-export const CreateIdea = ({ open, onClose }) => {
+export const CreateIdea = ({ open, onClose, currentUser, socket }) => {
     const ws = io.connect('http://127.0.0.1:8000');
     const userId = localStorage.getItem('userId')
     const [editorState, setEditorState] = useState(EditorState.createEmpty());;
@@ -30,8 +30,6 @@ export const CreateIdea = ({ open, onClose }) => {
       author: userId,
       groupId: "1"
     });
-
-    
 
     const onEditorStateChange = function (editorState) {
       setEditorState(editorState);

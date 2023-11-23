@@ -5,10 +5,13 @@ import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle,
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { sendMessage } from '../utils/socketTool';
+import io from 'socket.io-client';
 
 export const CreateNote = ({ open, onClose }) => {
-    const userId = localStorage.getItem('userId')
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());;
+    const userId = localStorage.getItem('userId');
+    const ws = io.connect('http://127.0.0.1:8000');
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [content, setContent] = useState();
     const [data, setData] = useState({
       title: "",
@@ -56,6 +59,8 @@ export const CreateNote = ({ open, onClose }) => {
                 groupId: ""
               })
               console.log(response.status, response.data);
+              console.log("3",typeof ws);
+              sendMessage(ws);
           })
           .catch((error) => {
               if (error.response) {

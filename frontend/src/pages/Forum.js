@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import config from '../config.json';
 import io from 'socket.io-client';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
-import Gr from "../utils/Gr";
+import Graph from "react-vis-network-graph";
 import NoteIcon from '../assets/sticky-note.png';
 
 export default function Forum() {
+  const socket = useRef();
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
-  const [graph, setGraph] = useState({});
+  const [currentUser, setCurrentUser] = useState(undefined);
   const ws = io.connect('http://127.0.0.1:8000');
   
   useEffect(() => {
-    console.log("NODE: ", nodes)
     if (ws) {
       console.log("initWebSocket 1");
       initWebSocket();
     }
-  });
+  }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      socket.current = io('http://127.0.0.1:8000');
+      socket.current.emit("add-user", currentUser.id);
+    }
+  })
   
   const getNodes = async () => {
     const fetchData = await axios.get(`${config[8].getNode}/1`, {
@@ -26,8 +33,6 @@ export default function Forum() {
         authorization: 'Bearer JWT Token',
       },
     });
-    console.log(nodes);
-    console.log("API Response Nodes:", fetchData.data[0].Nodes);
 
     const nodeData = fetchData.data[0].Nodes.map((node) => ({
       id: node.id,
@@ -38,25 +43,8 @@ export default function Forum() {
       size: 100,
     }));
     console.log('nodeData: ', nodeData);
-    const tempGraph = {
-      nodes: [
-        { id: 1, label: 'Node 1', title: 'node 1 tootip text' },
-        { id: 2, label: 'Node 2', title: 'node 2 tootip text' },
-        { id: 3, label: 'Node 3', title: 'node 3 tootip text' },
-        { id: 4, label: 'Node 4', title: 'node 4 tootip text' },
-        { id: 5, label: 'Node 5', title: 'node 5 tootip text' },
-      ],
-      edges: [
-        { from: 1, to: 2 },
-        { from: 1, to: 3 },
-        { from: 2, to: 4 },
-        { from: 2, to: 5 },
-      ],
-    };
-    setGraph(tempGraph);
-    console.log('graph: ', graph);
-      
-    
+    setNodes(nodeData);
+    console.log('graph: ', nodes);
   };
   
   const initWebSocket = () => {
@@ -64,10 +52,10 @@ export default function Forum() {
     console.log("initWebSocket 2");
     ws.on('connect', () => {
       console.log("connect 1", ws.id);
+      getNodes();
     });
 
     ws.on('event02', (arg, callback) => {
-      
       console.log("connect [event02]",arg);
       getNodes();
       callback({
@@ -76,22 +64,22 @@ export default function Forum() {
     });
   };
 
-  console.log('graph.node: ', nodes);
-  console.log('graph.edges: ', edges);
-
-  
+  const graph = {
+    nodes: nodes,
+    edges: edges,
+  };
 
   const options = {
-    layout: {
-      randomSeed: 23,
-      hierarchical: {
-        enabled: true,
-        blockShifting: true,
-        edgeMinimization: true,
-        direction: 'LR',
-        sortMethod: 'directed',
-      },
-    },
+    // layout: {
+    //   randomSeed: 23,
+    //   hierarchical: {
+    //     enabled: true,
+    //     blockShifting: true,
+    //     edgeMinimization: true,
+    //     direction: 'LR',
+    //     sortMethod: 'directed',
+    //   },
+    // },
     interaction: {
       navigationButtons: true,
     },
@@ -141,7 +129,7 @@ export default function Forum() {
 
   return (
     <div className="home-container">
-      <ForumPage_Navbar />
+      <ForumPage_Navbar currentUser={currentUser} socket={socket}/>
       <div
         id="graph"
         style={{
@@ -154,7 +142,7 @@ export default function Forum() {
           marginLeft: '64px',
         }}
       >
-        <Gr graph={graph} options={options} events={events} />
+        <Graph graph={graph} options={options} events={events}/>
       </div>
     </div>
   );
