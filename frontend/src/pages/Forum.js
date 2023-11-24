@@ -112,7 +112,14 @@ export default function Forum() {
       },
     },
     nodes: {
-      shape: 'box',
+      shape: <ul>
+      <li>
+        <a href="#" contenteditable>
+          <h2>Title #1</h2>
+          <p>Text Content #1</p>
+        </a>
+      </li>
+      </ul>,
       scaling: {
         min: 10,
         max: 30,
