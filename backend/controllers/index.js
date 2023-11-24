@@ -5,6 +5,7 @@ const Groups = require('./group.controller');
 const Part = require('./part.controller');
 const SubPart = require('./subPart.controller');
 const Node = require('./node.controller');
+const Edge = require('./edge.controller');
 
 module.exports = {
   User,
@@ -13,5 +14,6 @@ module.exports = {
   Groups,
   Part,
   SubPart,
-  Node
+  Node,
+  Edge
 };

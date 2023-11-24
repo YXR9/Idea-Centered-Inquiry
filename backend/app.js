@@ -78,6 +78,7 @@ require("./routes/group.routes")(app);
 require("./routes/part.routes")(app);
 require("./routes/subPart.routes")(app);
 require("./routes/node.routes")(app);
+require("./routes/edge.routes")(app);
 
 // simple route
 app.get("/", (req, res) => {

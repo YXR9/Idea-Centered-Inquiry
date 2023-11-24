@@ -39,6 +39,7 @@ db.SubPart = require("./subPart.model.js")(sequelize, DataTypes);
 db.ActivityPartSubPart = require("./activityPartSubPart.model.js")(sequelize, DataTypes);
 db.Node = require("./node.model.js")(sequelize, DataTypes);
 db.GroupNode = require("./groupNode.model.js")(sequelize, DataTypes);
+db.Edge = require("./edge.model.js")(sequelize, DataTypes);
 
 db.User.belongsToMany(db.Profile, { through: db.UserProfile });
 db.Profile.belongsToMany(db.User, { through: db.UserProfile });
