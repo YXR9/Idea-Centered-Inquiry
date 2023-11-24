@@ -7,8 +7,8 @@ module.exports = app => {
     // Create an edge.
     router.post('/create', bodyParser.json(), edges.create);
 
-    // Find all nodes in group.
-    // router.get('/all/:groupId', nodes.findAllNode);
+    // Find all edges in a group.
+    router.get('/all/:groupId', edges.findAllEdge);
 
     // // Get one node.
     // router.get('/:id', nodes.findOneNode);

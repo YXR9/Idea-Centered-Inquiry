@@ -28,36 +28,32 @@ exports.create = async (req, res) => {
     }
 };
 
-// Find all nodes by groupId.
-// exports.findAllNode = (req, res) => {
-//     const groupId = req.params.groupId;
+// Find all edges by groupId.
+exports.findAllEdge = (req, res) => {
+    const groupId = req.params.groupId;
 
-//     Group.findAll({
-//             where: {
-//                 id: groupId
-//             },
-//             include: [{
-//                 model: Node,
-//                 through: { attributes: [] }
-//             }],
+    Edge.findAll({
+            where: {
+                groupId: groupId
+            },
             
-//         })
-//         .then(data => {
-//             if (data) {
-//               res.send(data);
-//             } else {
-//               res.status(404).send({
-//                 message: `Cannot find group with id=${groupId}.`
-//               });
-//             }
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//               message: 
-//                 err.message || "Error retrieving group with id=" + groupId,
-//             });
-//         });
-// };
+        })
+        .then(data => {
+            if (data) {
+              res.send(data);
+            } else {
+              res.status(404).send({
+                message: `Cannot find edges with id=${groupId}.`
+              });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+              message: 
+                err.message || "Error retrieving edges with id=" + groupId,
+            });
+        });
+};
 
 // // Find a single node with an id.
 // exports.findOneNode = (req, res) => {
