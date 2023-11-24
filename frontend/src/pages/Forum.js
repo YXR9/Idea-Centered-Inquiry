@@ -26,6 +26,15 @@ export default function Forum() {
       },
     });
 
+    const fetchEdge = await axios.get(`${config[10].getEdge}/1`, {
+      headers: {
+        authorization: 'Bearer JWT Token',
+      },
+    });
+
+    console.log("fetchData: ", fetchData);
+    console.log("fetchEdge: ", fetchEdge);
+
     const nodeData = fetchData.data[0].Nodes.map((node) => ({
       id: node.id,
       label: node.title,
@@ -34,8 +43,16 @@ export default function Forum() {
       image: NoteIcon,
       size: 100,
     }));
+
+    const edgeData = fetchEdge.data.map((edge) => ({
+      from: edge.from,
+      to: edge.to
+    }));
+
     console.log('nodeData: ', nodeData);
+    console.log('edgeData: ', edgeData);
     setNodes(nodeData);
+    setEdges(edgeData);
     console.log('graph: ', nodes);
   };
   
