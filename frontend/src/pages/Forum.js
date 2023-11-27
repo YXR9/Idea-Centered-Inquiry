@@ -79,28 +79,24 @@ export default function Forum() {
   };
 
   const options = {
-    // layout: {
-    //   randomSeed: 23,
-    //   hierarchical: {
-    //     enabled: true,
-    //     blockShifting: true,
-    //     edgeMinimization: true,
-    //     direction: 'LR',
-    //     sortMethod: 'directed',
-    //   },
-    // },
+    layout: {
+      randomSeed: 23,
+      hierarchical: {
+        enabled: true,
+        blockShifting: true,
+        edgeMinimization: true,
+        direction: 'RL',
+        sortMethod: 'directed',
+      },
+    },
     interaction: {
       navigationButtons: true,
     },
     edges: {
       color: '#8B8B8B',
+      width: 3,
       length: 150,
       color: { inherit: 'from' },
-      // smooth: {
-      //   enabled: true,
-      //   type: 'dynamic',
-      //   roundness: 1,
-      // },
       arrows: {
         from: {
           enabled: true,
