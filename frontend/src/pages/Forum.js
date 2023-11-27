@@ -39,9 +39,9 @@ export default function Forum() {
       id: node.id,
       label: node.title,
       title: node.content,
-      shape: 'image',
-      image: NoteIcon,
-      size: 100,
+      // shape: 'image',
+      // image: NoteIcon,
+      // size: 100,
     }));
 
     const edgeData = fetchEdge.data.map((edge) => ({
@@ -94,13 +94,13 @@ export default function Forum() {
     },
     edges: {
       color: '#8B8B8B',
-      length: 300,
+      length: 150,
       color: { inherit: 'from' },
-      smooth: {
-        enabled: true,
-        type: 'dynamic',
-        roundness: 1,
-      },
+      // smooth: {
+      //   enabled: true,
+      //   type: 'dynamic',
+      //   roundness: 1,
+      // },
       arrows: {
         from: {
           enabled: true,
@@ -112,29 +112,97 @@ export default function Forum() {
       },
     },
     nodes: {
-      shape: <ul>
-      <li>
-        <a href="#" contenteditable>
-          <h2>Title #1</h2>
-          <p>Text Content #1</p>
-        </a>
-      </li>
-      </ul>,
+      shape: 'box',
+      borderWidth: 1,
+      chosen: true,
+      shapeProperties: {
+        borderRadius: 1
+      },
+      color: {
+        border: '#E3DFFD',
+        background: '#E3DFFD',
+        highlight: {
+          border: '#e3dffdcb',
+          background: '#e3dffdcb'
+        },
+        hover: {
+          border: '#e3dffdcb',
+          background: '#e3dffdcb'
+        }
+      },
+      opacity: 1,
+      font: {
+        color: '#343434',
+        size: 14, // px
+        face: 'arial',
+        background: 'none',
+        strokeWidth: 0, // px
+        strokeColor: '#ffffff',
+        align: 'center',
+        multi: false,
+        vadjust: 0,
+        bold: {
+          color: '#343434',
+          size: 14, // px
+          face: 'arial',
+          vadjust: 0,
+          mod: 'bold'
+        },
+        ital: {
+          color: '#343434',
+          size: 14, // px
+          face: 'arial',
+          vadjust: 0,
+          mod: 'italic',
+        },
+        boldital: {
+          color: '#343434',
+          size: 14, // px
+          face: 'arial',
+          vadjust: 0,
+          mod: 'bold italic'
+        },
+        mono: {
+          color: '#343434',
+          size: 15, // px
+          face: 'courier new',
+          vadjust: 2,
+          mod: ''
+        }
+      },
+      hidden: false,
+      label: undefined,
+      level: undefined,
+      margin: 20,
+      shadow: {
+        color: 'rgba(33,33,33,.7)',
+        size: 10,
+        x: 10,
+        y: 10
+      },
+      widthConstraint: { minimum: 20, maximum: 50 },
+      mass: 1,
+      physics: true,
       scaling: {
-        min: 10,
-        max: 30,
         label: {
-          min: 8,
+          enabled: true,
+          min: 12,
           max: 30,
           drawThreshold: 12,
-          maxVisible: 20,
+          maxVisible: 30,
         },
+        customScalingFunction: function (min,max,total,value) {
+          if (max === min) {
+            return 0.5;
+          }
+          else {
+            let scale = 1 / (max - min);
+            return Math.max(0,(value - min)*scale);
+          }
+        }
       },
-      font: {
-        size: 12,
-        face: 'Tahoma',
-      },
-    },
+      value: 1,
+    }
   };
 
   const events = {
