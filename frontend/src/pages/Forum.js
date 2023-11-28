@@ -91,7 +91,9 @@ export default function Forum() {
     },
     interaction: {
       navigationButtons: true,
+      tooltipDelay: 300
     },
+    clickToUse: true,
     edges: {
       color: '#8B8B8B',
       width: 3,
@@ -167,7 +169,7 @@ export default function Forum() {
         }
       },
       hidden: false,
-      label: undefined,
+      label: "HTML",
       level: undefined,
       margin: 20,
       shadow: {
@@ -176,6 +178,7 @@ export default function Forum() {
         x: 10,
         y: 10
       },
+      heightConstraint: { minimum: 20, valign: 'middle' },
       widthConstraint: { minimum: 20, maximum: 50 },
       mass: 1,
       physics: true,
@@ -205,6 +208,10 @@ export default function Forum() {
     select: function (event) {
       var { nodes, edges } = event;
     },
+    click: (event) => {
+      var { nodes, edges } = event;
+      console.log()
+    }
   };
 
   return (
@@ -221,6 +228,7 @@ export default function Forum() {
           left: '0',
           marginLeft: '64px',
         }}
+        onClick={()=> { console.log("click!!")}}
       >
         <Graph graph={graph} options={options} events={events}/>
       </div>
