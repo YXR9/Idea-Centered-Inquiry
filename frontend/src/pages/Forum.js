@@ -39,6 +39,7 @@ export default function Forum() {
       id: node.id,
       label: node.title,
       title: node.content,
+      group: node.tags
       // shape: 'image',
       // image: NoteIcon,
       // size: 100,
@@ -94,6 +95,59 @@ export default function Forum() {
       tooltipDelay: 300
     },
     clickToUse: true,
+    groups: {
+      idea: {
+        color: {
+          border: '#D2E0FB',
+          background: '#D2E0FB',
+          highlight: {
+            border: '#D2E0FB',
+            background: '#D2E0FB'
+          }
+        },
+      },
+      question: {
+        color: {
+          border: '#FFC5C5',
+          background: '#FFC5C5',
+          highlight: {
+            border: '#FFC5C5',
+            background: '#FFC5C5'
+          }
+        },
+      },
+      information: {
+        color: {
+          border: '#8EACCD',
+          background: '#8EACCD',
+          highlight: {
+            border: '#8EACCD',
+            background: '#8EACCD'
+          }
+        },
+      },
+      experiment: {
+        color: {
+          border: '#D7E5CA',
+          background: '#D7E5CA',
+          highlight: {
+            border: '#D7E5CA',
+            background: '#D7E5CA'
+          }
+        }
+      },
+      record: {
+        color: {
+          border: '#F9F3CC',
+          background: '#F9F3CC',
+          highlight: {
+            border: '#F9F3CC',
+            background: '#F9F3CC'
+          }
+        },
+      }
+      // add more groups here
+    },
     edges: {
       color: '#8B8B8B',
       width: 3,
@@ -209,8 +263,8 @@ export default function Forum() {
       var { nodes, edges } = event;
     },
     click: (event) => {
-      var { nodes, edges } = event;
-      console.log()
+      var { nodes, edges, items } = event;
+      console.log('click~', event);
     }
   };
 
