@@ -31,5 +31,8 @@
     },
     {
         "getEdge": "http://127.0.0.1:8000/api/edges/all"
+    },
+    {
+        "getOneNode": "http://127.0.0.1:8000/api/nodes"
     }
 ]

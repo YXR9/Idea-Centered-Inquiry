@@ -4,13 +4,26 @@ import config from '../config.json';
 import io from 'socket.io-client';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
 import Graph from "react-vis-network-graph";
-import NoteIcon from '../assets/sticky-note.png';
+import NoteIcon from '../assets/sticky-note.png'; 
+import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormHelperText, TextField, InputLabel, Box } from '@mui/material';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
 
 export default function Forum() {
   const socket = useRef();
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
-  const ws = io.connect('http://127.0.0.1:8000');
+  const [open, setOpen] = useState(false);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const ws = io.connect('http://127.0.0.1:8000');              
+    
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+      setOpen(false);
+  };
   
   useEffect(() => {
     if (ws) {
@@ -40,9 +53,6 @@ export default function Forum() {
       label: node.title,
       title: node.content,
       group: node.tags
-      // shape: 'image',
-      // image: NoteIcon,
-      // size: 100,
     }));
 
     const edgeData = fetchEdge.data.map((edge) => ({
@@ -95,6 +105,21 @@ export default function Forum() {
       tooltipDelay: 300
     },
     clickToUse: true,
+    dataManipulation: true,
+    onAdd: function(data,callback) {
+        /** data = {id: random unique id,
+        *           label: new,
+        *           x: x position of click (canvas space),
+        *           y: y position of click (canvas space),
+        *           allowedToMoveX: true,
+        *           allowedToMoveY: true
+        *          };
+        */
+        // var newData = {..}; // alter the data as you want.
+                            // all fields normally accepted by a node can be used.
+        // callback(newData);  // call the callback to add a node.
+        console.log("onAdd");
+    },
     groups: {
       idea: {
         color: {
@@ -264,7 +289,61 @@ export default function Forum() {
     },
     click: (event) => {
       var { nodes, edges, items } = event;
+      console.log('click~', nodes[0]);
       console.log('click~', event);
+      <div>button
+        {/* <>
+          <Button onClick={handleClickOpen}>回覆</Button>
+        </> */}
+        {/* <Dialog
+          open={open}
+          onClose={handleClose}
+          maxWidth="md"
+          scroll='body'
+        >
+          <DialogTitle>新增想法</DialogTitle>
+          <Divider variant="middle" />
+          <DialogContent>
+            <FormControl variant="standard" fullWidth>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label={"title"}
+                type="text"
+                name='title'
+                // value={data.title}
+                fullWidth
+                variant="standard"
+                // onChange={handleChange}
+              />
+              <FormHelperText id="component-helper-text">
+                請輸入你的想法標題，讓其他同學能更快速的了解你的想法！
+              </FormHelperText>
+            </FormControl>
+            <Box
+              sx={{
+                display: 'flex',
+                '& > *': {
+                  m: 1,
+                },
+              }}
+            >
+              <Editor
+                editorState={editorState}
+                // onEditorStateChange={onEditorStateChange}
+                wrapperClassName="wrapper-class"
+                editorClassName="editor-class"
+                toolbarClassName="toolbar-class"
+              />
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>取消</Button>
+            <Button type='submit' onClick={handleClose}>送出</Button>
+          </DialogActions>
+        </Dialog> */}
+      </div>
     }
   };
 
@@ -282,7 +361,6 @@ export default function Forum() {
           left: '0',
           marginLeft: '64px',
         }}
-        onClick={()=> { console.log("click!!")}}
       >
         <Graph graph={graph} options={options} events={events}/>
       </div>
