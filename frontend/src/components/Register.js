@@ -1,6 +1,6 @@
 import config from '../config.json';
 import axios from "axios";
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from '@mui/material';
 import registerImg from '../assets/undraw_mobile_payments_re_7udl.svg';
 import { Login } from './Login';
