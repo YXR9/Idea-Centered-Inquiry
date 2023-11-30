@@ -4,90 +4,88 @@ import config from '../config.json';
 import io from 'socket.io-client';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
 import Graph from "react-vis-network-graph";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Divider } from '@mui/material';
+import { ViewNode } from '../components/ViewNode';
 
 export default function Forum() {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [open, setOpen] = useState(false);
-  const [nodeData, setNodeData] = useState(null);
-  const [selectedNode, setSelectedNode] = useState(null);
-  const ws = io.connect('http://127.0.0.1:8000');              
-    
+  const [nodeContent, setNodeContent] = useState(null);
+  const ws = io.connect('http://127.0.0.1:8000');
+
   const handleClickOpen = (nodeId) => {
     setOpen(true);
-    setSelectedNode(nodeId);
-    localStorage.setItem('nodeId', nodeId);
+    fetchNodeData(nodeId);
   };
 
   const handleClose = () => {
-      setOpen(false);
-      localStorage.removeItem('nodeId');
+    setOpen(false);
   };
-  
+
+  const fetchNodeData = async (nodeId) => {
+    try {
+      const response = await axios.get(`${config[11].getOneNode}/${nodeId}`);
+      setNodeContent(response.data);
+      console.log('Node Content: ', response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     if (ws) {
-      console.log("initWebSocket 1");
       initWebSocket();
     }
-    const getNodeData = async () => {
-      try {
-          const response = await axios.get(`${config[11].getOneNode}/${localStorage.getItem('nodeId')}`);
-          setNodeData(response.data);
-          console.log(response.data);
-      } catch (err) {
-          console.log(err);
-      }
-    };
-
-    getNodeData();
   }, []);
-  
+
   const getNodes = async () => {
-    const fetchData = await axios.get(`${config[8].getNode}/1`, {
-      headers: {
-        authorization: 'Bearer JWT Token',
-      },
-    });
+    try{
+      const fetchData = await axios.get(`${config[8].getNode}/1`, {
+        headers: {
+          authorization: 'Bearer JWT Token',
+        },
+      });
 
-    const fetchEdge = await axios.get(`${config[10].getEdge}/1`, {
-      headers: {
-        authorization: 'Bearer JWT Token',
-      },
-    });
+      const fetchEdge = await axios.get(`${config[10].getEdge}/1`, {
+        headers: {
+          authorization: 'Bearer JWT Token',
+        },
+      });
 
-    console.log("fetchData: ", fetchData);
-    console.log("fetchEdge: ", fetchEdge);
+      console.log("fetchData: ", fetchData);
+      console.log("fetchEdge: ", fetchEdge);
 
-    const nodeData = fetchData.data[0].Nodes.map((node) => ({
-      id: node.id,
-      label: node.title,
-      title: node.content,
-      group: node.tags
-    }));
+      const nodeData = fetchData.data[0].Nodes.map((node) => ({
+        id: node.id,
+        label: node.title,
+        title: node.content,
+        group: node.tags
+      }));
 
-    const edgeData = fetchEdge.data.map((edge) => ({
-      from: edge.from,
-      to: edge.to
-    }));
+      const edgeData = fetchEdge.data.map((edge) => ({
+        from: edge.from,
+        to: edge.to
+      }));
 
-    console.log('nodeData: ', nodeData);
-    console.log('edgeData: ', edgeData);
-    setNodes(nodeData);
-    setEdges(edgeData);
-    console.log('graph: ', nodes);
+      console.log('nodeData: ', nodeData);
+      console.log('edgeData: ', edgeData);
+      setNodes(nodeData);
+      setEdges(edgeData);
+      console.log('graph: ', nodes);
+      localStorage.setItem("nodeDataLength", nodeData.length + 1);
+    } catch (error) {
+      console.error('Error fetching nodes:', error.message);
+    }
   };
-  
+
   const initWebSocket = () => {
-    
-    console.log("initWebSocket 2");
     ws.on('connect', () => {
-      console.log("connect 1", ws.id);
+      console.log("WebSocket connected");
       getNodes();
     });
 
     ws.on('event02', (arg, callback) => {
-      console.log("connect [event02]",arg);
+      console.log("WebSocket event02", arg);
       getNodes();
       callback({
         status: 'event02 ok',
@@ -287,8 +285,9 @@ export default function Forum() {
       var { nodes, edges, items } = event;
       console.log('click~', nodes);
       console.log('click~', event);
-      if (nodes.length == 1) {
+      if (nodes.length === 1) {
         handleClickOpen(nodes[0]);
+        localStorage.setItem('nodeId', nodes[0]);
       }
     }
   };
@@ -310,35 +309,7 @@ export default function Forum() {
       >
         <Graph graph={graph} options={options} events={events}/>
       </div> 
-      <Dialog
-              open={handleClickOpen}
-              onClose={handleClose}
-              maxWidth="md"
-              scroll='body'
-            >
-                <DialogTitle>
-                    {nodeData && (    // ensure that nodeData is not null or undefined before trying to access its properties.
-                        <>
-                            {nodeData.title}
-                        </>
-                    )}
-                </DialogTitle>
-                <Divider variant="middle" />
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {nodeData && (    // ensure that nodeData is not null or undefined before trying to access its properties.
-                            <>
-                                {nodeData.content}
-                            </>
-                        )}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>取消</Button>
-                    {/* <Button type='submit' onClick={handleSubmit}>送出</Button> */}
-                </DialogActions>
-            </Dialog>
-      {/* {selectedNode != '' && (<ViewNode open={handleClickOpen} onClose={handleClose} />)} */}
+      <ViewNode open={open} onClose={handleClose} nodeContent={nodeContent} />
     </div>
   );
 }
