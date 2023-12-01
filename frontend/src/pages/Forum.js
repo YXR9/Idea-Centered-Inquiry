@@ -117,51 +117,52 @@ export default function Forum() {
     groups: {
       idea: {
         color: {
-          border: '#D2E0FB',
-          background: '#D2E0FB',
+          border: '#FFC',
+          background: '#FFC',
+          fontSize: 5,
           highlight: {
-            border: '#D2E0FB',
-            background: '#D2E0FB'
+            border: '#FFC',
+            background: '#FFC'
           }
         },
       },
       question: {
         color: {
-          border: '#FFC5C5',
-          background: '#FFC5C5',
+          border: '#CCF',
+          background: '#CCF',
           highlight: {
-            border: '#FFC5C5',
-            background: '#FFC5C5'
+            border: '#CCF',
+            background: '#CCF'
           }
         },
       },
       information: {
         color: {
-          border: '#8EACCD',
-          background: '#8EACCD',
+          border: '#CFC',
+          background: '#CFC',
           highlight: {
-            border: '#8EACCD',
-            background: '#8EACCD'
+            border: '#CFC',
+            background: '#CFC'
           }
         },
       },
       experiment: {
         color: {
-          border: '#D7E5CA',
-          background: '#D7E5CA',
+          border: '#FFDBDB',
+          background: '#FFDBDB',
           highlight: {
-            border: '#D7E5CA',
-            background: '#D7E5CA'
+            border: '#FFDBDB',
+            background: '#FFDBDB'
           }
         }
       },
       record: {
         color: {
-          border: '#F9F3CC',
-          background: '#F9F3CC',
+          border: '#B9DCF4',
+          background: '#B9DCF4',
           highlight: {
-            border: '#F9F3CC',
-            background: '#F9F3CC'
+            border: '#B9DCF4',
+            background: '#B9DCF4'
           }
         },
       }
@@ -170,8 +171,8 @@ export default function Forum() {
     edges: {
       color: '#8B8B8B',
       width: 3,
-      length: 150,
-      color: { inherit: 'from' },
+      length: 300,
+      // color: { inherit: 'from' },
       arrows: {
         from: {
           enabled: true,
@@ -204,7 +205,7 @@ export default function Forum() {
       opacity: 1,
       font: {
         color: '#343434',
-        size: 14, // px
+        size: 5, // px
         face: 'arial',
         background: 'none',
         strokeWidth: 0, // px
@@ -214,28 +215,28 @@ export default function Forum() {
         vadjust: 0,
         bold: {
           color: '#343434',
-          size: 14, // px
+          size: 5, // px
           face: 'arial',
           vadjust: 0,
           mod: 'bold'
         },
         ital: {
           color: '#343434',
-          size: 14, // px
+          size: 5, // px
           face: 'arial',
           vadjust: 0,
           mod: 'italic',
         },
         boldital: {
           color: '#343434',
-          size: 14, // px
+          size: 5, // px
           face: 'arial',
           vadjust: 0,
           mod: 'bold italic'
         },
         mono: {
           color: '#343434',
-          size: 15, // px
+          size: 5, // px
           face: 'courier new',
           vadjust: 2,
           mod: ''
@@ -251,17 +252,17 @@ export default function Forum() {
         x: 10,
         y: 10
       },
-      heightConstraint: { minimum: 20, valign: 'middle' },
-      widthConstraint: { minimum: 20, maximum: 50 },
+      heightConstraint: { minimum: 100, maximum: 100, valign: 'middle' },
+      widthConstraint: { minimum: 100, maximum: 100 },
       mass: 1,
       physics: true,
       scaling: {
         label: {
           enabled: true,
-          min: 12,
-          max: 30,
+          min: 16,
+          max: 16,
           drawThreshold: 12,
-          maxVisible: 30,
+          // maxVisible: 30,
         },
         customScalingFunction: function (min,max,total,value) {
           if (max === min) {
