@@ -27,6 +27,7 @@
     "react-vis-network-graph": "^3.0.1",
     "redux": "^4.2.1",
     "socket.io-client": "^4.7.2",
+    "uuid": "^9.0.1",
     "vis-data": "^7.1.7",
     "vis-network": "^9.1.8",
     "web-vitals": "^2.1.4"

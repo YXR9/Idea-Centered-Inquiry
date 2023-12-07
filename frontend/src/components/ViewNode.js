@@ -1,11 +1,14 @@
 import config from '../config.json';
 import axios from "axios";
-import React, { useState, useEffect } from 'react';
+import { v4 as uuid } from 'uuid';
+import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Divider } from '@mui/material';
+import { CreateReply } from './CreateReply';
 import { CreateIdea } from './CreateIdea';
 
 export const ViewNode = ({ open, onClose, nodeContent }) => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [id, setId] = useState('');
 
     const openModal = () => {
       setModalOpen(true);
@@ -15,30 +18,38 @@ export const ViewNode = ({ open, onClose, nodeContent }) => {
       setModalOpen(false);
     };
 
+    // const uuidFromUuidV4 = () => {
+    //     const newUuid = uuid();
+    //     setId(newUuid);
+    //     localStorage.setItem('replyNodeId');
+    // }      
+
     const handleReply = async (e) => {
-        e.preventDefault();
-        const edgeData = {
-            groupId: 1,
-            from: localStorage.getItem('nodeDataLength'),
-            to: localStorage.getItem('nodeId'),
-        };
-        await axios
-            .post(config[9].createEdge, edgeData)
-            .then((response) => {
+        // e.preventDefault();
+        // uuidFromUuidV4()
+        // const edgeData = {
+        //     groupId: 1,
+        //     from: id,
+        //     to: localStorage.getItem('nodeId'),
+        // };
+        // await axios
+        //     .post(config[9].createEdge, edgeData)
+        //     .then((response) => {
+                localStorage.setItem('replyNodeId', uuid());
                 onClose();
                 openModal();
-                console.log(response.status, response.data);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log("server responded");
-                } else if (error.request) {
-                    console.log("network error");
-                } else {
-                    console.log(error);
-                }
-            });
+            //     console.log(response.status, response.data);
+            // })
+            // .catch((error) => {
+            //     if (error.response) {
+            //         console.log(error.response);
+            //         console.log("server responded");
+            //     } else if (error.request) {
+            //         console.log("network error");
+            //     } else {
+            //         console.log(error);
+            //     }
+            // });
     };
   
     return (
@@ -71,9 +82,9 @@ export const ViewNode = ({ open, onClose, nodeContent }) => {
                     <Button type='submit' onClick={handleReply}>回覆</Button>
                 </DialogActions>
             </Dialog>
-            <CreateIdea
-              open={modalOpen}
-              onClose={closeModal}
+            <CreateReply
+                open={modalOpen}
+                onClose={closeModal}
             />
         </>
     );

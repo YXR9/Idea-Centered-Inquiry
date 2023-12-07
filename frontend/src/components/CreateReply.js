@@ -16,10 +16,11 @@ export const CreateReply = ({ open, onClose }) => {
     const [data, setData] = useState({
       title: "",
       content: content,
-      tags: "information",
+      tags: "reply",
       author: userId,
       groupId: "1"
     });
+
     const onEditorStateChange = function (editorState) {
       setEditorState(editorState);
       let content = editorState.getCurrentContent().getPlainText("\u0001");
@@ -41,6 +42,7 @@ export const CreateReply = ({ open, onClose }) => {
     const handleSubmit = (e) => {
       e.preventDefault();
       const ideaData = {
+        id: localStorage.getItem('replyNodeId'),
         title: data.title,
         content: data.content,
         tags: data.tags,
@@ -63,10 +65,10 @@ export const CreateReply = ({ open, onClose }) => {
                 sendMessage(ws);
 
                 const edgeData = {
-                        groupId: 1,
-                        from: response.data.id,
-                        to: localStorage.getItem('nodeId'),
-                    };
+                    groupId: 1,
+                    from: localStorage.getItem('nodeDataLength'),
+                    to: localStorage.getItem('nodeId'),
+                };
                 axios
                     .post(config[9].createEdge, edgeData)
                     .then((response) => {
