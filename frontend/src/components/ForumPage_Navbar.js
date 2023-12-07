@@ -129,6 +129,10 @@ export default function ForumPage_Navbar() {
     setSelectedModalOpen(false);
   };
 
+  const selectedItemStyle = {
+    backgroundColor: 'red'
+  }
+
   useEffect(() => {
     const getActivityData = async () => {
       try {
@@ -199,7 +203,7 @@ export default function ForumPage_Navbar() {
         <List>
           {menuItems.map((menuItem, index) => (
             <div key={menuItem.text}>
-              <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItem selectedItemStyle={selectedItemStyle} disablePadding sx={{ display: 'block' }}>
                 <Tooltip title={menuItem.text} arrow placement="right">
                   <ListItemButton
                     sx={{
