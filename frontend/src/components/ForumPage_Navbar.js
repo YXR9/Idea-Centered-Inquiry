@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import config from '../config.json';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -105,6 +106,7 @@ const menuItems = [
 const specialItems = ['新增想法牆','任務地圖', '學習歷程'];
 
 export default function ForumPage_Navbar() {
+  const navigate = useNavigate();
   const [activityData, setActivityData] = useState(null);
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -263,6 +265,9 @@ export default function ForumPage_Navbar() {
           open={openModal}
           onClose={closeModal}
         />
+      )}
+      {selectedModal === 'createLearningFeedback' && (
+        navigate("/dashboard")
       )}
     </nav>
   );

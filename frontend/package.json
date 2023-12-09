@@ -30,7 +30,8 @@
     "uuid": "^9.0.1",
     "vis-data": "^7.1.7",
     "vis-network": "^9.1.8",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "apexcharts": "3.44.2"
   },
   "scripts": {
     "start": "react-scripts start",
