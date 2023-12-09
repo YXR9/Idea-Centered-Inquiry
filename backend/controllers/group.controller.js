@@ -125,6 +125,26 @@ exports.findMyGroupMember = (req, res) => {
         });
 }
 
+// Find member's group.
+exports.findMyGroup = (req, res) => {
+    Group
+        .findAll({
+            where: {
+                activityId: req.params.activityId,
+                userId: [req.params.userId]
+            }
+        })
+        .then((data) => {
+            console.log("👇", data);
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(400).send({
+                group:
+                    err.message || "Some error occurred while finding your group.",
+            });
+        });
+}
+
 // Update a Group with the specified id in the request
 exports.updateGroup = (req, res) => {
     const groupId = req.params.groupId;
