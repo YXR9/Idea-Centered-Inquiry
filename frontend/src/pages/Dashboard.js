@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import config from '../config.json';
+import ApexCharts from 'apexcharts'
 import io from 'socket.io-client';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
 
