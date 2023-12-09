@@ -252,7 +252,7 @@ export default function Forum() {
         x: 10,
         y: 10
       },
-      heightConstraint: { minimum: 100, maximum: 100, valign: 'middle' },
+      heightConstraint: { minimum: 100, valign: 'middle' },
       widthConstraint: { minimum: 100, maximum: 100 },
       mass: 1,
       physics: true,

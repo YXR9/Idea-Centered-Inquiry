@@ -42,7 +42,7 @@ export const CreateReply = ({ open, onClose }) => {
     const handleSubmit = (e) => {
       e.preventDefault();
       const ideaData = {
-        id: localStorage.getItem('replyNodeId'),
+        // id: localStorage.getItem('replyNodeId'),
         title: data.title,
         content: data.content,
         tags: data.tags,
@@ -56,9 +56,9 @@ export const CreateReply = ({ open, onClose }) => {
                 setData({
                   title: "",
                   content: "",
-                  tags: "",
-                  author: "",
-                  groupId: ""
+                  tags: "reply",
+                  author: localStorage.getItem('userId'),
+                  groupId: 1
                 })
                 console.log(response.status, response.data);
                 console.log("2",typeof ws);
@@ -66,7 +66,7 @@ export const CreateReply = ({ open, onClose }) => {
 
                 const edgeData = {
                     groupId: 1,
-                    from: localStorage.getItem('nodeDataLength'),
+                    from: response.data.node.id,
                     to: localStorage.getItem('nodeId'),
                 };
                 axios
