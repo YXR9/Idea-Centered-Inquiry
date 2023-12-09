@@ -15,7 +15,7 @@
         "myJoinedActivityList": "http://127.0.0.1:8000/api/activities/myJoined"
     },
     {
-        "joinActivity": "http://127.0.0.1:8000/api/activities/join"
+        "joinActivity": "http://127.0.0.1:8000/api/groups"
     },
     {
         "enterActivity": "http://127.0.0.1:8000/api/activities"

@@ -165,6 +165,16 @@ export default function Forum() {
             background: '#B9DCF4'
           }
         },
+      },
+      reply: {
+        color: {
+          border: '#FFF',
+          background: '#FFF',
+          highlight: {
+            border: '#FFF',
+            background: '#FFF'
+          }
+        },
       }
       // add more groups here
     },

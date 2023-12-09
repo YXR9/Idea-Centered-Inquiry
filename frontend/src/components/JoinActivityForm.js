@@ -8,7 +8,7 @@ export const JoinActivityForm = () => {
     const userId = localStorage.getItem('userId'); 
     const [open, setOpen] = React.useState(false);
     const [data, setData] = useState({
-        id: userId,
+        userId: userId,
         activityKey: ""
     });
     
@@ -31,17 +31,17 @@ export const JoinActivityForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const activityData = {
-            id: data.id,
-            activityKey: data.activityKey
+            userId: data.userId,
         };
         axios
-            .post(config[5].joinActivity, activityData)
+            .put(`${config[5].joinActivity}/${data.activityKey}/join`, activityData)
             .then((response) => {
                 setOpen(false);
                 setData({
                     activityKey: ""
                 })
                 console.log(response.status, response.data);
+                window.location.reload(false);
             })
             .catch((error) => {
                 if (error.response) {
