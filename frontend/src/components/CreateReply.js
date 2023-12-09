@@ -18,7 +18,7 @@ export const CreateReply = ({ open, onClose }) => {
       content: content,
       tags: "reply",
       author: userId,
-      groupId: "1"
+      groupId: localStorage.getItem('groupId')
     });
 
     const onEditorStateChange = function (editorState) {
@@ -58,14 +58,14 @@ export const CreateReply = ({ open, onClose }) => {
                   content: "",
                   tags: "reply",
                   author: localStorage.getItem('userId'),
-                  groupId: 1
+                  groupId: localStorage.getItem('groupId')
                 })
                 console.log(response.status, response.data);
                 console.log("2",typeof ws);
                 sendMessage(ws);
 
                 const edgeData = {
-                    groupId: 1,
+                    groupId: localStorage.getItem('groupId'),
                     from: response.data.node.id,
                     to: localStorage.getItem('nodeId'),
                 };

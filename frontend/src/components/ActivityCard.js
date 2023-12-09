@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import config from '../config.json';
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { styled, Card, CardHeader, CardContent, Typography, CardActions, IconButton } from '@mui/material';
 import { Favorite } from '@mui/icons-material';
@@ -37,7 +39,7 @@ export default function ActivityCard({ activity }) {
 
     const handleEnter = async (e) => {
         e.preventDefault();
-        localStorage.setItem('activityId', activity.ActivityGroup.Activity.id)
+        localStorage.setItem('activityId', activity.ActivityGroup.Activity.id);
         navigate("/forum");
     };
 

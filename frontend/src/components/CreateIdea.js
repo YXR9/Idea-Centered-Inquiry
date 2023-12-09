@@ -28,7 +28,7 @@ export const CreateIdea = ({ open, onClose }) => {
       content: content,
       tags: "idea",
       author: userId,
-      groupId: "1"
+      groupId: localStorage.getItem('groupId')
     });
 
     const onEditorStateChange = function (editorState) {

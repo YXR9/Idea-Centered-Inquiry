@@ -18,7 +18,7 @@ export const CreateQuestion = ({ open, onClose }) => {
       content: content,
       tags: "question",
       author: userId,
-      groupId: "1"
+      groupId: localStorage.getItem('groupId')
     });
     const onEditorStateChange = function (editorState) {
       setEditorState(editorState);

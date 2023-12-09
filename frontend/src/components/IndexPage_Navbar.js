@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import user from '../assets/user.png';
 import edit from '../assets/edit.png';
-import { CreateActivityForm } from './CreateActivityForm';
+// import { CreateActivityForm } from './CreateActivityForm';
 import { JoinActivityForm } from './JoinActivityForm';
 
 function stringToColor(string) {
@@ -88,9 +88,9 @@ export default function IndexPage_Navbar() {
                 <img alt='' src={Logo} width={85} height={85} />
             </div>
             <div className='nav-buttons'>
-                <button className='create-activity-button'>
+                {/* <button className='create-activity-button'>
                   <CreateActivityForm/>
-                </button>
+                </button> */}
                 <button className='join-activity-button'>
                   <JoinActivityForm/>
                 </button>

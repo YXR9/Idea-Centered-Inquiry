@@ -36,17 +36,38 @@ export default function Forum() {
     if (ws) {
       initWebSocket();
     }
+
+    axios.get(`${config[12].getMyGroup}/${localStorage.getItem('activityId')}/${localStorage.getItem('userId')}`, {
+      headers: {
+        authorization: 'Bearer JWT Token',
+      },
+    }).then((response) => {
+        console.log("groupData:response ", response);
+        localStorage.setItem('groupId', response.data[0].id);
+    })
+    .catch((error) => {
+        if (error.response) {
+            console.log(error.response);
+            console.log("server responded");
+        } else if (error.request) {
+            console.log("network error");
+        } else {
+            console.log(error);
+        }
+    });
+    
+  
   }, []);
 
   const getNodes = async () => {
     try{
-      const fetchData = await axios.get(`${config[8].getNode}/1`, {
+      const fetchData = await axios.get(`${config[8].getNode}/${localStorage.getItem('groupId')}`, {
         headers: {
           authorization: 'Bearer JWT Token',
         },
       });
 
-      const fetchEdge = await axios.get(`${config[10].getEdge}/1`, {
+      const fetchEdge = await axios.get(`${config[10].getEdge}/${localStorage.getItem('groupId')}`, {
         headers: {
           authorization: 'Bearer JWT Token',
         },

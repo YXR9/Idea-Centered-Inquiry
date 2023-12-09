@@ -18,7 +18,7 @@ export const CreateInformation = ({ open, onClose }) => {
       content: content,
       tags: "information",
       author: userId,
-      groupId: "1"
+      groupId: localStorage.getItem('groupId')
     });
     const onEditorStateChange = function (editorState) {
       setEditorState(editorState);
