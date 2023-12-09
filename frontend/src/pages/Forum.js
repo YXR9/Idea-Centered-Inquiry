@@ -113,7 +113,7 @@ export default function Forum() {
       navigationButtons: true,
       tooltipDelay: 300
     },
-    clickToUse: true,
+    clickToUse: false,
     groups: {
       idea: {
         color: {
@@ -186,7 +186,6 @@ export default function Forum() {
     nodes: {
       shape: 'box',
       borderWidth: 1,
-      chosen: true,
       shapeProperties: {
         borderRadius: 1
       },
@@ -279,9 +278,6 @@ export default function Forum() {
   };
 
   const events = {
-    select: function (event) {
-      var { nodes, edges } = event;
-    },
     click: (event) => {
       var { nodes, edges, items } = event;
       console.log('click~', nodes);
@@ -292,7 +288,9 @@ export default function Forum() {
       }
     }
   };
-
+  // if(document.getElementById("graph")){
+  //   document.getElementById("graph").click();
+  // }
   return (
     <div className="home-container">
       <ForumPage_Navbar/>
@@ -307,6 +305,7 @@ export default function Forum() {
           left: '0',
           marginLeft: '64px',
         }}
+        onClick={()=> console.log('Hi')}
       >
         <Graph graph={graph} options={options} events={events}/>
       </div> 
