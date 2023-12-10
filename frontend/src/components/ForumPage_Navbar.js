@@ -7,6 +7,7 @@ import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import { Box, Toolbar, Tooltip, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, IconButton, Badge } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import BackToHomeIcon from '../assets/返回首頁icon.png';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import IdeaIcon from '../assets/IdeaIcon.png';
@@ -168,6 +169,18 @@ export default function ForumPage_Navbar() {
           >
             <MenuIcon color="primary" style={{ color: '#8B8B8B', background: 'white', boxShadow: 'none'}}/>
           </IconButton>
+          <Tooltip title='返回首頁' arrow>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+                onClick={()=>{navigate("/index")}}
+              >
+                <Badge color="error">
+                  <img alt='返回首頁' src={BackToHomeIcon} width={24} height={24} />
+                </Badge>
+              </IconButton>
+            </Tooltip>
           <Typography variant="h6" noWrap component="div"  color="black" fontWeight="bolder">
             {activityData && (    // ensure that activityData is not null or undefined before trying to access its properties.
               <>
