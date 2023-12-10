@@ -17,6 +17,7 @@ import NoteIcon from '../assets/NoteIcon.png';
 import CreateForumIcon from '../assets/CreateForumIcon.png';
 import TaskMapIcon from '../assets/TaskMapIcon.png';
 import LearningFeedbackIcon from '../assets/LearningFeedbackIcon.png';
+import ForumIcon from '../assets/返回論壇icon.png';
 import CommunityIcon from '../assets/CommunityIcon.png';
 import AnnouncementIcon from '../assets/AnnouncementIcon.png';
 import { CreateIdea } from './CreateIdea';
@@ -98,12 +99,14 @@ const menuItems = [
   { text: '新增資訊', modalKey: 'createInformation', icon: InformationIcon },
   { text: '新增實驗', modalKey: 'createFlask', icon: FlaskIcon },
   { text: '新增紀錄', modalKey: 'createNote', icon: NoteIcon },
-  { text: '新增想法牆', modalKey: 'createForum', icon: CreateForumIcon },
-  { text: '任務地圖', modalKey: 'createTaskMap', icon: TaskMapIcon },
+  // { text: '新增想法牆', modalKey: 'createForum', icon: CreateForumIcon },
+  // { text: '任務地圖', modalKey: 'createTaskMap', icon: TaskMapIcon },
   { text: '學習歷程', modalKey: 'createLearningFeedback', icon: LearningFeedbackIcon },
+  { text: '討論區', modalKey: 'backToForum', icon: ForumIcon },
 ];
 
-const specialItems = ['新增想法牆','任務地圖', '學習歷程'];
+// const specialItems = ['新增想法牆','任務地圖', '學習歷程', '討論區'];
+const specialItems = ['新增紀錄', '學習歷程', '討論區'];
 
 export default function ForumPage_Navbar() {
   const navigate = useNavigate();
@@ -268,6 +271,9 @@ export default function ForumPage_Navbar() {
       )}
       {selectedModal === 'createLearningFeedback' && (
         navigate("/dashboard")
+      )}
+      {selectedModal === 'backToForum' && (
+        navigate("/forum")
       )}
     </nav>
   );
