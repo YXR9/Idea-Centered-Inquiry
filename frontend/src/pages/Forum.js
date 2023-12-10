@@ -6,6 +6,18 @@ import ForumPage_Navbar from '../components/ForumPage_Navbar';
 import Graph from "react-vis-network-graph";
 import { ViewNode } from '../components/ViewNode';
 
+function getEmoji(tag){
+  switch (tag) {
+    case 'idea': {
+      return "💪";
+    }
+    default: {
+      return "😈";
+    }
+  }
+}
+
+
 export default function Forum() {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
@@ -76,9 +88,11 @@ export default function Forum() {
       console.log("fetchData: ", fetchData);
       console.log("fetchEdge: ", fetchEdge);
 
+
+
       const nodeData = fetchData.data[0].Nodes.map((node) => ({
         id: node.id,
-        label: node.title,
+        label: getEmoji(node.tags)+":  "+node.title,
         title: node.content,
         group: node.tags
       }));

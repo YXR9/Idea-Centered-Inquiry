@@ -640,3 +640,8 @@
     max-width: 650px;
     margin: 35px auto;
   }
+  #nodeWindow{
+    min-width: 300px !important;
+  }
+
+  

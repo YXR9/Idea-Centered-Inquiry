@@ -10,6 +10,18 @@ export const ViewNode = ({ open, onClose, nodeContent }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [id, setId] = useState('');
 
+    const formatTimestamp = (timestamp) => {
+        return new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            //   second: 'numeric',
+            hour12: false,
+        }).format(new Date(timestamp));
+    };
+
     const openModal = () => {
       setModalOpen(true);
     };
@@ -68,11 +80,17 @@ export const ViewNode = ({ open, onClose, nodeContent }) => {
                     )}
                 </DialogTitle>
                 <Divider variant="middle" />
-                <DialogContent>
+                <DialogContent id="nodeWindow">
                     <DialogContentText id="alert-dialog-description">
                         {nodeContent && (    // ensure that nodeData is not null or undefined before trying to access its properties.
                             <>
-                                {nodeContent.content}
+                                <>
+                                    {nodeContent.content}
+                                </>
+                                <br/>
+                                <>
+                                    撰寫時間：{`${formatTimestamp(nodeContent.createdAt)}`}
+                                </>
                             </>
                         )}
                     </DialogContentText>
