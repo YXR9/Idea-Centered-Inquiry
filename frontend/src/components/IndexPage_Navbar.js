@@ -80,6 +80,10 @@ export default function IndexPage_Navbar() {
       localStorage.removeItem('name');
       localStorage.removeItem('email');
       localStorage.removeItem('activityId');
+      localStorage.removeItem('groupId');
+      localStorage.removeItem('nodeId');
+      localStorage.removeItem('replyNodeId');
+      localStorage.removeItem('nodeDataLength');
     };
 
     return (

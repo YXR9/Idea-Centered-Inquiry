@@ -42,7 +42,6 @@ export const CreateReply = ({ open, onClose }) => {
     const handleSubmit = (e) => {
       e.preventDefault();
       const ideaData = {
-        // id: localStorage.getItem('replyNodeId'),
         title: data.title,
         content: data.content,
         tags: data.tags,
@@ -56,9 +55,9 @@ export const CreateReply = ({ open, onClose }) => {
                 setData({
                   title: "",
                   content: "",
-                  tags: "reply",
-                  author: localStorage.getItem('userId'),
-                  groupId: localStorage.getItem('groupId')
+                  tags: "",
+                  author: "",
+                  groupId: ""
                 })
                 console.log(response.status, response.data);
                 console.log("2",typeof ws);

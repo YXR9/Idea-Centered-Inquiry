@@ -9,10 +9,22 @@ import { ViewNode } from '../components/ViewNode';
 function getEmoji(tag){
   switch (tag) {
     case 'idea': {
-      return "💪";
+      return "💡";
     }
-    default: {
-      return "😈";
+    case 'information': {
+      return "🔍";
+    }
+    case 'question': {
+      return "❓"
+    }
+    case 'experiment': {
+      return "🧪"
+    }
+    case 'record': {
+      return "📄"
+    }
+    case 'reply': {
+      return "✏"
     }
   }
 }
@@ -54,8 +66,8 @@ export default function Forum() {
         authorization: 'Bearer JWT Token',
       },
     }).then((response) => {
-        console.log("groupData:response ", response);
-        localStorage.setItem('groupId', response.data[0].id);
+        console.log("groupData:response ", response.data.data[0].id);
+        localStorage.setItem('groupId', response.data.data[0].id);
     })
     .catch((error) => {
         if (error.response) {
@@ -92,7 +104,7 @@ export default function Forum() {
 
       const nodeData = fetchData.data[0].Nodes.map((node) => ({
         id: node.id,
-        label: getEmoji(node.tags)+":  "+node.title,
+        label: getEmoji(node.tags)+":  "+ "\n" + "\n" +node.title,
         title: node.content,
         group: node.tags
       }));
