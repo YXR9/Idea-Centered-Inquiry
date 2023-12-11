@@ -2,9 +2,8 @@ import { useSignIn } from 'react-auth-kit';
 import config from '../config.json';
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from 'react-router-dom';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material';
 import loginImg from '../assets/undraw_login_re_4vu2.svg';
 import { Register } from './Register';
 
@@ -12,6 +11,7 @@ export const Login = () => {
     const navigate = useNavigate();
     const login = useSignIn();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [role, setRole] = useState('student');
     const [open, setOpen] = useState(false);
     const [data, setData] = useState({
         email: "",
@@ -20,13 +20,14 @@ export const Login = () => {
 
     useEffect(() => {
         // Checking if user is loggedIn
-        if(isLoggedIn){
+        if(isLoggedIn && role === 'student'){
             navigate("/index");
-        }
-        else {
+        } else if (isLoggedIn && role === 'teacher'){
+            navigate("/teacher/index");
+        } else {
             navigate("/");
         }
-    }, [navigate, isLoggedIn]);
+    }, [navigate, isLoggedIn, role]);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -42,6 +43,10 @@ export const Login = () => {
             ...data,
             [e.target.name]: value
         });
+    };
+
+    const handleRoleChange = (event) => {
+      setRole(event.target.value);
     };
 
     const handleSubmit = async (e) => {
@@ -124,6 +129,19 @@ export const Login = () => {
                     variant="standard"
                     onChange={handleChange}
                 />
+                <FormControl>
+                    <FormLabel id="demo-row-radio-buttons-group-label">身分</FormLabel>
+                    <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={role}
+                        onChange={handleRoleChange}
+                    >
+                        <FormControlLabel value="teacher" control={<Radio />} label="老師" />
+                        <FormControlLabel value="student" control={<Radio />} label="學生" />
+                    </RadioGroup>
+                </FormControl>
                 <DialogContentText>
                     還沒有帳號嗎？<Link component="button" underline="none"><Register>註冊</Register></Link>
                 </DialogContentText>
