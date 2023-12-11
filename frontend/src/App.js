@@ -7,6 +7,7 @@ import Index from './pages/Index';
 import IndexOfTeacher from './pages/teacher/index';
 import Forum from './pages/Forum';
 import Dashboard from './pages/Dashboard';
+import PrepareLessons from './pages/teacher/PrepareLessons'
 import { RequireAuth } from 'react-auth-kit';
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
             <Route path='/teacher/index' element={<RequireAuth loginPath='/'><IndexOfTeacher/></RequireAuth>}></Route>
             <Route path='/forum' element={<RequireAuth loginPath='/'><Forum/></RequireAuth>}></Route>
             <Route path='/dashboard' element={<RequireAuth loginPath='/'><Dashboard/></RequireAuth>}></Route>
+            <Route path='/prepareLessons' element={<RequireAuth loginPath='/'><PrepareLessons/></RequireAuth>}></Route>
         </Routes>
     </Router>
   );

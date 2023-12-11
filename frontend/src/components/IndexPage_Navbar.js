@@ -92,9 +92,6 @@ export default function IndexPage_Navbar() {
                 <img alt='' src={Logo} width={85} height={85} />
             </div>
             <div className='nav-buttons'>
-                {/* <button className='create-activity-button'>
-                  <CreateActivityForm/>
-                </button> */}
                 <button className='join-activity-button'>
                   <JoinActivityForm/>
                 </button>

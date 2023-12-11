@@ -26,6 +26,7 @@ import { CreateQuestion } from './CreateQuestion';
 import { CreateInformation } from './CreateInformation';
 import { CreateFlask } from './CreateFlask';
 import { CreateNote } from './CreateNote';
+import { CreateActivityForm } from './CreateActivityForm';
 
 const drawerWidth = 240;
 
@@ -109,7 +110,7 @@ const menuItems = [
 // const specialItems = ['新增想法牆','任務地圖', '學習歷程', '討論區'];
 const specialItems = ['新增紀錄', '學習歷程', '討論區'];
 
-export default function ForumPage_Navbar() {
+export default function PrepareLessonsPage_Navbar() {
   const navigate = useNavigate();
   const [activityData, setActivityData] = useState(null);
   const theme = useTheme();
@@ -157,58 +158,39 @@ export default function ForumPage_Navbar() {
       {/* <AppBar position="fixed" open={open} style={{ background: 'transparent', boxShadow: 'none'}}> */}
       <AppBar position="fixed" open={open} style={{ background: 'transparent', boxShadow: 'none'}}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon color="primary" style={{ color: '#8B8B8B', background: 'white', boxShadow: 'none'}}/>
-          </IconButton>
-          <Tooltip title='返回首頁' arrow>
-              <IconButton
-                size="large"
-                aria-label="show 4 new mails"
-                color="inherit"
-                onClick={()=>{navigate(-1)}}
-              >
-                <Badge color="error">
-                  <img alt='返回首頁' src={BackToHomeIcon} width={24} height={24} />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-          <Typography variant="h6" noWrap component="div"  color="black" fontWeight="bolder">
-            {activityData && (    // ensure that activityData is not null or undefined before trying to access its properties.
-              <>
-                {activityData.title}
-              </>
-            )}
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <Tooltip title='小組聊天室' arrow>
-              <IconButton
-                size="large"
-                aria-label="show 4 new mails"
-                color="inherit"
-              >
-                <Badge color="error">
-                  <img alt='小組聊天室' src={CommunityIcon} width={24} height={24} />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title='任務公告' arrow>
-              <IconButton size="large" aria-label="show new notifications" color="inherit">
-                <Badge color="error">
-                  <img alt='任務公告' src={AnnouncementIcon} width={24} height={24} />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-          </Box>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon color="primary" style={{ color: '#8B8B8B', background: 'white', boxShadow: 'none'}}/>
+            </IconButton>
+            <Tooltip title='返回首頁' arrow>
+                <IconButton
+                  size="large"
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                  onClick={()=>{navigate(-1)}}
+                >
+                  <Badge color="error">
+                    <img alt='返回首頁' src={BackToHomeIcon} width={24} height={24} />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            <Typography variant="h6" noWrap component="div"  color="black" fontWeight="bolder">
+              備課區
+            </Typography>
+            <Box sx={{ flexGrow: 1 }} />
+            <div className='nav-buttons'>
+                <button className='create-activity-button'>
+                  <CreateActivityForm/>
+                </button>
+            </div>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
