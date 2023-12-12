@@ -7,10 +7,11 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { sendMessage } from '../utils/socketTool';
 import io from 'socket.io-client';
+import urls from '../url.json';
 
 export const CreateQuestion = ({ open, onClose }) => {
     const userId = localStorage.getItem('userId');
-    const ws = io.connect('http://127.0.0.1:8000');
+    const ws = io.connect('http://'+urls["socket.io"]+':8000');
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [content, setContent] = useState();
     const [data, setData] = useState({

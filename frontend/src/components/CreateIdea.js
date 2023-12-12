@@ -7,6 +7,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { sendMessage } from '../utils/socketTool';
 import io from 'socket.io-client';
+import urls from '../url.json';
 
 const scaffold = [
   <Button key="1">我的想法</Button>,
@@ -19,7 +20,7 @@ const scaffold = [
 
 
 export const CreateIdea = ({ open, onClose }) => {
-    const ws = io.connect('http://127.0.0.1:8000');
+    const ws = io.connect('http://'+urls["socket.io"]+':8000');
     const userId = localStorage.getItem('userId');
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [content, setContent] = useState();

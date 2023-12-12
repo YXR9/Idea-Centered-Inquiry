@@ -4,9 +4,10 @@ import config from '../config.json';
 import ApexCharts from 'apexcharts';
 import io from 'socket.io-client';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
+import urls from '../url.json';
 
 export default function Dashboard() {
-    const ws = io.connect('http://127.0.0.1:8000');
+    const ws = io.connect('http://'+urls["socket.io"]+':8000');
     const [nodes, setNodes] = useState([]);
     const [numberOfTags, setNumberOfTags] = useState([]);
 
