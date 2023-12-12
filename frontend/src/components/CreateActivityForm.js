@@ -1,7 +1,7 @@
 import config from '../config.json';
 import axios from "axios";
 import React, { useState } from 'react';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
@@ -11,8 +11,8 @@ import createActivityImg from '../assets/undraw_creative_thinking_re_9k71.svg';
 export const CreateActivityForm = () => {
     const userId = localStorage.getItem('userId'); 
     const [open, setOpen] = useState(false);
-    const [startDate, setStartData] = useState<Dayjs | null>(dayjs('2023-12-10'));
-    const [endDate, setEndData] = useState<Dayjs | null>(dayjs('2023-12-10'));
+    const [startDate, setStartData] = useState(dayjs('2023-12-10'));
+    const [endDate, setEndData] = useState(dayjs('2023-12-10'));
     const [data, setData] = useState({
         title: "",
         userId: userId,
@@ -93,7 +93,7 @@ export const CreateActivityForm = () => {
                     onChange={handleChange}
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={['DatePicker']}>
+                  <DemoContainer components={['DatePicker', 'DatePicker']}>
                     <DatePicker
                         label="請選擇開始日期"
                         value={startDate}

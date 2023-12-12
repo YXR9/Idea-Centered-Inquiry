@@ -110,6 +110,8 @@ const menuItems = [
 // const specialItems = ['新增想法牆','任務地圖', '學習歷程', '討論區'];
 const specialItems = ['新增紀錄', '學習歷程', '討論區'];
 
+
+
 export default function PrepareLessonsPage_Navbar() {
   const navigate = useNavigate();
   const [activityData, setActivityData] = useState(null);
