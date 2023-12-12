@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import io from 'socket.io-client';
 import ActivityCard from '../components/ActivityCard';
+import urls from '../url.json';
 
 export default function Index() {
   const [all, setAll] = useState('');
@@ -27,7 +28,7 @@ export default function Index() {
   };
 
   const connectWebSocket = () => {
-    setWs(io('http://127.0.0.1:8000'));
+    setWs(io('http://'+urls["socket.io"]+':8000'));
   };
 
   useEffect(() => {

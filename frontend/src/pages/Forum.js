@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
 import Graph from "react-vis-network-graph";
 import { ViewNode } from '../components/ViewNode';
+import urls from '../url.json';
 
 function getEmoji(tag){
   switch (tag) {
@@ -23,7 +24,7 @@ export default function Forum() {
   const [edges, setEdges] = useState([]);
   const [open, setOpen] = useState(false);
   const [nodeContent, setNodeContent] = useState(null);
-  const ws = io.connect('http://127.0.0.1:8000');
+  const ws = io.connect('http://'+urls["socket.io"]+':8000');
 
   const handleClickOpen = (nodeId) => {
     setOpen(true);
