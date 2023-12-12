@@ -44,9 +44,9 @@ export const CreateReply = ({ open, onClose }) => {
       const ideaData = {
         title: data.title,
         content: data.content,
-        tags: data.tags,
-        author: data.author,
-        groupId: data.groupId
+        tags: "reply",
+        author: userId,
+        groupId: localStorage.getItem('groupId')
       };
       axios
           .post(config[7].createNode, ideaData)
@@ -55,9 +55,9 @@ export const CreateReply = ({ open, onClose }) => {
                 setData({
                   title: "",
                   content: "",
-                  tags: "",
-                  author: "",
-                  groupId: ""
+                  tags: "reply",
+                  author: userId,
+                  groupId: localStorage.getItem('groupId')
                 })
                 console.log(response.status, response.data);
                 console.log("2",typeof ws);

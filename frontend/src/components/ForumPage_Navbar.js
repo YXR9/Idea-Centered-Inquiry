@@ -174,7 +174,7 @@ export default function ForumPage_Navbar() {
                 size="large"
                 aria-label="show 4 new mails"
                 color="inherit"
-                onClick={()=>{navigate(-1)}}
+                onClick={()=>{navigate("/forum")}}
               >
                 <Badge color="error">
                   <img alt='返回首頁' src={BackToHomeIcon} width={24} height={24} />
