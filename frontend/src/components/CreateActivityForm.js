@@ -11,8 +11,8 @@ import createActivityImg from '../assets/undraw_creative_thinking_re_9k71.svg';
 export const CreateActivityForm = () => {
     const userId = localStorage.getItem('userId'); 
     const [open, setOpen] = useState(false);
-    const [startDate, setStartData] = useState(dayjs('2023-12-10'));
-    const [endDate, setEndData] = useState(dayjs('2023-12-10'));
+    const [startDate, setStartDate] = useState(dayjs('2023-12-10'));
+    const [endDate, setEndDate] = useState(dayjs('2023-12-10'));
     const [data, setData] = useState({
         title: "",
         userId: userId,
@@ -54,6 +54,7 @@ export const CreateActivityForm = () => {
                     endDate: ""
                 })
                 console.log(response.status, response.data);
+                window.location.reload(false);
             })
             .catch((error) => {
                 if (error.response) {
@@ -95,14 +96,22 @@ export const CreateActivityForm = () => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={['DatePicker', 'DatePicker']}>
                     <DatePicker
+                        id="startDate"
                         label="請選擇開始日期"
+                        renderInput={(params) => <TextField {...params}/>}
+                        format='YYYY-MM-DD'
+                        name='startDate'
                         value={startDate}
-                        onChange={(newDate) => setStartData(newDate)}
+                        onChange={(newDate) => setStartDate(newDate)}
                     />
                     <DatePicker
+                        id="endDate"
                         label="請選擇結束日期"
+                        renderInput={(params) => <TextField {...params}/>}
+                        format='YYYY-MM-DD'
+                        name='endDate'
                         value={endDate}
-                        onChange={(newDate) => setEndData(newDate)}
+                        onChange={(newDate) => setEndDate(newDate)}
                     />
                   </DemoContainer>
                 </LocalizationProvider>

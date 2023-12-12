@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import user from '../assets/user.png';
 import edit from '../assets/edit.png';
 import { JoinActivityForm } from './JoinActivityForm';
+import { CreateActivityForm } from './CreateActivityForm';
 
 function stringToColor(string) {
     let hash = 0;
@@ -91,8 +92,8 @@ export default function IndexPageOfTeacher_Navbar() {
                 <img alt='' src={Logo} width={85} height={85} />
             </div>
             <div className='nav-buttons'>
-                <button className='create-activity-button' onClick={() => { navigate("/prepareLessons") }}>
-                    備課區
+                <button className='create-activity-button'>
+                    <CreateActivityForm/>
                 </button>
                 <button className='join-activity-button'>
                     <JoinActivityForm/>

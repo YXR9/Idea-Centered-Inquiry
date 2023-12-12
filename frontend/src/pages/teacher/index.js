@@ -13,7 +13,7 @@ import {
   useTheme,
 } from '@mui/material';
 import io from 'socket.io-client';
-import ActivityCard from '../../components/ActivityCard';
+import MyCreatedActivityCard from '../../components/MyCreatedActivityCard';
 
 export default function IndexOfTeacher() {
   const [all, setAll] = useState('');
@@ -33,7 +33,7 @@ export default function IndexOfTeacher() {
   useEffect(() => {
     const getActivities = async () => {
       try {
-        const fetchData = await axios.get(`${config[4].myJoinedActivityList}/${localStorage.getItem('userId')}`, {
+        const fetchData = await axios.get(`${config[13].MyCreatedActivity}/${localStorage.getItem('userId')}`, {
           headers: {
             authorization: 'Bearer JWT Token',
           },
@@ -66,7 +66,7 @@ export default function IndexOfTeacher() {
   return (
     <div className="home-container">
       <IndexPage_Navbar />
-      <h2>我們的探究活動</h2>
+      <h2>我建立的探究活動</h2>
       <Box sx={{ maxWidth: 120 }} className="activity-status">
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">狀態</InputLabel>
@@ -94,7 +94,7 @@ export default function IndexOfTeacher() {
       >
         {activities.map((activity) => (
           <Grid item xs={8} sm={isMobile ? 8 : 4} key={activity.id}>
-            <ActivityCard activity={activity} />
+            <MyCreatedActivityCard activity={activity} />
           </Grid>
         ))}
       </Grid>

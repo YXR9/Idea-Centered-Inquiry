@@ -189,7 +189,7 @@ export default function PrepareLessonsPage_Navbar() {
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <div className='nav-buttons'>
-                <button className='create-activity-button'>
+                <button className='create-activity-button' style={{ marginTop: '20px' }}>
                   <CreateActivityForm/>
                 </button>
             </div>
