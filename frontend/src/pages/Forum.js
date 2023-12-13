@@ -9,12 +9,27 @@ import urls from '../url.json';
 
 function getEmoji(tag){
   switch (tag) {
-    case 'idea': {
-      return "💪";
-    }
-    default: {
-      return "😈";
-    }
+      case 'idea': {
+        return "💡";
+      }
+      case 'information': {
+        return "🔍";
+      }
+      case 'question': {
+        return "❓";
+      }
+      case 'experiment': {
+        return "🧪";
+      }
+      case 'record': {
+        return "📄";
+      }
+      case 'reply': {
+        return "✏";
+      }
+      default: {
+        return "☃️";
+      }
   }
 }
 
