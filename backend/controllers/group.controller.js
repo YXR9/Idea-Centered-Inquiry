@@ -131,7 +131,7 @@ exports.findMyGroup = (req, res) => {
         .findAll({
             where: {
                 activityId: req.params.activityId,
-                userId: [req.params.userId]
+                userId: { [Op.contains]: [req.params.userId] }
             }
         })
         .then((data) => {
