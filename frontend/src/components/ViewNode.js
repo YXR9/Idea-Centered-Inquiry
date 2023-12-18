@@ -59,6 +59,10 @@ export const ViewNode = ({ open, onClose, nodeContent }) => {
                                 </>
                                 <br/>
                                 <>
+                                    作者：{nodeContent.author}
+                                </>
+                                <br/>
+                                <>
                                     撰寫時間：{`${formatTimestamp(nodeContent.createdAt)}`}
                                 </>
                             </>

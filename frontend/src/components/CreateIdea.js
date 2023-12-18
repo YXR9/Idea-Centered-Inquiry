@@ -20,14 +20,14 @@ const scaffold = [
 
 export const CreateIdea = ({ open, onClose }) => {
     const ws = io.connect('http://127.0.0.1:8000');
-    const userId = localStorage.getItem('userId');
+    const name = localStorage.getItem('name');
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [content, setContent] = useState();
     const [data, setData] = useState({
       title: "",
       content: content,
       tags: "idea",
-      author: userId,
+      author: name,
       groupId: localStorage.getItem('groupId')
     });
 

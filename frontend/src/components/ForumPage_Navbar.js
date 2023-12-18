@@ -251,7 +251,7 @@ export default function ForumPage_Navbar() {
                   </ListItemButton>
                 </Tooltip>
               </ListItem>
-              {specialItems.includes(menuItem.text) && index < menuItems.length - 2 && (
+              {specialItems.includes(menuItem.text) && index < menuItems.length - 1 && (
                 <Divider />
               )}
             </div>

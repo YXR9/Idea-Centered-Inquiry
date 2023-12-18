@@ -37,6 +37,18 @@ export default function Forum() {
   const [nodeContent, setNodeContent] = useState(null);
   const ws = io.connect('http://127.0.0.1:8000');
 
+  const formatTimestamp = (timestamp) => {
+      return new Intl.DateTimeFormat('en-US', {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          //   second: 'numeric',
+          hour12: false,
+      }).format(new Date(timestamp));
+  };
+
   const handleClickOpen = (nodeId) => {
     setOpen(true);
     fetchNodeData(nodeId);
@@ -104,7 +116,7 @@ export default function Forum() {
 
       const nodeData = fetchData.data[0].Nodes.map((node) => ({
         id: node.id,
-        label: getEmoji(node.tags)+ "\n" + "\n" +node.title,
+        label: getEmoji(node.tags) + "\n" + "\n" + node.title + "\n" + node.author + "\n" + `${formatTimestamp(node.createdAt)}`,
         title: node.content,
         group: node.tags
       }));

@@ -9,7 +9,7 @@ import { sendMessage } from '../utils/socketTool';
 import io from 'socket.io-client';
 
 export const CreateNote = ({ open, onClose }) => {
-    const userId = localStorage.getItem('userId');
+    const name = localStorage.getItem('name');
     const ws = io.connect('http://127.0.0.1:8000');
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [content, setContent] = useState();
@@ -17,7 +17,7 @@ export const CreateNote = ({ open, onClose }) => {
       title: "",
       content: content,
       tags: "record",
-      author: userId,
+      author: name,
       groupId: localStorage.getItem('groupId')
     });
     const onEditorStateChange = function (editorState) {
