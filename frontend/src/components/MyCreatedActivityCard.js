@@ -61,12 +61,10 @@ export default function MyCreatedActivityCard({ activity }) {
     const initWebSocket = () => {
       ws.on('connect', () => {
         console.log("WebSocket connected");
-        getGroups();
       });
     
       ws.on('event02', (arg, callback) => {
         console.log("WebSocket event02", arg);
-        getGroups();
         callback({
           status: 'event02 ok',
         });
@@ -96,6 +94,7 @@ export default function MyCreatedActivityCard({ activity }) {
     const handleExpandClick = () => {
       setExpanded(!expanded);
       localStorage.setItem('activityId', activity.id);
+      getGroups();
     };
 
     const formatTimestamp = (timestamp) => {
