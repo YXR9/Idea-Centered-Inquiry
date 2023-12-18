@@ -2,11 +2,20 @@ import config from '../config.json';
 import axios from "axios";
 import React, { useState } from 'react';
 import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormHelperText, TextField, InputLabel, Box } from '@mui/material';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { sendMessage } from '../utils/socketTool';
 import io from 'socket.io-client';
+
+const scaffold = [
+  <Button key="1">我的想法</Button>,
+  <Button key="2">我覺得更好的想法</Button>,
+  <Button key="3">我想知道</Button>,
+  <Button key="4">這個想法不能解釋</Button>,
+  <Button key="5">舉例和參考來源</Button>,
+  <Button key="6">我的總結</Button>
+];
 
 export const CreateReply = ({ open, onClose }) => {
     const userId = localStorage.getItem('userId');
@@ -37,6 +46,25 @@ export const CreateReply = ({ open, onClose }) => {
             ...data,
             [e.target.name]: value
         });
+    };
+
+    const handleButtonClick = (buttonText) => {
+      // Concatenate the existing content (or an empty string if it's null) with the buttonText
+      const newContent = `${data.content || ''} ${buttonText}`;
+
+      // Update the 'content' property in the 'data' state with the new concatenated content
+      setData({
+        ...data,
+        content: newContent,
+      });
+    
+      // Create a new EditorState with the updated content
+      const newEditorState = EditorState.createWithContent(
+        ContentState.createFromText(newContent)
+      );
+      
+      // Set the new EditorState in the component state
+      setEditorState(newEditorState);
     };
 
     const handleSubmit = (e) => {
@@ -124,13 +152,38 @@ export const CreateReply = ({ open, onClose }) => {
                 請為你的回覆下一個標題，讓其他同學能更快速的了解你的回覆內容！
               </FormHelperText>
             </FormControl>
-            <Editor
-              editorState={editorState}
-              onEditorStateChange={onEditorStateChange}
-              wrapperClassName="wrapper-class"
-              editorClassName="editor-class"
-              toolbarClassName="toolbar-class"
-            />
+            <Box
+              sx={{
+                display: 'flex',
+                '& > *': {
+                  m: 1,
+                },
+              }}
+            >
+              <ButtonGroup
+                orientation="vertical"
+                aria-label="vertical outlined button group"
+                style={{ color:'#ECF2FF' }}
+              >
+                {scaffold.map((button, index) => (
+                  <Button
+                    key={index}
+                    editorState={editorState}
+                    onEditorStateChange={onEditorStateChange}
+                    onClick={() => {handleButtonClick(button.props.children); console.log(button.props.children)}}
+                  >
+                    {button.props.children}
+                  </Button>
+                ))}
+              </ButtonGroup>
+              <Editor
+                editorState={editorState}
+                onEditorStateChange={onEditorStateChange}
+                wrapperClassName="wrapper-class"
+                editorClassName="editor-class"
+                toolbarClassName="toolbar-class"
+              />
+            </Box>
           </DialogContent>
           <DialogActions>
             <Button onClick={onClose}>取消</Button>

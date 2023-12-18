@@ -1,8 +1,8 @@
 import config from '../config.json';
 import axios from "axios";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormHelperText, TextField, InputLabel, Box } from '@mui/material';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { sendMessage } from '../utils/socketTool';
@@ -47,6 +47,25 @@ export const CreateIdea = ({ open, onClose }) => {
             ...data,
             [e.target.name]: value
         });
+    };
+
+    const handleButtonClick = (buttonText) => {
+      // Concatenate the existing content (or an empty string if it's null) with the buttonText
+      const newContent = `${data.content || ''} ${buttonText}`;
+
+      // Update the 'content' property in the 'data' state with the new concatenated content
+      setData({
+        ...data,
+        content: newContent,
+      });
+    
+      // Create a new EditorState with the updated content
+      const newEditorState = EditorState.createWithContent(
+        ContentState.createFromText(newContent)
+      );
+      
+      // Set the new EditorState in the component state
+      setEditorState(newEditorState);
     };
 
     const handleSubmit = (e) => {
@@ -126,7 +145,16 @@ export const CreateIdea = ({ open, onClose }) => {
                 aria-label="vertical outlined button group"
                 style={{ color:'#ECF2FF' }}
               >
-                {scaffold}
+                {scaffold.map((button, index) => (
+                  <Button
+                    key={index}
+                    editorState={editorState}
+                    onEditorStateChange={onEditorStateChange}
+                    onClick={() => {handleButtonClick(button.props.children); console.log(button.props.children)}}
+                  >
+                    {button.props.children}
+                  </Button>
+                ))}
               </ButtonGroup>
               <Editor
                 editorState={editorState}
