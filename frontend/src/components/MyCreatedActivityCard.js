@@ -3,8 +3,9 @@ import config from '../config.json';
 import axios from "axios";
 import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-import { styled, Card, CardHeader, CardContent, Typography, CardActions, IconButton, Collapse, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { styled, Card, CardHeader, CardContent, Typography, CardActions, IconButton, Collapse, List, ListItem, ListItemIcon, ListItemButton, ListItemText } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import InboxIcon from '@mui/icons-material/Inbox';
 import { createSvgIcon } from '@mui/material/utils';
 import { Button } from '@mui/base';
 import { sendMessage } from '../utils/socketTool';
@@ -60,10 +61,12 @@ export default function MyCreatedActivityCard({ activity }) {
     const initWebSocket = () => {
       ws.on('connect', () => {
         console.log("WebSocket connected");
+        getGroups();
       });
     
       ws.on('event02', (arg, callback) => {
         console.log("WebSocket event02", arg);
+        getGroups();
         callback({
           status: 'event02 ok',
         });
@@ -71,28 +74,28 @@ export default function MyCreatedActivityCard({ activity }) {
     };
 
     useEffect(() => {
-        const getGroups = async () => {
-          try {
-            const fetchData = await axios.get(url.backendHost + config[15].findAllGroup + localStorage.getItem('activityId'), {
-              headers: {
-                authorization: 'Bearer JWT Token',
-              },
-            });
-            console.log("GroupData: ", fetchData.data.Groups);
-            setGroupData(fetchData.data.Groups);
-          } catch (err) {
-            console.log(err);
-          }
-        };
-        getGroups();
-
         if (ws) {
           initWebSocket();
         }
-    }, [ws, groupData]);
+    }, []);
+
+    const getGroups = async () => {
+        try {
+          const fetchData = await axios.get(url.backendHost + config[15].findAllGroup + localStorage.getItem('activityId'), {
+            headers: {
+              authorization: 'Bearer JWT Token',
+            },
+          });
+          console.log("GroupData: ", fetchData.data.Groups);
+          setGroupData(fetchData.data.Groups);
+        } catch (err) {
+          console.log(err);
+        }
+    };
   
     const handleExpandClick = () => {
       setExpanded(!expanded);
+      localStorage.setItem('activityId', activity.id);
     };
 
     const formatTimestamp = (timestamp) => {
@@ -164,24 +167,13 @@ export default function MyCreatedActivityCard({ activity }) {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <List>
-                    {groupData.map((group) => {
-                        <>
-                            <ListItem key={group.joinCode} disablePadding>
+                    {groupData.map((group) => (
+                        <ListItem key={group.joinCode} disablePadding>
                             <ListItemButton>
                                 <ListItemText primary={group.joinCode} />
                             </ListItemButton>
-                              </ListItem>
-                              <ListItem disablePadding>
-                              <ListItemButton>
-                                <ListItemIcon>
-                                  <InboxIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Inbox" />
-                              </ListItemButton>
-                            </ListItem>
-                        </>
-                    })}
-                    
+                        </ListItem>
+                    ))}            
                 </List>
             </Collapse>
         </Item>
