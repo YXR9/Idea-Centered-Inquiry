@@ -152,6 +152,7 @@ export default function Forum() {
         enabled: true,
         blockShifting: true,
         edgeMinimization: true,
+        nodeSpacing: 150,
         direction: 'RL',
         sortMethod: 'directed',
       },
@@ -259,6 +260,10 @@ export default function Forum() {
         }
       },
       opacity: 1,
+      fix: {
+        x: true,
+        y: true
+      },
       font: {
         color: '#343434',
         size: 5, // px
@@ -301,7 +306,7 @@ export default function Forum() {
       hidden: false,
       label: "HTML",
       level: undefined,
-      margin: 20,
+      margin: 10,
       shadow: {
         color: 'rgba(33,33,33,.7)',
         size: 10,
@@ -311,7 +316,7 @@ export default function Forum() {
       heightConstraint: { minimum: 100, valign: 'middle' },
       widthConstraint: { minimum: 100, maximum: 100 },
       mass: 1,
-      physics: true,
+      physics: false,
       scaling: {
         label: {
           enabled: true,
