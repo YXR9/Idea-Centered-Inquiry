@@ -2,6 +2,7 @@ import config from '../config.json';
 import axios from "axios";
 import React, { useState } from 'react';
 import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormHelperText, TextField, InputLabel, Box } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -12,6 +13,7 @@ export const CreateFlask = ({ open, onClose }) => {
     const name = localStorage.getItem('name');
     const ws = io.connect('http://127.0.0.1:8000');
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const [loading, setLoading] = useState(false);
     const [content, setContent] = useState();
     const [data, setData] = useState({
       title: "",
@@ -55,10 +57,12 @@ export const CreateFlask = ({ open, onClose }) => {
           author: data.author,
           groupId: data.groupId
         };
+        setLoading(true);
         axios
             .post(config[7].createNode, ideaData)
             .then((response) => {
                 onClose(onClose);
+                setLoading(false);
                 setData({
                   title: "",
                   content: "",
@@ -74,10 +78,13 @@ export const CreateFlask = ({ open, onClose }) => {
                 if (error.response) {
                     console.log(error.response);
                     console.log("server responded");
+                    setLoading(false);
                 } else if (error.request) {
                     console.log("network error");
+                    setLoading(false);
                 } else {
                     console.log(error);
+                    setLoading(false);
                 }
             });
       } else {
@@ -125,7 +132,7 @@ export const CreateFlask = ({ open, onClose }) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={onClose}>取消</Button>
-            <Button type='submit' onClick={handleSubmit}>送出</Button>
+            <LoadingButton type='submit' onClick={handleSubmit} loading={loading} loadingPosition="start" variant="contained">送出</LoadingButton>
           </DialogActions>
         </Dialog>
       </>
