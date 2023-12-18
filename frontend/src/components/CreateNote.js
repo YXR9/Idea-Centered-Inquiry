@@ -40,38 +40,49 @@ export const CreateNote = ({ open, onClose }) => {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      const ideaData = {
-        title: data.title,
-        content: data.content,
-        tags: data.tags,
-        author: data.author,
-        groupId: data.groupId
-      };
-      axios
-          .post(config[7].createNode, ideaData)
-          .then((response) => {
-              onClose(onClose);
-              setData({
-                title: "",
-                content: "",
-                tags: "",
-                author: "",
-                groupId: ""
-              })
-              console.log(response.status, response.data);
-              console.log("3",typeof ws);
-              sendMessage(ws);
-          })
-          .catch((error) => {
-              if (error.response) {
-                  console.log(error.response);
-                  console.log("server responded");
-              } else if (error.request) {
-                  console.log("network error");
-              } else {
-                  console.log(error);
-              }
-          });
+      const isTitleValid = data.title.trim().length > 0;
+      const titleValidLength = data.title.trim().length < 15;
+      if(
+        isTitleValid && 
+        titleValidLength &&
+        editorState.getCurrentContent().hasText() &&
+        editorState.getCurrentContent().getPlainText().length > 0
+      ) {
+        const ideaData = {
+          title: data.title,
+          content: data.content,
+          tags: data.tags,
+          author: data.author,
+          groupId: data.groupId
+        };
+        axios
+            .post(config[7].createNode, ideaData)
+            .then((response) => {
+                onClose(onClose);
+                setData({
+                  title: "",
+                  content: "",
+                  tags: "",
+                  author: "",
+                  groupId: ""
+                })
+                console.log(response.status, response.data);
+                console.log("3",typeof ws);
+                sendMessage(ws);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response);
+                    console.log("server responded");
+                } else if (error.request) {
+                    console.log("network error");
+                } else {
+                    console.log(error);
+                }
+            });
+      } else {
+        return alert("請確定以下項目： \n1. 標題及內容都已輸入\n2. 標題長度不超過15個字");
+      }
     };
 
     return (
@@ -87,9 +98,10 @@ export const CreateNote = ({ open, onClose }) => {
           <DialogContent>
             <FormControl variant="standard" fullWidth>
               <TextField
+                required
+                id="standard-required"
                 autoFocus
                 margin="dense"
-                id="name"
                 label={"title"}
                 type="text"
                 name='title'
@@ -97,6 +109,7 @@ export const CreateNote = ({ open, onClose }) => {
                 fullWidth
                 variant="standard"
                 onChange={handleChange}
+                inputProps={{ maxLength: 15 }}
               />
               <FormHelperText id="component-helper-text">
                 請為你紀錄下一個標題，讓其他同學能更快速的了解你紀錄了什麼內容！

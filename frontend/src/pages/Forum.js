@@ -104,7 +104,7 @@ export default function Forum() {
 
       const nodeData = fetchData.data[0].Nodes.map((node) => ({
         id: node.id,
-        label: getEmoji(node.tags)+":  "+ "\n" + "\n" +node.title,
+        label: getEmoji(node.tags)+ "\n" + "\n" +node.title,
         title: node.content,
         group: node.tags
       }));
@@ -266,7 +266,7 @@ export default function Forum() {
         background: 'none',
         strokeWidth: 0, // px
         strokeColor: '#ffffff',
-        align: 'center',
+        align: 'left',
         multi: false,
         vadjust: 0,
         bold: {
