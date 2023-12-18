@@ -73,6 +73,7 @@ export const ViewNode = ({ open, onClose, nodeContent }) => {
             <CreateReply
                 open={modalOpen}
                 onClose={closeModal}
+                nodeContent={nodeContent}
             />
         </>
     );

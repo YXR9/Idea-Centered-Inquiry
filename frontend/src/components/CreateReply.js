@@ -1,7 +1,7 @@
 import config from '../config.json';
 import axios from "axios";
 import React, { useState } from 'react';
-import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormHelperText, TextField, InputLabel, Box } from '@mui/material';
+import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControl, FormHelperText, TextField, InputLabel, Box } from '@mui/material';
 import { EditorState, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -17,7 +17,7 @@ const scaffold = [
   <Button key="6">我的總結</Button>
 ];
 
-export const CreateReply = ({ open, onClose }) => {
+export const CreateReply = ({ open, onClose, nodeContent }) => {
     const userId = localStorage.getItem('userId');
     const ws = io.connect('http://127.0.0.1:8000');
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -143,9 +143,18 @@ export const CreateReply = ({ open, onClose }) => {
           maxWidth="md"
           scroll='body'
         >
-          <DialogTitle>新增回覆</DialogTitle>
+          <DialogTitle>回覆</DialogTitle>
           <Divider variant="middle" />
           <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+                {nodeContent && (    // ensure that nodeData is not null or undefined before trying to access its properties.
+                    <>
+                        <>
+                            {nodeContent.content}
+                        </>
+                    </>
+                )}
+            </DialogContentText>
             <FormControl variant="standard" fullWidth>
               <TextField
                 required
