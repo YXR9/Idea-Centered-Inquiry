@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useState } from 'react'
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from '@mui/material';
 import joinActivityImg from '../assets/undraw_join_re_w1lh.svg';
+import url from '../url.json';
 
 export const JoinActivityForm = () => {
     const userId = localStorage.getItem('userId'); 
@@ -34,7 +35,7 @@ export const JoinActivityForm = () => {
             userId: data.userId,
         };
         axios
-            .put(`${config[5].joinActivity}/${data.activityKey}/join`, activityData)
+            .put(`${url.backendHost + config[5].joinActivity}/${data.activityKey}/join`, activityData)
             .then((response) => {
                 setOpen(false);
                 setData({

@@ -1,44 +1,50 @@
 [
     {
-        "registerUrl": "http://127.0.0.1:8000/api/users/signup"
+        "registerUrl": "api/users/signup"
     },
     {
-        "loginUrl": "http://127.0.0.1:8000/api/users/login"
+        "loginUrl": "api/users/login"
     },
     {
-        "createActivity": "http://127.0.0.1:8000/api/activities/create"
+        "createActivity": "api/activities/create"
     },
     {
-        "myActivityList": "http://127.0.0.1:8000/api/activities/myActivity"
+        "myActivityList": "api/activities/myActivity"
     },
     {
-        "myJoinedActivityList": "http://127.0.0.1:8000/api/activities/myJoined"
+        "myJoinedActivityList": "api/activities/myJoined"
     },
     {
-        "joinActivity": "http://127.0.0.1:8000/api/groups"
+        "joinActivity": "api/groups"
     },
     {
-        "enterActivity": "http://127.0.0.1:8000/api/activities"
+        "enterActivity": "api/activities"
     },
     {
-        "createNode": "http://127.0.0.1:8000/api/nodes/create"
+        "createNode": "api/nodes/create"
     },
     {
-        "getNode": "http://127.0.0.1:8000/api/nodes/all"
+        "getNode": "api/nodes/all"
     },
     {
-        "createEdge": "http://127.0.0.1:8000/api/edges/create"
+        "createEdge": "api/edges/create"
     },
     {
-        "getEdge": "http://127.0.0.1:8000/api/edges/all"
+        "getEdge": "api/edges/all"
     },
     {
-        "getOneNode": "http://127.0.0.1:8000/api/nodes"
+        "getOneNode": "api/nodes"
     },
     {
-        "getMyGroup": "http://127.0.0.1:8000/api/groups"
+        "getMyGroup": "api/groups"
     },
     {
-        "MyCreatedActivity": "http://127.0.0.1:8000/api/activities/myActivity"
+        "MyCreatedActivity": "api/activities/myActivity"
+    },
+    {
+        "creatGroup": "api/activities/createGroups"
+    },
+    {
+        "findAllGroup": "api/activities/"
     }
 ]

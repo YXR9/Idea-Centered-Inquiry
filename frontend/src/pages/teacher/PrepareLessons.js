@@ -3,9 +3,10 @@ import axios from 'axios';
 import config from '../../config.json';
 import io from 'socket.io-client';
 import PrepareLessonsPage_Navbar from '../../components/PrepareLessonsPage_Navbar';
+import url from '../../url.json';
 
 export default function PrepareLessons() {
-  const ws = io.connect('http://127.0.0.1:8000');
+  const ws = io.connect(url.backendHost);
 
   useEffect(() => {
     if (ws) {

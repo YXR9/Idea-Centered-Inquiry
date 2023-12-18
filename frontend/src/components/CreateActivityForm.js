@@ -7,6 +7,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import createActivityImg from '../assets/undraw_creative_thinking_re_9k71.svg';
+import url from '../url.json';
 
 export const CreateActivityForm = () => {
     const userId = localStorage.getItem('userId'); 
@@ -45,7 +46,7 @@ export const CreateActivityForm = () => {
             endDate: data.endDate
         };
         axios
-            .post(config[2].createActivity, activityData)
+            .post(url.backendHost + config[2].createActivity, activityData)
             .then((response) => {
                 setOpen(false);
                 setData({

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from '@mui/material';
 import registerImg from '../assets/undraw_mobile_payments_re_7udl.svg';
 import { Login } from './Login';
+import url from '../url.json';
 
 export const Register = () => {
     const [open, setOpen] = useState(false);
@@ -43,7 +44,7 @@ export const Register = () => {
             city: data.city
         };
         axios
-            .post(config[0].registerUrl, userData)
+            .post(url.backendHost + config[0].registerUrl, userData)
             .then((response) => {
                 setOpen(false);
                 setData({

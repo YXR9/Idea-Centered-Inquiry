@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material';
 import loginImg from '../assets/undraw_login_re_4vu2.svg';
 import { Register } from './Register';
+import url from '../url.json';
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -58,7 +59,7 @@ export const Login = () => {
         };
         console.log("userData: ", userData)
         await axios
-            .post(config[1].loginUrl, userData)
+            .post(url.backendHost + config[1].loginUrl, userData)
             .then((response) => {
                 setIsLoggedIn(true)
                 setOpen(false);

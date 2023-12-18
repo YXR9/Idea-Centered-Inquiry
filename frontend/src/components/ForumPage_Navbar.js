@@ -26,6 +26,7 @@ import { CreateQuestion } from './CreateQuestion';
 import { CreateInformation } from './CreateInformation';
 import { CreateFlask } from './CreateFlask';
 import { CreateNote } from './CreateNote';
+import url from '../url.json';
 
 const drawerWidth = 240;
 
@@ -148,7 +149,7 @@ export default function ForumPage_Navbar() {
   useEffect(() => {
     const getActivityData = async () => {
       try {
-        const response = await axios.get(`${config[6].enterActivity}/${localStorage.getItem('activityId')}`);
+        const response = await axios.get(`${url.backendHost + config[6].enterActivity}/${localStorage.getItem('activityId')}`);
         setActivityData(response.data);
       } catch (err) {
         console.log(err);
@@ -180,7 +181,7 @@ export default function ForumPage_Navbar() {
                 size="large"
                 aria-label="show 4 new mails"
                 color="inherit"
-                onClick={()=>{navigate("/forum")}}
+                onClick={()=>{navigate("/index")}}
               >
                 <Badge color="error">
                   <img alt='返回首頁' src={BackToHomeIcon} width={24} height={24} />
@@ -290,7 +291,7 @@ export default function ForumPage_Navbar() {
       )}
       {selectedModal === 'createLearningFeedback' && (
         // navigate("/dashboard")
-        openInNewTab("http://127.0.0.1:3000/dashboard")
+        openInNewTab("./dashboard")
       )}
       {/* {selectedModal === 'backToForum' && (
         navigate("/forum")

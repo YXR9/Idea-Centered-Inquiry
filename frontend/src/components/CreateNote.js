@@ -8,10 +8,11 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { sendMessage } from '../utils/socketTool';
 import io from 'socket.io-client';
+import url from '../url.json';
 
 export const CreateNote = ({ open, onClose }) => {
     const name = localStorage.getItem('name');
-    const ws = io.connect('http://127.0.0.1:8000');
+    const ws = io.connect(url.backendHost);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [loading, setLoading] = useState(false);
     const [content, setContent] = useState();
@@ -60,7 +61,7 @@ export const CreateNote = ({ open, onClose }) => {
       
         setLoading(true);
         axios
-            .post(config[7].createNode, ideaData)
+            .post(url.backendHost + config[7].createNode, ideaData)
             .then((response) => {
                 onClose(onClose);
                 setLoading(false);

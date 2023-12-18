@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import io from 'socket.io-client';
 import ActivityCard from '../components/ActivityCard';
+import url from '../url.json';
 
 export default function Index() {
   const [all, setAll] = useState('');
@@ -27,13 +28,13 @@ export default function Index() {
   };
 
   const connectWebSocket = () => {
-    setWs(io('http://127.0.0.1:8000'));
+    setWs(io(url.backendHost));
   };
 
   useEffect(() => {
     const getActivities = async () => {
       try {
-        const fetchData = await axios.get(`${config[4].myJoinedActivityList}/${localStorage.getItem('userId')}`, {
+        const fetchData = await axios.get(`${url.backendHost + config[4].myJoinedActivityList}/${localStorage.getItem('userId')}`, {
           headers: {
             authorization: 'Bearer JWT Token',
           },

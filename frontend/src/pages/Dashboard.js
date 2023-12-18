@@ -4,9 +4,10 @@ import config from '../config.json';
 import ApexCharts from 'apexcharts';
 import io from 'socket.io-client';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
+import url from '../url.json';
 
 export default function Dashboard() {
-    const ws = io.connect('http://127.0.0.1:8000');
+    const ws = io.connect(url.backendHost);
     const [nodes, setNodes] = useState([]);
     const [numberOfTags, setNumberOfTags] = useState([]);
 
@@ -19,7 +20,7 @@ export default function Dashboard() {
 
     const getNodes = async () => {
         try{
-          const fetchData = await axios.get(`${config[8].getNode}/${localStorage.getItem('groupId')}`, {
+          const fetchData = await axios.get(`${url.backendHost + config[8].getNode}/${localStorage.getItem('groupId')}`, {
             headers: {
               authorization: 'Bearer JWT Token',
             },

@@ -27,6 +27,7 @@ import { CreateInformation } from './CreateInformation';
 import { CreateFlask } from './CreateFlask';
 import { CreateNote } from './CreateNote';
 import { CreateActivityForm } from './CreateActivityForm';
+import url from '../url.json';
 
 const drawerWidth = 240;
 
@@ -145,7 +146,7 @@ export default function PrepareLessonsPage_Navbar() {
   useEffect(() => {
     const getActivityData = async () => {
       try {
-        const response = await axios.get(`${config[6].enterActivity}/${localStorage.getItem('activityId')}`);
+        const response = await axios.get(`${url.backendHost + config[6].enterActivity}/${localStorage.getItem('activityId')}`);
         setActivityData(response.data);
       } catch (err) {
         console.log(err);

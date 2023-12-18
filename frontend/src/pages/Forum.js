@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import ForumPage_Navbar from '../components/ForumPage_Navbar';
 import Graph from "react-vis-network-graph";
 import { ViewNode } from '../components/ViewNode';
+import url from '../url.json';
 
 function getEmoji(tag){
   switch (tag) {
@@ -35,11 +36,11 @@ export default function Forum() {
   const [edges, setEdges] = useState([]);
   const [open, setOpen] = useState(false);
   const [nodeContent, setNodeContent] = useState(null);
-  const ws = io.connect('http://127.0.0.1:8000');
+  const ws = io.connect(url.backendHost);
 
   const formatTimestamp = (timestamp) => {
       return new Intl.DateTimeFormat('en-US', {
-          year: 'numeric',
+          // year: 'numeric',
           month: 'numeric',
           day: 'numeric',
           hour: 'numeric',
@@ -60,7 +61,7 @@ export default function Forum() {
 
   const fetchNodeData = async (nodeId) => {
     try {
-      const response = await axios.get(`${config[11].getOneNode}/${nodeId}`);
+      const response = await axios.get(`${url.backendHost + config[11].getOneNode}/${nodeId}`);
       setNodeContent(response.data);
       console.log('Node Content: ', response.data);
     } catch (err) {
@@ -73,7 +74,7 @@ export default function Forum() {
       initWebSocket();
     }
 
-    axios.get(`${config[12].getMyGroup}/${localStorage.getItem('activityId')}/${localStorage.getItem('userId')}`, {
+    axios.get(`${url.backendHost + config[12].getMyGroup}/${localStorage.getItem('activityId')}/${localStorage.getItem('userId')}`, {
       headers: {
         authorization: 'Bearer JWT Token',
       },
@@ -97,13 +98,13 @@ export default function Forum() {
 
   const getNodes = async () => {
     try{
-      const fetchData = await axios.get(`${config[8].getNode}/${localStorage.getItem('groupId')}`, {
+      const fetchData = await axios.get(`${url.backendHost + config[8].getNode}/${localStorage.getItem('groupId')}`, {
         headers: {
           authorization: 'Bearer JWT Token',
         },
       });
 
-      const fetchEdge = await axios.get(`${config[10].getEdge}/${localStorage.getItem('groupId')}`, {
+      const fetchEdge = await axios.get(`${url.backendHost + config[10].getEdge}/${localStorage.getItem('groupId')}`, {
         headers: {
           authorization: 'Bearer JWT Token',
         },
@@ -278,7 +279,7 @@ export default function Forum() {
       },
       font: {
         color: '#343434',
-        size: 5, // px
+        size: 2, // px
         face: 'arial',
         background: 'none',
         strokeWidth: 0, // px
@@ -288,7 +289,7 @@ export default function Forum() {
         vadjust: 0,
         bold: {
           color: '#343434',
-          size: 5, // px
+          size: 2, // px
           face: 'arial',
           vadjust: 0,
           mod: 'bold'
