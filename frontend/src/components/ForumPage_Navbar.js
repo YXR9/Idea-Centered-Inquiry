@@ -103,11 +103,12 @@ const menuItems = [
   // { text: '新增想法牆', modalKey: 'createForum', icon: CreateForumIcon },
   // { text: '任務地圖', modalKey: 'createTaskMap', icon: TaskMapIcon },
   { text: '學習歷程', modalKey: 'createLearningFeedback', icon: LearningFeedbackIcon },
-  { text: '討論區', modalKey: 'backToForum', icon: ForumIcon },
+  // { text: '討論區', modalKey: 'backToForum', icon: ForumIcon },
 ];
 
 // const specialItems = ['新增想法牆','任務地圖', '學習歷程', '討論區'];
-const specialItems = ['新增紀錄', '學習歷程', '討論區'];
+// const specialItems = ['新增紀錄', '學習歷程', '討論區'];
+const specialItems = ['新增實驗', '新增紀錄', '學習歷程'];
 
 export default function ForumPage_Navbar() {
   const navigate = useNavigate();
@@ -116,6 +117,11 @@ export default function ForumPage_Navbar() {
   const [open, setOpen] = useState(false);
   const [selectedModal, setSelectedModal] = useState(null);
   const [selectedModalOpen, setSelectedModalOpen] = useState(false);
+
+  const openInNewTab = (url) => {
+    window.open(url, "_blank", "noreferrer");
+    setSelectedModal(null)
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -283,11 +289,12 @@ export default function ForumPage_Navbar() {
         />
       )}
       {selectedModal === 'createLearningFeedback' && (
-        navigate("/dashboard")
+        // navigate("/dashboard")
+        openInNewTab("http://127.0.0.1:3000/dashboard")
       )}
-      {selectedModal === 'backToForum' && (
+      {/* {selectedModal === 'backToForum' && (
         navigate("/forum")
-      )}
+      )} */}
     </nav>
   );
 }
