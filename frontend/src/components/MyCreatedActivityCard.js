@@ -3,7 +3,7 @@ import config from '../config.json';
 import axios from "axios";
 import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-import { styled, Card, CardHeader, CardContent, Typography, CardActions, IconButton, Collapse, List, ListItem, ListItemIcon, ListItemButton, ListItemText } from '@mui/material';
+import { styled, Card, CardHeader, CardContent, Typography, CardActions, IconButton, Collapse, List, ListItem, ListSubheader, ListItemButton, ListItemText } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InboxIcon from '@mui/icons-material/Inbox';
 import { createSvgIcon } from '@mui/material/utils';
@@ -117,7 +117,7 @@ export default function MyCreatedActivityCard({ activity }) {
                     userId: localStorage.getItem('userId'),
                 };
                 axios
-                    .put(`${url.backendHost + config[5].joinActivity}/${joinCode}/join`, activityData)
+                    .put(`${url.backendHost + config[5].joinActivity}/${response.data.groups[0].joinCode}/join`, activityData)
                     .then((response) => {
                         console.log(response.status, response.data);
                         window.location.reload(false);
@@ -163,11 +163,9 @@ export default function MyCreatedActivityCard({ activity }) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <EnterActivity>
-                    <Button className='enter-activity-button' onClick={createGroup}>
-                        新增小組
-                    </Button>
-                </EnterActivity>
+                <Button className='enter-activity-button' onClick={createGroup}>
+                    新增小組
+                </Button>
                 <ExpandMore
                   expand={expanded}
                   onClick={handleExpandClick}
