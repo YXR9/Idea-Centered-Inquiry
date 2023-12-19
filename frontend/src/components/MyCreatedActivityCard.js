@@ -27,19 +27,6 @@ const EnterActivity = styled((props) => {
       duration: theme.transitions.duration.shortest,
     }),
 }));
-
-const PlusIcon = createSvgIcon(
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-    </svg>,
-    'Plus',
-);
   
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -111,6 +98,7 @@ export default function MyCreatedActivityCard({ activity }) {
 
     const createGroup = (e) => {
         const groupData = {
+            groupName: "第 N 組",
             activityId: localStorage.getItem('activityId'),
             numGroups: 1
         }
@@ -119,8 +107,31 @@ export default function MyCreatedActivityCard({ activity }) {
             .post(url.backendHost + config[14].creatGroup, groupData)
             .then((response) => {
                 console.log(response.status, response.data);
+
+                localStorage.setItem('joinCode', response.data.groups[0].joinCode);
+
                 console.log("14",typeof ws);
                 sendMessage(ws);
+
+                const activityData = {
+                    userId: localStorage.getItem('userId'),
+                };
+                axios
+                    .put(`${url.backendHost + config[5].joinActivity}/${joinCode}/join`, activityData)
+                    .then((response) => {
+                        console.log(response.status, response.data);
+                        window.location.reload(false);
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            console.log(error.response);
+                            console.log("server responded");
+                        } else if (error.request) {
+                            console.log("network error");
+                        } else {
+                            console.log(error);
+                        }
+                    });
             })
             .catch((error) => {
                 if (error.response) {
@@ -152,9 +163,11 @@ export default function MyCreatedActivityCard({ activity }) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add group" onClick={createGroup}>
-                    <PlusIcon />
-                </IconButton>
+                <EnterActivity>
+                    <Button className='enter-activity-button' onClick={createGroup}>
+                        新增小組
+                    </Button>
+                </EnterActivity>
                 <ExpandMore
                   expand={expanded}
                   onClick={handleExpandClick}
@@ -165,11 +178,27 @@ export default function MyCreatedActivityCard({ activity }) {
                 </ExpandMore>
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <List>
+                <List
+                    subheader={
+                        <ListSubheader component="div" id="nested-list-subheader">
+                            小組列表
+                        </ListSubheader>
+                    }
+                >
                     {groupData.map((group) => (
-                        <ListItem key={group.joinCode} disablePadding>
+                        <ListItem
+                          key={group.joinCode}
+                          disablePadding
+                          secondaryAction={
+                            <EnterActivity>
+                                <Button className='enter-activity-button' onClick={handleEnter}>
+                                    進入小組
+                                </Button>
+                            </EnterActivity>
+                          }
+                        >
                             <ListItemButton>
-                                <ListItemText primary={group.joinCode} />
+                                <ListItemText primary={group.groupName} secondary={"小組邀請碼：" + group.joinCode} />
                             </ListItemButton>
                         </ListItem>
                     ))}            

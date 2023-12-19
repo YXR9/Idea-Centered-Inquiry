@@ -10,7 +10,7 @@ export const JoinActivityForm = () => {
     const [open, setOpen] = React.useState(false);
     const [data, setData] = useState({
         userId: userId,
-        activityKey: ""
+        joinCode: ""
     });
     
     const handleClickOpen = () => {
@@ -35,11 +35,11 @@ export const JoinActivityForm = () => {
             userId: data.userId,
         };
         axios
-            .put(`${url.backendHost + config[5].joinActivity}/${data.activityKey}/join`, activityData)
+            .put(`${url.backendHost + config[5].joinActivity}/${data.joinCode}/join`, activityData)
             .then((response) => {
                 setOpen(false);
                 setData({
-                    activityKey: ""
+                    joinCode: ""
                 })
                 console.log(response.status, response.data);
                 window.location.reload(false);
@@ -73,10 +73,10 @@ export const JoinActivityForm = () => {
                     autoFocus
                     margin="dense"
                     id="title"
-                    label={"activityKey"}
+                    label={"joinCode"}
                     type="text"
-                    name='activityKey'
-                    value={data.activityKey}
+                    name='joinCode'
+                    value={data.joinCode}
                     fullWidth
                     variant="standard"
                     onChange={handleChange}

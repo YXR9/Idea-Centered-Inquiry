@@ -21,7 +21,7 @@ const EnterActivity = styled((props) => {
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
-  }));
+}));
 
 export default function ActivityCard({ activity }) {
     const navigate = useNavigate();

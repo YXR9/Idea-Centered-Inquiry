@@ -136,7 +136,7 @@ exports.findOneActivity = (req, res) => {
             include: [
                 {
                     model: Group,
-                    attributes: ["joinCode", "userId"],
+                    attributes: ["groupName", "joinCode", "userId"],
                     through: { attributes: [] }
                 },
             ] 
