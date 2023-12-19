@@ -46,5 +46,8 @@
     },
     {
         "findAllGroup": "api/activities/"
+    },
+    {
+        "EnterDifferentGroup": "api/groups/teacher/"
     }
 ]

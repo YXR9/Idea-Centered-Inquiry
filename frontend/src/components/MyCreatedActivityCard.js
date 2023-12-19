@@ -107,9 +107,6 @@ export default function MyCreatedActivityCard({ activity }) {
             .post(url.backendHost + config[14].creatGroup, groupData)
             .then((response) => {
                 console.log(response.status, response.data);
-
-                localStorage.setItem('joinCode', response.data.groups[0].joinCode);
-
                 console.log("14",typeof ws);
                 sendMessage(ws);
 
@@ -146,9 +143,29 @@ export default function MyCreatedActivityCard({ activity }) {
     }
 
     const handleEnter = async (e) => {
-        e.preventDefault();
-        localStorage.setItem('activityId', activity.id);
-        navigate("/forum");
+      e.preventDefault();
+      localStorage.setItem('activityId', activity.id);
+
+      axios.get(`${url.backendHost + config[16].EnterDifferentGroup}${localStorage.getItem('joinCode')}/${localStorage.getItem('userId')}`, {
+        headers: {
+          authorization: 'Bearer JWT Token',
+        },
+      }).then((response) => {
+          console.log("groupData:response ", response.data.data[0].id);
+          localStorage.setItem('groupId', response.data.data[0].id);
+      })
+      .catch((error) => {
+          if (error.response) {
+              console.log(error.response);
+              console.log("server responded");
+          } else if (error.request) {
+              console.log("network error");
+          } else {
+              console.log(error);
+          }
+      });
+
+      navigate("/forum");
     };
 
     return (
@@ -189,7 +206,7 @@ export default function MyCreatedActivityCard({ activity }) {
                           disablePadding
                           secondaryAction={
                             <EnterActivity>
-                                <Button className='enter-activity-button' onClick={handleEnter}>
+                                <Button className='enter-activity-button' onClick={(e) => {handleEnter(e); localStorage.setItem('joinCode', group.joinCode); localStorage.setItem('groupId', group.id);}}>
                                     進入小組
                                 </Button>
                             </EnterActivity>
