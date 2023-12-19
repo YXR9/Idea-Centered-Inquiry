@@ -16,6 +16,9 @@ module.exports = app => {
     // Get member's group.
     router.get("/:activityId/:userId", groups.findMyGroup);
 
+    // Enter different group.
+    router.get("/teacher/:joinCode/:userId", groups.EnterDifferentGroup);
+
     // Update a Group with id.
     router.put("/:groupId", groups.updateGroup);
 

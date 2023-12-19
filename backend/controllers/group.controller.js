@@ -151,6 +151,32 @@ exports.findMyGroup = (req, res) => {
     });
 }
 
+// Enter different group.
+exports.EnterDifferentGroup = (req, res) => {
+    Group.findAll({
+        where: {
+            joinCode: req.params.joinCode,
+            userId: { [Op.contains]: [req.params.userId] }
+        }
+    })
+    .then((data) => {
+        console.log("👇", data);
+        res.status(200).send({
+            success: true,
+            message: "Groups found successfully.",
+            data: data
+        });
+    })
+    .catch((err) => {
+        console.error("Error finding group:", err.message);
+        res.status(500).send({
+            success: false,
+            message: "Error finding your group.",
+            error: err.message
+        });
+    });
+}
+
 // Update a Group with the specified id in the request
 exports.updateGroup = (req, res) => {
     const groupId = req.params.groupId;
