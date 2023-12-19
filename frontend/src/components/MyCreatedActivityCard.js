@@ -152,7 +152,6 @@ export default function MyCreatedActivityCard({ activity }) {
         },
       }).then((response) => {
           console.log("groupData:response ", response.data.data[0].id);
-          localStorage.setItem('groupId', response.data.data[0].id);
       })
       .catch((error) => {
           if (error.response) {
@@ -206,7 +205,7 @@ export default function MyCreatedActivityCard({ activity }) {
                           disablePadding
                           secondaryAction={
                             <EnterActivity>
-                                <Button className='enter-activity-button' onClick={(e) => {handleEnter(e); localStorage.setItem('joinCode', group.joinCode); localStorage.setItem('groupId', group.id);}}>
+                                <Button className='enter-activity-button' onClick={(e) => {localStorage.setItem('groupId', group.id); localStorage.setItem('joinCode', group.joinCode); handleEnter(e);}}>
                                     進入小組
                                 </Button>
                             </EnterActivity>

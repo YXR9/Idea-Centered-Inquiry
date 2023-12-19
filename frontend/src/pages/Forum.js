@@ -74,7 +74,7 @@ export default function Forum() {
       initWebSocket();
     }
 
-    axios.get(`${url.backendHost + config[12].getMyGroup}/${localStorage.getItem('activityId')}/${localStorage.getItem('userId')}`, {
+    axios.get(`${url.backendHost + config[16].EnterDifferentGroup}/${localStorage.getItem('joinCode')}/${localStorage.getItem('userId')}`, {
       headers: {
         authorization: 'Bearer JWT Token',
       },
