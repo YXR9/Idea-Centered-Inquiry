@@ -74,12 +74,12 @@ export default function Forum() {
       initWebSocket();
     }
 
-    axios.get(`${url.backendHost + config[16].EnterDifferentGroup}/${localStorage.getItem('joinCode')}/${localStorage.getItem('userId')}`, {
+    axios.get(`${url.backendHost + config[16].EnterDifferentGroup}${localStorage.getItem('joinCode')}/${localStorage.getItem('userId')}`, {
       headers: {
         authorization: 'Bearer JWT Token',
       },
     }).then((response) => {
-        console.log("groupData:response ", response.data.data[0].id);
+        console.log("1. groupData:response ", response.data.data[0].id);
         localStorage.setItem('groupId', response.data.data[0].id);
     })
     .catch((error) => {
@@ -92,7 +92,6 @@ export default function Forum() {
             console.log(error);
         }
     });
-    
   
   }, []);
 
