@@ -81,6 +81,16 @@ export default function Forum() {
     }).then((response) => {
         console.log("1. groupData:response ", response.data.data[0].id);
         localStorage.setItem('groupId', response.data.data[0].id);
+        if(response.data.data[0].id==null){
+          axios.get(`${url.backendHost + config[12].getMyGroup}/${localStorage.getItem('activityId')}/${localStorage.getItem('userId')}`, {
+            headers: {
+              authorization: 'Bearer JWT Token',
+            },
+          }).then((response) => {
+              console.log("1. groupData:response ", response.data.data[0].id);
+              localStorage.setItem('groupId', response.data.data[0].id);
+          })
+        }
     })
     .catch((error) => {
         if (error.response) {
