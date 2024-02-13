@@ -34,7 +34,8 @@ function stringAvatar(name) {
     sx: {
       bgcolor: stringToColor(name),
     },
-    children: `${name.split('')[1][0]}${name.split('')[2][0]}`,
+    children: `${name.split('').map((char, index) => index > 0 ? char : '').join('')}`,
+    // children: `${name.split('')[1][0]}${name.split('')[2][0]}`,
   };
 }
 
