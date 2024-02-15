@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from 'react';
 import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, FormHelperText, TextField, InputLabel, Box } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { EditorState, ContentState } from 'draft-js';
+import { EditorState, ContentState, CompositeDecorator } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { sendMessage } from '../utils/socketTool';
@@ -11,19 +11,48 @@ import io from 'socket.io-client';
 import url from '../url.json';
 
 const scaffold = [
-  <Button key="1">我的想法</Button>,
-  <Button key="2">我覺得更好的想法</Button>,
-  <Button key="3">我想知道</Button>,
-  <Button key="4">這個想法不能解釋</Button>,
-  <Button key="5">舉例和參考來源</Button>,
-  <Button key="6">我的總結</Button>
+  <Button key="1">【💡我的想法】</Button>,
+  <Button key="2">【🧐我覺得更好的想法】</Button>,
+  <Button key="3">【❓我想知道】</Button>,
+  <Button key="4">【🙅🏻這個想法不能解釋】</Button>,
+  <Button key="5">【📄舉例和參考來源】</Button>,
+  <Button key="6">【✍🏻我的總結】</Button>
 ];
 
+const scaffoldWords = ["我的想法", "我覺得更好的想法", "我想知道", "這個想法不能解釋", "舉例和參考來源", "我的總結"];
+
+const Decorated = ({ children }) => {
+  return <span style={{ background: "red" }}>{children}</span>;
+};
+
+function findWithRegex(scaffoldWords, contentBlock, callback) {
+  const text = contentBlock.getText();
+
+  scaffoldWords.forEach(word => {
+    const regex = new RegExp(word, 'g');
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      callback(match.index, match.index + match[0].length);
+    }
+  });
+}
+
+function handleStrategy(contentBlock, callback) {
+  findWithRegex(scaffoldWords, contentBlock, callback);
+}
+
+const createDecorator = () =>
+  new CompositeDecorator([
+    {
+      strategy: handleStrategy,
+      component: Decorated
+    }
+  ]);
 
 export const CreateIdea = ({ open, onClose }) => {
     const ws = io.connect(url.backendHost);
     const name = localStorage.getItem('name');
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const [editorState, setEditorState] = useState(EditorState.createEmpty(createDecorator()));
     const [loading, setLoading] = useState(false);
     const [content, setContent] = useState();
     const [data, setData] = useState({
@@ -64,7 +93,8 @@ export const CreateIdea = ({ open, onClose }) => {
     
       // Create a new EditorState with the updated content
       const newEditorState = EditorState.createWithContent(
-        ContentState.createFromText(newContent)
+        ContentState.createFromText(newContent),
+        createDecorator()  // Apply the decorator
       );
       
       // Set the new EditorState in the component state
