@@ -112,11 +112,9 @@ export default function Forum() {
       console.log("fetchData: ", fetchData);
       console.log("fetchEdge: ", fetchEdge);
 
-
-
       const nodeData = fetchData.data[0].Nodes.map((node) => ({
         id: node.id,
-        label: getEmoji(node.tags) + "\n" + "\n" + node.title + "\n" + node.author + "\n" + `${formatTimestamp(node.createdAt)}`,
+        label: getEmoji(node.tags) + "\n" + "\n" + node.title + "\n"  + "\n" + node.author + "\n" + `${formatTimestamp(node.createdAt)}`,
         title: node.content,
         group: node.tags
       }));
