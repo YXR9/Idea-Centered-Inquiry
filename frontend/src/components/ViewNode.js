@@ -58,6 +58,7 @@ export const ViewNode = ({ open, onClose, nodeContent }) => {
                                     {nodeContent.content}
                                 </>
                                 <br/>
+                                <br/>
                                 <>
                                     作者：{nodeContent.author}
                                 </>
