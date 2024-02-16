@@ -11,12 +11,12 @@ import io from 'socket.io-client';
 import url from '../url.json';
 
 const scaffold = [
-  <Button key="1">我的想法</Button>,
-  <Button key="2">我覺得更好的想法</Button>,
-  <Button key="3">我想知道</Button>,
-  <Button key="4">這個想法不能解釋</Button>,
-  <Button key="5">舉例和參考來源</Button>,
-  <Button key="6">我的總結</Button>
+  <Button key="1">【💡我的想法】</Button>,
+  <Button key="2">【🧐我覺得更好的想法】</Button>,
+  <Button key="3">【❓我想知道】</Button>,
+  <Button key="4">【🙅🏻這個想法不能解釋】</Button>,
+  <Button key="5">【📄舉例和參考來源】</Button>,
+  <Button key="6">【✍🏻我的總結】</Button>
 ];
 
 export const CreateReply = ({ open, onClose, nodeContent }) => {
