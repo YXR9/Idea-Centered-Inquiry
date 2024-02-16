@@ -116,7 +116,7 @@ export default function Forum() {
         id: node.id,
         label: getEmoji(node.tags) + "\n" + "\n" + node.title + "\n"  + "\n" + node.author + "\n" + `${formatTimestamp(node.createdAt)}`,
         title: node.content,
-        group: node.tags
+        group: node.tags,
       }));
 
       const edgeData = fetchEdge.data.map((edge) => ({
@@ -158,14 +158,15 @@ export default function Forum() {
   const options = {
     layout: {
       randomSeed: 23,
-      hierarchical: {
-        enabled: true,
-        blockShifting: true,
-        edgeMinimization: true,
-        nodeSpacing: 150,
-        direction: 'RL',
-        sortMethod: 'directed',
-      },
+      improvedLayout: true,
+      // hierarchical: {
+      //   enabled: true,
+      //   blockShifting: true,
+      //   edgeMinimization: true,
+      //   nodeSpacing: 150,
+      //   direction: 'RL',
+      //   sortMethod: 'directed',
+      // },
     },
     interaction: {
       navigationButtons: true,
