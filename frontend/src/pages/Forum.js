@@ -25,7 +25,7 @@ function getEmoji(tag){
       return "📄"
     }
     case 'reply': {
-      return "✏"
+      return "💡"
     }
   }
 }
@@ -159,14 +159,14 @@ export default function Forum() {
     layout: {
       randomSeed: 23,
       improvedLayout: true,
-      // hierarchical: {
-      //   enabled: true,
-      //   blockShifting: true,
-      //   edgeMinimization: true,
-      //   nodeSpacing: 150,
-      //   direction: 'RL',
-      //   sortMethod: 'directed',
-      // },
+      hierarchical: {
+        enabled: true,
+        blockShifting: true,
+        edgeMinimization: true,
+        nodeSpacing: 150,
+        direction: 'RL',
+        sortMethod: 'directed',
+      },
     },
     interaction: {
       navigationButtons: true,
@@ -239,8 +239,8 @@ export default function Forum() {
     },
     edges: {
       color: '#8B8B8B',
-      width: 3,
-      length: 300,
+      width: 1,
+      length: 600,
       // color: { inherit: 'from' },
       arrows: {
         from: {
@@ -347,7 +347,14 @@ export default function Forum() {
         }
       },
       value: 1,
-    }
+    },
+    // physics: {
+    //   enabled: true,
+    //   repulsion: {
+    //     nodeDistance: 150,
+    //     springLength: 100
+    //   }
+    // }      
   };
 
   const events = {
