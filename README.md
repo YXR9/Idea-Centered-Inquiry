@@ -1,7 +1,7 @@
 ﻿# Idea-Centered-Inquiry
  ### How to run this server
-  - backend: `nodemon .\bin\www`
-  - fronend: `npm start`
+  - backend: `docker-compose up backend`
+  - frontend: `docker-compose up frontend`
 
 ### Swagger UI
   - http://localhost:3000/api-docs/#/
