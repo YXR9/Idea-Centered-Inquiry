@@ -109,7 +109,7 @@ export const CreateQuestion = ({ open, onClose }) => {
                 id="standard-required"
                 autoFocus
                 margin="dense"
-                label={"title"}
+                label={"問題標題"}
                 type="text"
                 name='title'
                 value={data.title}

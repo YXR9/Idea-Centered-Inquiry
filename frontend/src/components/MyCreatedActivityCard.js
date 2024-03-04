@@ -98,7 +98,7 @@ export default function MyCreatedActivityCard({ activity }) {
 
     const createGroup = (e) => {
         const groupData = {
-            groupName: "第 N 組",
+            groupName: "探究小組",
             activityId: localStorage.getItem('activityId'),
             numGroups: 1
         }

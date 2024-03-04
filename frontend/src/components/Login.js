@@ -110,7 +110,7 @@ export const Login = () => {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label={"email"}
+                    label={"請填寫信箱"}
                     type="email"
                     name='email'
                     value={data.email}
@@ -122,7 +122,7 @@ export const Login = () => {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label={"password"}
+                    label={"請填入密碼"}
                     type="password"
                     name='password'
                     value={data.password}

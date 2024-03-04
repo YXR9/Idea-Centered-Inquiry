@@ -114,7 +114,7 @@ export default function Forum() {
 
       const nodeData = fetchData.data[0].Nodes.map((node) => ({
         id: node.id,
-        label: getEmoji(node.tags) + "\n" + "\n" + node.title + "\n"  + "\n" + node.author + "\n" + `${formatTimestamp(node.createdAt)}`,
+        label: getEmoji(node.tags) + "\n" + "\n" + node.title + "\n"  + "\n" + "<span style='color: red; font-size: 5px'>" + node.author + "\n" + `${formatTimestamp(node.createdAt)}` + "</span>",
         title: node.content,
         group: node.tags,
       }));

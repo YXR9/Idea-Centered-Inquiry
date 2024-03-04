@@ -172,7 +172,7 @@ export const CreateIdea = ({ open, onClose }) => {
                 id="standard-required"
                 autoFocus
                 margin="dense"
-                label={"title"}
+                label={"想法標題"}
                 type="text"
                 name='title'
                 value={data.title}

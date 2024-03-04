@@ -111,7 +111,7 @@ export const CreateNote = ({ open, onClose }) => {
                 id="standard-required"
                 autoFocus
                 margin="dense"
-                label={"title"}
+                label={"記錄標題"}
                 type="text"
                 name='title'
                 value={data.title}

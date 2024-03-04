@@ -171,7 +171,7 @@ export const CreateReply = ({ open, onClose, nodeContent }) => {
                 id="standard-required"
                 autoFocus
                 margin="dense"
-                label={"title"}
+                label={"回應標題"}
                 type="text"
                 name='title'
                 value={data.title}

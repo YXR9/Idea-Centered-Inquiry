@@ -67,13 +67,13 @@ export const JoinActivityForm = () => {
             <div>
               <img className='modal-image' src={joinActivityImg} />
             </div>
-            <DialogTitle>加入活動</DialogTitle>
+            <DialogTitle>加入探究活動</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
                     margin="dense"
                     id="title"
-                    label={"joinCode"}
+                    label={"請輸入小組邀請碼"}
                     type="text"
                     name='joinCode'
                     value={data.joinCode}

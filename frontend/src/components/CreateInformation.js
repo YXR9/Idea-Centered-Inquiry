@@ -111,7 +111,7 @@ export const CreateInformation = ({ open, onClose }) => {
                 id="standard-required"
                 autoFocus
                 margin="dense"
-                label={"title"}
+                label={"標題"}
                 type="text"
                 name='title'
                 value={data.title}

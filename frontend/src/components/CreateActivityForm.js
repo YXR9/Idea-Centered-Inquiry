@@ -86,7 +86,7 @@ export const CreateActivityForm = () => {
                     autoFocus
                     margin="dense"
                     id="title"
-                    label={"title"}
+                    label={"探究活動主題名稱"}
                     type="text"
                     name='title'
                     value={data.title}

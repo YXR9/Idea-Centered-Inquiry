@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from "react-router-dom";
 import config from '../config.json';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
@@ -114,7 +113,6 @@ const specialItems = ['新增實驗', '新增紀錄', '學習歷程'];
 
 export default function ForumPage_Navbar() {
   const navigate = useNavigate();
-  const history = useHistory();
   const [activityData, setActivityData] = useState(null);
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -183,7 +181,7 @@ export default function ForumPage_Navbar() {
                 size="large"
                 aria-label="show 4 new mails"
                 color="inherit"
-                onClick={()=>{history.goBack()}}
+                onClick={() => navigate(-1)}
               >
                 <Badge color="error">
                   <img alt='返回首頁' src={BackToHomeIcon} width={24} height={24} />

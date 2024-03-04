@@ -80,13 +80,13 @@ export const Register = () => {
             <div>
               <img className='modal-image' src={registerImg} />
             </div>
-            <DialogTitle>註冊</DialogTitle>
+            <DialogTitle>註冊帳號</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
                     margin="dense"
                     id="name"
-                    label={"name"}
+                    label={"請填寫您的姓名"}
                     type="text"
                     name='name'
                     value={data.name}
@@ -98,7 +98,7 @@ export const Register = () => {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label={"email"}
+                    label={"請填寫信箱"}
                     type="email"
                     name='email'
                     value={data.email}
@@ -110,7 +110,7 @@ export const Register = () => {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label={"password"}
+                    label={"請填寫密碼"}
                     type="password"
                     name='password'
                     value={data.password}
@@ -122,7 +122,7 @@ export const Register = () => {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label={"passwordConf"}
+                    label={"請填入確認密碼，確認密碼必須與上面的「密碼」相同"}
                     type="password"
                     name='passwordConf'
                     value={data.passwordConf}
@@ -134,7 +134,7 @@ export const Register = () => {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label={"school"}
+                    label={"請填寫目前就讀的學校"}
                     type="text"
                     name='school'
                     value={data.school}
@@ -146,7 +146,7 @@ export const Register = () => {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label={"city"}
+                    label={"請填寫所在城市"}
                     type="text"
                     name='city'
                     value={data.city}

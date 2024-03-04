@@ -103,12 +103,12 @@ export default function IndexPageOfTeacher_Navbar() {
                 </div>
             </div>
             <div className={`dropdown-menu ${open? 'active' : 'inactive'}`} >
-                <h3>{name}<br/><span>{email}</span></h3>
+                <h3>嗨！{name}</h3>
                 <ul>
-                    <DropdownItem img = {user} text = {"My Profile"}/>
-                    <DropdownItem img = {edit} text = {"Edit Profile"}/>
+                    <DropdownItem img = {user} text = {"我的個人資料"}/>
+                    <DropdownItem img = {edit} text = {"編輯個人資料"}/>
                 </ul>
-                <h3><button className='register-button' onClick={logout}>Logout</button></h3>
+                <h3><button className='register-button' onClick={logout}>登出</button></h3>
             </div>
       </nav>
     )
