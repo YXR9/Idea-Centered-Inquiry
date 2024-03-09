@@ -3,10 +3,12 @@ import config from '../config.json';
 import axios from "axios";
 import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-import { styled, Card, CardHeader, CardContent, Typography, CardActions, IconButton, Collapse, List, ListItem, ListSubheader, ListItemButton, ListItemText } from '@mui/material';
+import { styled, Card, CardHeader, CardContent, Typography, CardActions, IconButton, Menu, MenuItem, Collapse, List, ListItem, ListItemIcon, ListSubheader, ListItemButton, ListItemText } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import InboxIcon from '@mui/icons-material/Inbox';
-import { createSvgIcon } from '@mui/material/utils';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ClassIcon from '../assets/class.svg'
+import EditIcon from '../assets/edit.svg';
+import TrashIcon from '../assets/trash.svg';
 import { Button } from '@mui/base';
 import { sendMessage } from '../utils/socketTool';
 import url from '../url.json';
@@ -39,11 +41,47 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
+const ITEM_HEIGHT = 48;
+
 export default function MyCreatedActivityCard({ activity }) {
     const ws = io.connect(url.backendHost);
     const navigate = useNavigate();
     const [expanded, setExpanded] = useState(false);
     const [groupData, setGroupData] = useState([]);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedModal, setSelectedModal] = useState(null);
+    const [selectedModalOpen, setSelectedModalOpen] = useState(false);
+    
+    const open = Boolean(anchorEl);
+
+    const options = [
+      { text: '進入備課區', modalKey: 'enterPageOfPrepareLesson', icon: ClassIcon },
+      { text: '編輯活動資訊', modalKey: 'editInformationOfActivity', icon: EditIcon },
+      { text: '刪除', modalKey: 'deleteActivity', icon: TrashIcon },
+    ];
+    
+    const handleClickMore = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    
+    const handleCloseMore = () => {
+      setAnchorEl(null);
+    };
+
+    const openModal = (modalKey) => {
+      setSelectedModal(modalKey);
+      setSelectedModalOpen(true);
+    };
+
+    const closeModal = () => {
+      setSelectedModal(null);
+      setSelectedModalOpen(false);
+    };
+
+    const openInNewTab = (url) => {
+      window.open(url, "_blank", "noreferrer");
+      setSelectedModal(null)
+    }
 
     const initWebSocket = () => {
       ws.on('connect', () => {
@@ -171,6 +209,51 @@ export default function MyCreatedActivityCard({ activity }) {
     <div>
         <Item>
             <CardHeader
+                action={
+                  <>
+                      <IconButton
+                          aria-label="more"
+                          id="long-button"
+                          aria-controls={open ? 'long-menu' : undefined}
+                          aria-expanded={open ? 'true' : undefined}
+                          aria-haspopup="true"
+                          onClick={handleClickMore}
+                      >
+                          <MoreVertIcon />
+                      </IconButton>
+                      <Menu
+                          id="long-menu"
+                          MenuListProps={{
+                            'aria-labelledby': 'long-button',
+                          }}
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={handleCloseMore}
+                          PaperProps={{
+                              style: {
+                                  maxHeight: ITEM_HEIGHT * 4.5,
+                                  width: '20ch',
+                              },
+                          }}
+                      >
+                          {options.map((option) => (
+                              <MenuItem key={option.modalKey} onClick={() => openModal(option.modalKey)}>
+                                  <ListItemIcon
+                                      sx={{
+                                          minWidth: 0,
+                                          maxWidth: 24,
+                                          mr: open ? 3 : 'auto',
+                                          justifyContent: 'center',
+                                      }}
+                                  >
+                                      <img alt='' src={option.icon} />
+                                  </ListItemIcon>
+                                  <ListItemText primary={option.text} sx={{ opacity: open ? 1 : 0 }} style={{ color: '#8B8B8B' }} />
+                              </MenuItem>
+                          ))}
+                      </Menu>
+                  </>
+                }
                 title={activity.title}
             />
             <CardContent>
@@ -219,6 +302,21 @@ export default function MyCreatedActivityCard({ activity }) {
                 </List>
             </Collapse>
         </Item>
+        {selectedModal === 'enterPageOfPrepareLesson' && (
+            openInNewTab("./pageOfPrepareLesson")
+        )}
+        {selectedModal === 'editInformationOfActivity' && (
+            <CreateIdea
+                open={openModal}
+                onClose={closeModal}
+            />
+        )}
+        {selectedModal === 'editInformationOfActivity' && (
+            <CreateIdea
+                open={openModal}
+                onClose={closeModal}
+            />
+        )}
     </div>
   );
 }

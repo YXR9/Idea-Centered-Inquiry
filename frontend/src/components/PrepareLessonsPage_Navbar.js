@@ -97,21 +97,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const menuItems = [
-  { text: '新增想法', modalKey: 'createIdea', icon: IdeaIcon },
-  { text: '新增提問', modalKey: 'createQuestion', icon: QuestionIcon },
-  { text: '新增資訊', modalKey: 'createInformation', icon: InformationIcon },
-  { text: '新增實驗', modalKey: 'createFlask', icon: FlaskIcon },
-  { text: '新增紀錄', modalKey: 'createNote', icon: NoteIcon },
-  // { text: '新增想法牆', modalKey: 'createForum', icon: CreateForumIcon },
-  // { text: '任務地圖', modalKey: 'createTaskMap', icon: TaskMapIcon },
   { text: '學習歷程', modalKey: 'createLearningFeedback', icon: LearningFeedbackIcon },
   { text: '討論區', modalKey: 'backToForum', icon: ForumIcon },
 ];
-
-// const specialItems = ['新增想法牆','任務地圖', '學習歷程', '討論區'];
-const specialItems = ['新增紀錄', '學習歷程', '討論區'];
-
-
 
 export default function PrepareLessonsPage_Navbar() {
   const navigate = useNavigate();
@@ -230,9 +218,6 @@ export default function PrepareLessonsPage_Navbar() {
                   </ListItemButton>
                 </Tooltip>
               </ListItem>
-              {specialItems.includes(menuItem.text) && index < menuItems.length - 2 && (
-                <Divider />
-              )}
             </div>
           ))}
         </List>

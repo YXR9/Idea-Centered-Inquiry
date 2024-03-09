@@ -20,7 +20,7 @@ export default function App() {
             <Route path='/teacher/index' element={<RequireAuth loginPath='/'><IndexOfTeacher/></RequireAuth>}></Route>
             <Route path='/forum' element={<RequireAuth loginPath='/'><Forum/></RequireAuth>}></Route>
             <Route path='/dashboard' element={<RequireAuth loginPath='/'><Dashboard/></RequireAuth>}></Route>
-            <Route path='/prepareLessons' element={<RequireAuth loginPath='/'><PrepareLessons/></RequireAuth>}></Route>
+            <Route path='/teacher/pageOfPrepareLesson' element={<RequireAuth loginPath='/'><PrepareLessons/></RequireAuth>}></Route>
         </Routes>
     </Router>
   );
