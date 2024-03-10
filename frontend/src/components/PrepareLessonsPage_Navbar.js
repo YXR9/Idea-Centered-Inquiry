@@ -10,17 +10,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import BackToHomeIcon from '../assets/返回首頁icon.png';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import IdeaIcon from '../assets/IdeaIcon.png';
-import QuestionIcon from '../assets/QuestionIcon.png';
-import InformationIcon from '../assets/InformationIcon.png';
-import FlaskIcon from '../assets/FlaskIcon.png';
-import NoteIcon from '../assets/NoteIcon.png';
-import CreateForumIcon from '../assets/CreateForumIcon.png';
-import TaskMapIcon from '../assets/TaskMapIcon.png';
-import LearningFeedbackIcon from '../assets/LearningFeedbackIcon.png';
 import ForumIcon from '../assets/返回論壇icon.png';
-import CommunityIcon from '../assets/CommunityIcon.png';
-import AnnouncementIcon from '../assets/AnnouncementIcon.png';
+import ActivityGroupingIcon from '../assets/group.svg';
+import EditIcon from '../assets/edit.svg';
 import { CreateIdea } from './CreateIdea';
 import { CreateQuestion } from './CreateQuestion';
 import { CreateInformation } from './CreateInformation';
@@ -97,8 +89,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const menuItems = [
-  { text: '學習歷程', modalKey: 'createLearningFeedback', icon: LearningFeedbackIcon },
-  { text: '討論區', modalKey: 'backToForum', icon: ForumIcon },
+  { text: '學生分組', modalKey: 'activityGrouping', icon: ActivityGroupingIcon },
+  { text: '編輯活動資訊', modalKey: 'editInformationOfActivity', icon: EditIcon },
 ];
 
 export default function PrepareLessonsPage_Navbar() {
@@ -174,7 +166,7 @@ export default function PrepareLessonsPage_Navbar() {
                 </IconButton>
               </Tooltip>
             <Typography variant="h6" noWrap component="div"  color="black" fontWeight="bolder">
-              備課區
+              派發活動任務
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <div className='nav-buttons'>
@@ -222,41 +214,17 @@ export default function PrepareLessonsPage_Navbar() {
           ))}
         </List>
       </Drawer>
-      {selectedModal === 'createIdea' && (
+      {selectedModal === 'activityGrouping' && (
         <CreateIdea
           open={openModal}
           onClose={closeModal}
         />
       )}
-      {selectedModal === 'createQuestion' && (
+      {selectedModal === 'editInformationOfActivity' && (
         <CreateQuestion
           open={openModal}
           onClose={closeModal}
         />
-      )}
-      {selectedModal === 'createInformation' && (
-        <CreateInformation
-          open={openModal}
-          onClose={closeModal}
-        />
-      )}
-      {selectedModal === 'createFlask' && (
-        <CreateFlask
-          open={openModal}
-          onClose={closeModal}
-        />
-      )}
-      {selectedModal === 'createNote' && (
-        <CreateNote
-          open={openModal}
-          onClose={closeModal}
-        />
-      )}
-      {selectedModal === 'createLearningFeedback' && (
-        navigate("/dashboard")
-      )}
-      {selectedModal === 'backToForum' && (
-        navigate("/forum")
       )}
     </nav>
   );

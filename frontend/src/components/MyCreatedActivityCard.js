@@ -6,9 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { styled, Card, CardHeader, CardContent, Typography, CardActions, IconButton, Menu, MenuItem, Collapse, List, ListItem, ListItemIcon, ListSubheader, ListItemButton, ListItemText } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ClassIcon from '../assets/class.svg'
+import AssignmentIcon from '../assets/assignment.svg'
 import EditIcon from '../assets/edit.svg';
 import TrashIcon from '../assets/trash.svg';
+import ActivityGroupingIcon from '../assets/group.svg'
 import { Button } from '@mui/base';
 import { sendMessage } from '../utils/socketTool';
 import url from '../url.json';
@@ -55,7 +56,8 @@ export default function MyCreatedActivityCard({ activity }) {
     const open = Boolean(anchorEl);
 
     const options = [
-      { text: '進入備課區', modalKey: 'enterPageOfPrepareLesson', icon: ClassIcon },
+      { text: '進入備課區', modalKey: 'enterPageOfPrepareLesson', icon: AssignmentIcon },
+      { text: '學生分組', modalKey: 'activityGrouping', icon: ActivityGroupingIcon },
       { text: '編輯活動資訊', modalKey: 'editInformationOfActivity', icon: EditIcon },
       { text: '刪除', modalKey: 'deleteActivity', icon: TrashIcon },
     ];
@@ -135,49 +137,53 @@ export default function MyCreatedActivityCard({ activity }) {
     };
 
     const createGroup = (e) => {
-        const groupData = {
-            groupName: "探究小組",
-            activityId: localStorage.getItem('activityId'),
-            numGroups: 1
-        }
+      axios
+      .get(url.backendHost + config[15].findAllGroup + localStorage.getItem('activityId'), {
+          headers: {
+              authorization: 'Bearer JWT Token',
+          },
+      })
+      .then(async (response) => {
+          const existingGroups = response.data.Groups;
+          const nextGroupNumber = existingGroups.length + 1;
+          const groupName = `第${nextGroupNumber}組`;
 
-        axios
-            .post(url.backendHost + config[14].creatGroup, groupData)
-            .then((response) => {
-                console.log(response.status, response.data);
-                console.log("14",typeof ws);
-                sendMessage(ws);
+          const groupData = {
+              groupName: groupName,
+              activityId: localStorage.getItem('activityId'),
+              numGroups: 1,
+          };
 
-                const activityData = {
-                    userId: localStorage.getItem('userId'),
-                };
-                axios
-                    .put(`${url.backendHost + config[5].joinActivity}/${response.data.groups[0].joinCode}/join`, activityData)
-                    .then((response) => {
-                        console.log(response.status, response.data);
-                        window.location.reload(false);
-                    })
-                    .catch((error) => {
-                        if (error.response) {
-                            console.log(error.response);
-                            console.log("server responded");
-                        } else if (error.request) {
-                            console.log("network error");
-                        } else {
-                            console.log(error);
-                        }
-                    });
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log("server responded");
-                } else if (error.request) {
-                    console.log("network error");
-                } else {
-                    console.log(error);
-                }
-            });
+          try {
+              const createGroupResponse = await axios.post(url.backendHost + config[14].creatGroup, groupData);
+              console.log(createGroupResponse.status, createGroupResponse.data);
+              sendMessage(ws);
+
+              const activityData = {
+                  userId: localStorage.getItem('userId'),
+              };
+
+              const joinGroupResponse = await axios.put(
+                  `${url.backendHost + config[5].joinActivity}/${createGroupResponse.data.groups[0].joinCode}/join`,
+                  activityData
+              );
+
+              console.log(joinGroupResponse.status, joinGroupResponse.data);
+              window.location.reload(false);
+          } catch (error) {
+              if (error.response) {
+                  console.log(error.response);
+                  console.log("server responded");
+              } else if (error.request) {
+                  console.log("network error");
+              } else {
+                  console.log(error);
+              }
+          }
+      })
+      .catch((error) => {
+          console.log(error);
+      });
     }
 
     const handleEnter = async (e) => {
