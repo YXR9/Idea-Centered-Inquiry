@@ -207,7 +207,7 @@ export default function PrepareLessons() {
                 <ListItemButton>
                   <ListItemText primary={group.groupName} />
                   <Checkbox
-                    checked={selectAll}
+                    checked={selectedGroups.includes(group.id)}
                     onChange={() => toggleGroupSelection(group.id)}
                   />
                 </ListItemButton>
