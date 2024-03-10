@@ -3,7 +3,19 @@ import axios from 'axios';
 import config from '../../config.json';
 import io from 'socket.io-client';
 import PrepareLessonsPage_Navbar from '../../components/PrepareLessonsPage_Navbar';
-import { Button, FormControl, FormHelperText, TextField, List, ListItem, IconButton, ListSubheader, ListItemButton, ListItemText } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  TextField,
+  List,
+  ListItem,
+  IconButton,
+  ListSubheader,
+  ListItemButton,
+  ListItemText,
+  Checkbox,
+} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SendIcon from '@mui/icons-material/Send';
 import { EditorState } from 'draft-js';
@@ -14,134 +26,149 @@ import url from '../../url.json';
 
 export default function PrepareLessons() {
   const name = localStorage.getItem('name');
-    const ws = io.connect(url.backendHost);
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
-    const [groupData, setGroupData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [content, setContent] = useState();
-    const [data, setData] = useState({
-      title: "",
-      content: content,
-      tags: "question",
-      author: name,
-      groupId: localStorage.getItem('groupId')
+  const ws = io.connect(url.backendHost);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [groupData, setGroupData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [content, setContent] = useState();
+  const [data, setData] = useState({
+    title: '',
+    content: content,
+    tags: 'question',
+    author: name,
+    groupId: localStorage.getItem('groupId'),
+  });
+
+  const [selectedGroups, setSelectedGroups] = useState([]);
+
+  const getGroups = async () => {
+    try {
+      const fetchData = await axios.get(url.backendHost + config[15].findAllGroup + localStorage.getItem('activityId'), {
+        headers: {
+          authorization: 'Bearer JWT Token',
+        },
+      });
+      console.log('GroupData: ', fetchData.data.Groups);
+      setGroupData(fetchData.data.Groups);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const initWebSocket = () => {
+    ws.on('connect', () => {
+      console.log('WebSocket connected');
     });
 
-    const getGroups = async () => {
-      try {
-        const fetchData = await axios.get(url.backendHost + config[15].findAllGroup + localStorage.getItem('activityId'), {
-          headers: {
-            authorization: 'Bearer JWT Token',
-          },
-        });
-        console.log("GroupData: ", fetchData.data.Groups);
-        setGroupData(fetchData.data.Groups);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+    ws.on('event02', (arg, callback) => {
+      console.log('WebSocket event02', arg);
+      callback({
+        status: 'event02 ok',
+      });
+    });
+  };
 
-    const initWebSocket = () => {
-      ws.on('connect', () => {
-        console.log("WebSocket connected");
-      });
-    
-      ws.on('event02', (arg, callback) => {
-        console.log("WebSocket event02", arg);
-        callback({
-          status: 'event02 ok',
-        });
-      });
-    };
-    
-    useEffect(() => {
-      if (ws) {
-        initWebSocket();
-        getGroups();
-      }
+  const resetForm = () => {
+    setEditorState(EditorState.createEmpty());
+    setData({
+      title: '',
+      content: '',
+      tags: 'question',
+      author: name,
+      groupId: localStorage.getItem('groupId'),
+    });
+    setSelectedGroups([]); // Clear selected groups
+    initWebSocket();
+    getGroups();
+  };
+
+  useEffect(() => {
+    if (ws) {
+      initWebSocket();
+      getGroups();
+    }
   }, []);
 
-    const onEditorStateChange = function (editorState) {
-      setEditorState(editorState);
-      let content = editorState.getCurrentContent().getPlainText("\u0001");
-      setData({
-        ...data,
-        content: content,
-      });
-      console.log("content: ", content);
-    };
+  const onEditorStateChange = function (editorState) {
+    setEditorState(editorState);
+    let content = editorState.getCurrentContent().getPlainText('\u0001');
+    setData({
+      ...data,
+      content: content,
+    });
+    console.log('content: ', content);
+  };
 
-    const handleChange = (e) => {
-        const value = e.target.value;
-        setData({
-            ...data,
-            [e.target.name]: value
-        });
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      const isTitleValid = data.title.trim().length > 0;
-      const titleValidLength = data.title.trim().length < 15;
-      if(
-        isTitleValid && 
-        titleValidLength &&
-        editorState.getCurrentContent().hasText() &&
-        editorState.getCurrentContent().getPlainText().length > 0
-      ) {
-        const ideaData = {
-          title: data.title,
-          content: data.content,
-          tags: data.tags,
-          author: data.author,
-          groupId: data.groupId
-        };
-      
-        setLoading(true);
-        axios
-            .post(url.backendHost + config[7].createNode, ideaData)
-            .then((response) => {
-                setLoading(false);
-                setData({
-                  title: "",
-                  content: "",
-                  tags: "",
-                  author: "",
-                  groupId: ""
-                })
-                console.log(response.status, response.data);
-                console.log("4",typeof ws);
-                sendMessage(ws);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log("server responded");
-                    setLoading(false);
-                } else if (error.request) {
-                    console.log("network error");
-                    setLoading(false);
-                } else {
-                    console.log(error);
-                    setLoading(false);
-                }
-            });
+  const toggleGroupSelection = (groupId) => {
+    if (selectedGroups.includes(groupId)) {
+      setSelectedGroups(selectedGroups.filter((id) => id !== groupId));
+    } else {
+      setSelectedGroups([...selectedGroups, groupId]);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const isTitleValid = data.title.trim().length > 0;
+    const titleValidLength = data.title.trim().length < 15;
+
+    if (
+      isTitleValid &&
+      titleValidLength &&
+      editorState.getCurrentContent().hasText() &&
+      editorState.getCurrentContent().getPlainText().length > 0 &&
+      selectedGroups.length > 0
+    ) {
+      setLoading(true);
+
+      const ideaData = {
+        title: data.title,
+        content: data.content,
+        tags: data.tags,
+        author: data.author,
+      };
+
+      try {
+        await Promise.all(
+          selectedGroups.map(async (groupId) => {
+            ideaData.groupId = groupId;
+            const response = await axios.post(url.backendHost + config[7].createNode, ideaData);
+            console.log(response.status, response.data);
+          })
+        );
+
+        setLoading(false);
+        resetForm(); // Reset the form after successful submission
+        console.log('4', typeof ws);
+        sendMessage(ws);
+      } catch (error) {
+        console.error('Error:', error);
+        setLoading(false);
       }
-    };
+    }
+  };
 
   return (
     <div className="home-container">
-      <PrepareLessonsPage_Navbar/>
+      <PrepareLessonsPage_Navbar />
       <h3>
-      <FormControl variant="standard">
+        <FormControl variant="standard">
           <TextField
             required
             id="standard-required"
             autoFocus
             margin="dense"
-            label={"關鍵提問標題"}
+            label={'關鍵提問標題'}
             type="text"
-            name='title'
+            name="title"
             value={data.title}
             fullWidth
             sx={{ m: 1 }}
@@ -160,40 +187,33 @@ export default function PrepareLessons() {
             toolbarClassName="toolbar-class"
           />
           <List
-              subheader={
-                  <ListSubheader component="div" id="nested-list-subheader">
-                      小組列表
-                  </ListSubheader>
-              }
+            subheader={
+              <ListSubheader component="div" id="nested-list-subheader">
+                小組列表
+              </ListSubheader>
+            }
           >
-              {groupData.map((group) => (
-                  <ListItem
-                    key={group.joinCode}
-                    disablePadding
-                    secondaryAction={
-                      <IconButton edge="end" aria-label="send">
-                        <LoadingButton
-                          type='submit'
-                          onClick={async (e) => {
-                            e.preventDefault(); // Ensure 'e' is defined
-                            localStorage.setItem('groupId', group.id);
-                            await handleSubmit(e)
-                          }}
-                          loading={loading}
-                          loadingPosition="start"
-                          variant="contained"
-                        >
-                          送出
-                        </LoadingButton>
-                      </IconButton>
-                    }
-                  >
-                      <ListItemButton>
-                          <ListItemText primary={group.groupName} />
-                      </ListItemButton>
-                  </ListItem>
-              ))}            
+            {groupData.map((group) => (
+              <ListItem key={group.joinCode} disablePadding>
+                <ListItemButton>
+                  <ListItemText primary={group.groupName} />
+                  <Checkbox
+                    checked={selectedGroups.includes(group.id)}
+                    onChange={() => toggleGroupSelection(group.id)}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
           </List>
+          <LoadingButton
+            type="submit"
+            onClick={handleSubmit}
+            loading={loading}
+            loadingPosition="start"
+            variant="contained"
+          >
+            送出
+          </LoadingButton>
         </FormControl>
       </h3>
     </div>
