@@ -40,6 +40,7 @@ export default function PrepareLessons() {
   });
 
   const [selectedGroups, setSelectedGroups] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
 
   const getGroups = async () => {
     try {
@@ -78,6 +79,7 @@ export default function PrepareLessons() {
       groupId: localStorage.getItem('groupId'),
     });
     setSelectedGroups([]); // Clear selected groups
+    setSelectAll(false); // Reset selectAll
     initWebSocket();
     getGroups();
   };
@@ -114,6 +116,12 @@ export default function PrepareLessons() {
       setSelectedGroups([...selectedGroups, groupId]);
     }
   };
+
+  const handleSelectAll = () => {
+    const allGroupIds = groupData.map(group => group.id);
+    setSelectedGroups(selectAll ? [] : allGroupIds);
+    setSelectAll(!selectAll);
+  };   
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -193,12 +201,13 @@ export default function PrepareLessons() {
               </ListSubheader>
             }
           >
+            <Button onClick={handleSelectAll}>全選</Button>
             {groupData.map((group) => (
               <ListItem key={group.joinCode} disablePadding>
                 <ListItemButton>
                   <ListItemText primary={group.groupName} />
                   <Checkbox
-                    checked={selectedGroups.includes(group.id)}
+                    checked={selectAll}
                     onChange={() => toggleGroupSelection(group.id)}
                   />
                 </ListItemButton>

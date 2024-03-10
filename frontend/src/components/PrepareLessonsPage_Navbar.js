@@ -169,11 +169,11 @@ export default function PrepareLessonsPage_Navbar() {
               派發活動任務
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <div className='nav-buttons'>
+            {/* <div className='nav-buttons'>
                 <button className='create-activity-button' style={{ marginTop: '20px' }}>
                   <CreateActivityForm/>
                 </button>
-            </div>
+            </div> */}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
