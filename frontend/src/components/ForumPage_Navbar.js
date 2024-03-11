@@ -187,7 +187,7 @@ export default function ForumPage_Navbar() {
                   <img alt='返回首頁' src={BackToHomeIcon} width={24} height={24} />
                 </Badge>
               </IconButton>
-            </Tooltip>
+          </Tooltip>
           <Typography variant="h6" noWrap component="div"  color="black" fontWeight="bolder">
             {activityData && (    // ensure that activityData is not null or undefined before trying to access its properties.
               <>
@@ -195,7 +195,7 @@ export default function ForumPage_Navbar() {
               </>
             )}
           </Typography>
-          <Box sx={{ flexGrow: 1 }} />
+          {/* <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Tooltip title='小組聊天室' arrow>
               <IconButton
@@ -215,7 +215,7 @@ export default function ForumPage_Navbar() {
                 </Badge>
               </IconButton>
             </Tooltip>
-          </Box>
+          </Box> */}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
