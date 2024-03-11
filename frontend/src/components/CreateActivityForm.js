@@ -73,14 +73,14 @@ export const CreateActivityForm = () => {
       <div>
         <>  
             <div onClick={handleClickOpen}>
-                新增課程包
+                建立探究活動
             </div>
         </>
         <Dialog open={open} onClose={handleClose}>
             <div>
               <img className='modal-image' src={createActivityImg} />
             </div>
-            <DialogTitle>新增課程包</DialogTitle>
+            <DialogTitle>建立探究活動</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
