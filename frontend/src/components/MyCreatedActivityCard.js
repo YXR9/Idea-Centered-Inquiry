@@ -311,7 +311,7 @@ export default function MyCreatedActivityCard({ activity }) {
         {selectedModal === 'enterPageOfPrepareLesson' && (
             openInNewTab("./pageOfPrepareLesson")
         )}
-        {selectedModal === 'editInformationOfActivity' && (
+        {/* {selectedModal === 'editInformationOfActivity' && (
             <CreateIdea
                 open={openModal}
                 onClose={closeModal}
@@ -322,7 +322,7 @@ export default function MyCreatedActivityCard({ activity }) {
                 open={openModal}
                 onClose={closeModal}
             />
-        )}
+        )} */}
     </div>
   );
 }
